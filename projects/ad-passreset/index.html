@@ -1,0 +1,140 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>AD-Passreset Portal · PixelPaladin</title>
+<meta name="description" content="Self-service Active Directory password change portal for Windows shops. .NET 10 + React, breach-checked, SIEM-wired, MIT licensed."/>
+<link rel="icon" href="/favicon.svg" type="image/svg+xml"/>
+<link rel="stylesheet" href="/ds/colors_and_type.css"/>
+<link rel="stylesheet" href="/ds/page.css"/>
+</head>
+<body class="pp-root pp-dark">
+
+<div class="page">
+  <header class="topbar">
+    <a class="brand" href="/">
+      <svg class="mark" viewBox="0 0 256 256" shape-rendering="crispEdges">
+        <rect width="256" height="256" rx="24" fill="#111110"/>
+        <rect x="48" y="56" width="24" height="144" fill="#e51b10"/><rect x="72" y="56" width="48" height="24" fill="#e51b10"/><rect x="120" y="56" width="16" height="48" fill="#e51b10"/><rect x="72" y="104" width="48" height="16" fill="#e51b10"/>
+        <rect x="152" y="104" width="16" height="112" fill="#f7f6f5"/><rect x="168" y="104" width="40" height="16" fill="#f7f6f5"/><rect x="208" y="104" width="16" height="48" fill="#f7f6f5"/><rect x="168" y="152" width="40" height="16" fill="#f7f6f5"/>
+        <rect x="52" y="60" width="8" height="8" fill="#ff8780"/><rect x="76" y="60" width="8" height="8" fill="#ff8780"/>
+        <rect x="48" y="192" width="24" height="8" fill="#9a0a03"/>
+      </svg>
+      <div><div class="name">Pixel<span>Paladin</span></div><div class="sub">Workshop · Jülich, DE</div></div>
+    </a>
+    <nav class="topnav">
+      <a href="/#projects" class="active">Projects</a>
+      <a href="/posts/">Posts</a>
+      <a href="/uses/">Uses</a>
+      <a href="/#contact">Contact</a>
+    </nav>
+  </header>
+
+  <div class="crumbs"><a href="/">Home</a><span class="sep">/</span><a href="/#projects">Projects</a><span class="sep">/</span>AD-Passreset Portal</div>
+
+  <div class="lede">
+    <div class="eyebrow"><span class="dot green"></span> Live · MIT · v2.0 in crunch</div>
+    <h1>AD-Passreset <span class="accent">Portal.</span></h1>
+    <p class="kicker">Self-service Active Directory password change for Windows shops. Users reset their own AD password from a browser — breach-checked, rate-limited, SIEM-wired, and auditable by default. No helpdesk call needed.</p>
+    <div class="meta">
+      <span>.NET 10</span><span>·</span>
+      <span>React 19 + TS</span><span>·</span>
+      <span>Material UI v6</span><span>·</span>
+      <span>IIS / Windows Server</span><span>·</span>
+      <span>MIT</span>
+    </div>
+    <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:22px">
+      <a class="btn btn-primary" href="https://github.com/phibu/AD-Passreset-Portal" target="_blank" rel="noopener">View on GitHub →</a>
+      <a class="btn btn-ghost" href="https://github.com/phibu/AD-Passreset-Portal/releases" target="_blank" rel="noopener">Releases</a>
+    </div>
+  </div>
+
+  <div class="layout">
+    <article class="prose">
+
+      <h2>What it does</h2>
+      <p>A browser-based portal that lets employees change their own Windows domain password — with live strength feedback, breach-database checks, reCAPTCHA, portal-level lockout, AD allow/block lists, expiry reminder emails, and full SIEM integration. Designed to be dropped on a Windows Server under IIS and forgotten about.</p>
+
+      <h2>Features</h2>
+      <ul>
+        <li><strong>Self-service password change</strong> — from any browser, with live zxcvbn strength meter and on-demand password generator.</li>
+        <li><strong>Breach database check</strong> — HaveIBeenPwned via k-anonymity. Password never leaves the server.</li>
+        <li><strong>Portal lockout</strong> — stops wrong-password floods before they touch Active Directory.</li>
+        <li><strong>AD group allow/block lists</strong> — block list wins. Privileged groups are blocked by default.</li>
+        <li><strong>SIEM integration</strong> — RFC 5424 syslog over UDP/TCP, optional email alerts.</li>
+        <li><strong>Expiry reminder emails</strong> — daily nudge before a password is about to die.</li>
+        <li><strong>Flexible username formats</strong> — SAM, UPN, or mail attribute. Configurable.</li>
+        <li><strong>Respects <code>minPwdAge</code></strong> — no churn-reset gaming the policy.</li>
+      </ul>
+
+      <h2>Security posture</h2>
+      <ul>
+        <li>HTTPS enforced + HSTS (1-year max-age).</li>
+        <li>CSP, X-Frame-Options DENY, nosniff, Referrer-Policy headers.</li>
+        <li>Per-IP rate limiting (5 req / 5 min) + per-username portal lockout.</li>
+        <li>Passwords never logged, stored, or echoed in API responses.</li>
+      </ul>
+
+      <h2>Stack</h2>
+      <ul>
+        <li><strong>Runtime:</strong> .NET 10 LTS on Windows Server 2019 / 2022 / 2025</li>
+        <li><strong>Web:</strong> ASP.NET Core + React 19 + TypeScript + MUI v6 + Vite</li>
+        <li><strong>AD:</strong> <code>System.DirectoryServices.AccountManagement</code> — domain-joined or explicit LDAP</li>
+        <li><strong>Email:</strong> MailKit (STARTTLS / SMTPS)</li>
+      </ul>
+
+      <h2>Install</h2>
+<pre><code>.\Install-PassReset.ps1 -CertThumbprint "YOUR_CERT_THUMBPRINT"</code></pre>
+      <p>Full guide: <a href="https://github.com/phibu/AD-Passreset-Portal/blob/master/docs/IIS-Setup.md" target="_blank" rel="noopener">docs/IIS-Setup.md</a>.</p>
+
+      <h2>Screens</h2>
+      <div class="gallery">
+        <div class="shot">Login</div>
+        <div class="shot">Change password</div>
+        <div class="shot">Admin view</div>
+      </div>
+      <p class="eyebrow" style="margin-top:4px">Screenshots live in <code>docs/</code> on the repo — drop real ones in <code>/assets/ad-passreset/</code> and swap these tiles.</p>
+
+      <h2>Roadmap · v2.0</h2>
+      <ul>
+        <li>.NET 10 migration (done)</li>
+        <li>React 19 + MUI v6 refresh (done)</li>
+        <li>Expanded SIEM event taxonomy</li>
+        <li>Better admin dashboard for AD state</li>
+        <li>More granular group-policy integration</li>
+      </ul>
+
+    </article>
+
+    <aside class="side">
+      <div class="panel">
+        <div class="panel-head"><span>Project</span><span class="mono" style="color:var(--pp-success)">● live</span></div>
+        <div class="panel-body">
+          <div class="kv">
+            <span class="k">Status</span><span class="v">Shipping · v2.0 WIP</span>
+            <span class="k">Started</span><span class="v">2024</span>
+            <span class="k">License</span><span class="v">MIT</span>
+            <span class="k">Repo</span><span class="v"><a href="https://github.com/phibu/AD-Passreset-Portal" target="_blank" rel="noopener" style="color:var(--pp-fg-brand)">phibu/AD-Passreset-Portal</a></span>
+            <span class="k">Issues</span><span class="v"><a href="https://github.com/phibu/AD-Passreset-Portal/issues" target="_blank" rel="noopener" style="color:var(--pp-fg-brand)">open →</a></span>
+          </div>
+        </div>
+      </div>
+      <div class="panel">
+        <div class="panel-head"><span>Inspired by</span></div>
+        <div class="panel-body">
+          <p style="font-size:13px;margin:0;color:var(--pp-fg-muted);line-height:1.5">
+            <a href="https://github.com/unosquare/passcore" target="_blank" rel="noopener" style="color:var(--pp-fg-brand)">PassCore</a> by Unosquare LLC (MIT). PassReset is a rewrite with a modern stack + a tighter security posture.
+          </p>
+        </div>
+      </div>
+    </aside>
+  </div>
+
+  <footer class="foot">
+    <div class="mono">© 2026 · Philipp Buchwald</div>
+    <div class="mono"><a href="/">← back to workshop</a></div>
+  </footer>
+</div>
+</body>
+</html>

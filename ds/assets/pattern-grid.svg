@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 160 160">
+  <title>PixelPaladin grid pattern</title>
+  <defs>
+    <pattern id="g" width="16" height="16" patternUnits="userSpaceOnUse">
+      <path d="M16 0 H0 V16" fill="none" stroke="#26241f" stroke-width="1"></path>
+      <circle cx="0" cy="0" r="1.2" fill="#e51b10"></circle>
+    </pattern>
+  </defs>
+  <rect width="160" height="160" fill="#0a0a09"></rect>
+  <rect width="160" height="160" fill="url(#g)"></rect>
+</svg>

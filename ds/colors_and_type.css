@@ -1,0 +1,321 @@
+/* =============================================================
+   PixelPaladin Design System — Tokens
+   Colors + Type + motion + radius + spacing + shadows
+   ============================================================= */
+
+/* ---------- FONTS ---------- */
+/* Note: Unbounded, Manrope, JetBrains Mono are variable fonts.
+   Single woff2 file covers all weights. */
+
+@font-face {
+  font-family: 'Unbounded';
+  src: url('./fonts/Unbounded-Regular.woff2') format('woff2');
+  font-weight: 200 900;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Manrope';
+  src: url('./fonts/Manrope-Regular.woff2') format('woff2');
+  font-weight: 200 800;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'JetBrains Mono';
+  src: url('./fonts/JetBrainsMono-Regular.woff2') format('woff2');
+  font-weight: 100 800;
+  font-display: swap;
+}
+
+:root {
+  /* =====================================================
+     BRAND COLORS — the Paladin palette
+     Red = the shield, Black = the armor, Gold = the trim
+     ===================================================== */
+
+  /* Primary: Forge Red — brand signature, danger, CTAs */
+  --pp-red-50:  #fff2f1;
+  --pp-red-100: #ffdddb;
+  --pp-red-200: #ffb8b3;
+  --pp-red-300: #ff8780;
+  --pp-red-400: #ff4f45;
+  --pp-red-500: #e51b10;   /* <-- brand red */
+  --pp-red-600: #c00d04;
+  --pp-red-700: #9a0a03;
+  --pp-red-800: #730802;
+  --pp-red-900: #4a0501;
+  --pp-red-950: #2c0200;
+
+  /* Neutrals: Armor Black — the chassis of everything */
+  --pp-ink-0:    #ffffff;
+  --pp-ink-50:   #f7f6f5;
+  --pp-ink-100:  #ebeae7;
+  --pp-ink-200:  #d6d4cf;
+  --pp-ink-300:  #b0aea7;
+  --pp-ink-400:  #7c7a73;
+  --pp-ink-500:  #56544e;
+  --pp-ink-600:  #3a3833;
+  --pp-ink-700:  #262420;
+  --pp-ink-800:  #1a1917;
+  --pp-ink-900:  #111110;   /* brand black */
+  --pp-ink-950:  #0a0a09;
+
+  /* Accent: Gilded — trim, hard-earned highlights (use sparingly) */
+  --pp-gold-300: #ffd37a;
+  --pp-gold-500: #f5a524;   /* brand gold */
+  --pp-gold-700: #a66a0c;
+
+  /* Semantic */
+  --pp-success: #22c55e;
+  --pp-warning: var(--pp-gold-500);
+  --pp-danger:  var(--pp-red-500);
+  --pp-info:    #3b82f6;
+
+  /* =====================================================
+     SURFACES — light mode (default)
+     ===================================================== */
+  --pp-bg:            var(--pp-ink-50);      /* app background */
+  --pp-bg-raised:     var(--pp-ink-0);       /* cards, panels */
+  --pp-bg-sunken:     var(--pp-ink-100);     /* wells, input bgs */
+  --pp-bg-inverse:    var(--pp-ink-900);     /* dark surfaces on light */
+
+  --pp-fg:            var(--pp-ink-900);     /* primary text */
+  --pp-fg-muted:      var(--pp-ink-500);     /* secondary text */
+  --pp-fg-subtle:     var(--pp-ink-400);     /* tertiary / captions */
+  --pp-fg-inverse:    var(--pp-ink-0);       /* text on dark */
+  --pp-fg-brand:      var(--pp-red-500);
+
+  --pp-border:        var(--pp-ink-200);
+  --pp-border-strong: var(--pp-ink-300);
+  --pp-border-focus:  var(--pp-red-500);
+
+  /* =====================================================
+     TYPOGRAPHY
+     Display: Unbounded   (technical, confident, a touch retro-game)
+     Body:    Manrope     (friendly geometric sans, great at small sizes)
+     Mono:    JetBrains   (code, HUD, stats — the tool-belt)
+     ===================================================== */
+  --pp-font-display: 'Unbounded', 'Space Grotesk', ui-sans-serif, system-ui, sans-serif;
+  --pp-font-body:    'Manrope', -apple-system, BlinkMacSystemFont, 'Segoe UI', ui-sans-serif, sans-serif;
+  --pp-font-mono:    'JetBrains Mono', ui-monospace, 'SF Mono', Menlo, Consolas, monospace;
+
+  /* Type scale — tight, functional */
+  --pp-text-xs:   12px;
+  --pp-text-sm:   14px;
+  --pp-text-base: 16px;
+  --pp-text-md:   18px;
+  --pp-text-lg:   22px;
+  --pp-text-xl:   28px;
+  --pp-text-2xl:  36px;
+  --pp-text-3xl:  48px;
+  --pp-text-4xl:  64px;
+  --pp-text-5xl:  88px;
+
+  /* Weights */
+  --pp-weight-regular: 400;
+  --pp-weight-medium: 500;
+  --pp-weight-semibold: 600;
+  --pp-weight-bold: 700;
+  --pp-weight-black: 900;
+
+  /* Line heights */
+  --pp-lh-tight:  1.05;
+  --pp-lh-snug:   1.2;
+  --pp-lh-normal: 1.45;
+  --pp-lh-loose:  1.6;
+
+  /* Tracking */
+  --pp-track-tight:  -0.02em;
+  --pp-track-normal: 0;
+  --pp-track-wide:   0.04em;
+  --pp-track-caps:   0.12em;    /* for all-caps eyebrows/labels */
+
+  /* =====================================================
+     SPACING — 4px base grid
+     ===================================================== */
+  --pp-space-0:  0px;
+  --pp-space-1:  4px;
+  --pp-space-2:  8px;
+  --pp-space-3:  12px;
+  --pp-space-4:  16px;
+  --pp-space-5:  20px;
+  --pp-space-6:  24px;
+  --pp-space-8:  32px;
+  --pp-space-10: 40px;
+  --pp-space-12: 48px;
+  --pp-space-16: 64px;
+  --pp-space-20: 80px;
+  --pp-space-24: 96px;
+
+  /* =====================================================
+     RADII — mostly crisp (2-8px); rounded (12-16px) for pill
+     controls. Paladin gear isn't floaty and cute.
+     ===================================================== */
+  --pp-radius-none: 0;
+  --pp-radius-xs: 2px;
+  --pp-radius-sm: 4px;
+  --pp-radius-md: 8px;
+  --pp-radius-lg: 12px;
+  --pp-radius-xl: 16px;
+  --pp-radius-pill: 999px;
+
+  /* =====================================================
+     SHADOWS — flat-ish; crisp 1px borders + short drop
+     ===================================================== */
+  --pp-shadow-xs: 0 1px 0 rgba(17, 17, 16, 0.04);
+  --pp-shadow-sm: 0 1px 2px rgba(17, 17, 16, 0.06), 0 1px 0 rgba(17, 17, 16, 0.04);
+  --pp-shadow-md: 0 4px 12px -2px rgba(17, 17, 16, 0.10), 0 1px 0 rgba(17, 17, 16, 0.04);
+  --pp-shadow-lg: 0 12px 32px -8px rgba(17, 17, 16, 0.18), 0 2px 0 rgba(17, 17, 16, 0.05);
+  --pp-shadow-red: 0 8px 24px -6px rgba(229, 27, 16, 0.35);
+  --pp-shadow-inset: inset 0 1px 0 rgba(255,255,255,0.06);
+
+  /* =====================================================
+     MOTION — quick, responsive, never bouncy
+     ===================================================== */
+  --pp-ease-out: cubic-bezier(0.2, 0.8, 0.2, 1);
+  --pp-ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+  --pp-dur-instant: 80ms;
+  --pp-dur-fast: 140ms;
+  --pp-dur-med: 220ms;
+  --pp-dur-slow: 360ms;
+
+  /* =====================================================
+     FOCUS RING — red, 2px, 2px offset
+     ===================================================== */
+  --pp-ring: 0 0 0 2px var(--pp-bg), 0 0 0 4px var(--pp-red-500);
+}
+
+/* =====================================================
+   DARK MODE — the default vibe for the brand.
+   Most PixelPaladin apps will run dark by default.
+   ===================================================== */
+.pp-dark, [data-theme="dark"] {
+  --pp-bg:            var(--pp-ink-950);
+  --pp-bg-raised:     var(--pp-ink-900);
+  --pp-bg-sunken:     #050504;
+  --pp-bg-inverse:    var(--pp-ink-50);
+
+  --pp-fg:            var(--pp-ink-50);
+  --pp-fg-muted:      var(--pp-ink-300);
+  --pp-fg-subtle:     var(--pp-ink-400);
+  --pp-fg-inverse:    var(--pp-ink-900);
+  --pp-fg-brand:      var(--pp-red-400);
+
+  --pp-border:        #2a2825;
+  --pp-border-strong: #3d3b37;
+  --pp-border-focus:  var(--pp-red-400);
+
+  --pp-shadow-xs: 0 1px 0 rgba(0,0,0,0.4);
+  --pp-shadow-sm: 0 1px 2px rgba(0,0,0,0.5), 0 1px 0 rgba(0,0,0,0.4);
+  --pp-shadow-md: 0 4px 12px -2px rgba(0,0,0,0.6), 0 1px 0 rgba(0,0,0,0.5);
+  --pp-shadow-lg: 0 12px 32px -8px rgba(0,0,0,0.7), 0 2px 0 rgba(0,0,0,0.5);
+  --pp-shadow-red: 0 8px 24px -6px rgba(255, 79, 69, 0.4);
+  --pp-shadow-inset: inset 0 1px 0 rgba(255,255,255,0.04);
+}
+
+/* =====================================================
+   SEMANTIC TYPE CLASSES
+   ===================================================== */
+.pp-display-1 {
+  font-family: var(--pp-font-display);
+  font-weight: var(--pp-weight-black);
+  font-size: var(--pp-text-5xl);
+  line-height: var(--pp-lh-tight);
+  letter-spacing: var(--pp-track-tight);
+  color: var(--pp-fg);
+}
+.pp-display-2 {
+  font-family: var(--pp-font-display);
+  font-weight: var(--pp-weight-bold);
+  font-size: var(--pp-text-4xl);
+  line-height: var(--pp-lh-tight);
+  letter-spacing: var(--pp-track-tight);
+  color: var(--pp-fg);
+}
+.pp-h1 {
+  font-family: var(--pp-font-display);
+  font-weight: var(--pp-weight-bold);
+  font-size: var(--pp-text-3xl);
+  line-height: var(--pp-lh-snug);
+  letter-spacing: var(--pp-track-tight);
+}
+.pp-h2 {
+  font-family: var(--pp-font-display);
+  font-weight: var(--pp-weight-bold);
+  font-size: var(--pp-text-2xl);
+  line-height: var(--pp-lh-snug);
+  letter-spacing: var(--pp-track-tight);
+}
+.pp-h3 {
+  font-family: var(--pp-font-display);
+  font-weight: var(--pp-weight-medium);
+  font-size: var(--pp-text-xl);
+  line-height: var(--pp-lh-snug);
+}
+.pp-h4 {
+  font-family: var(--pp-font-body);
+  font-weight: var(--pp-weight-bold);
+  font-size: var(--pp-text-lg);
+  line-height: var(--pp-lh-snug);
+}
+.pp-body {
+  font-family: var(--pp-font-body);
+  font-weight: var(--pp-weight-regular);
+  font-size: var(--pp-text-base);
+  line-height: var(--pp-lh-normal);
+}
+.pp-body-sm {
+  font-family: var(--pp-font-body);
+  font-weight: var(--pp-weight-regular);
+  font-size: var(--pp-text-sm);
+  line-height: var(--pp-lh-normal);
+}
+.pp-caption {
+  font-family: var(--pp-font-body);
+  font-weight: var(--pp-weight-medium);
+  font-size: var(--pp-text-xs);
+  color: var(--pp-fg-muted);
+  line-height: var(--pp-lh-normal);
+}
+.pp-eyebrow {
+  font-family: var(--pp-font-mono);
+  font-weight: var(--pp-weight-medium);
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: var(--pp-track-caps);
+  color: var(--pp-fg-muted);
+}
+.pp-code, .pp-mono {
+  font-family: var(--pp-font-mono);
+  font-weight: var(--pp-weight-regular);
+  font-size: var(--pp-text-sm);
+  letter-spacing: 0;
+}
+.pp-kbd {
+  font-family: var(--pp-font-mono);
+  font-size: 12px;
+  padding: 2px 6px;
+  border: 1px solid var(--pp-border);
+  border-bottom-width: 2px;
+  border-radius: var(--pp-radius-sm);
+  background: var(--pp-bg-raised);
+  color: var(--pp-fg);
+}
+
+/* =====================================================
+   BASE RESET / DEFAULT TYPE (when applied to a root)
+   ===================================================== */
+.pp-root {
+  font-family: var(--pp-font-body);
+  font-size: var(--pp-text-base);
+  line-height: var(--pp-lh-normal);
+  color: var(--pp-fg);
+  background: var(--pp-bg);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+.pp-root h1 { font-family: var(--pp-font-display); font-weight: 700; font-size: var(--pp-text-3xl); line-height: 1.1; letter-spacing: -0.02em; }
+.pp-root h2 { font-family: var(--pp-font-display); font-weight: 700; font-size: var(--pp-text-2xl); line-height: 1.15; letter-spacing: -0.02em; }
+.pp-root h3 { font-family: var(--pp-font-display); font-weight: 500; font-size: var(--pp-text-xl); line-height: 1.2; }
+.pp-root h4 { font-family: var(--pp-font-body); font-weight: 700; font-size: var(--pp-text-lg); line-height: 1.25; }
+.pp-root p  { font-family: var(--pp-font-body); font-size: var(--pp-text-base); line-height: 1.5; }
+.pp-root code { font-family: var(--pp-font-mono); font-size: 0.9em; }
