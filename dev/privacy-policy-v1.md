@@ -12,7 +12,7 @@ _Version: 1.0_
 The mini Colorbench ("the app") is developed and operated by:
 
 **Philipp Buchwald** (trading as Pixel Paladin)
-Contact: [Philipp@bchwld.de](mailto:Philipp@bchwld.de)
+Contact: [hi@pixel-paladin.de](mailto:hi@pixel-paladin.de)
 Website: [pixel-paladin.de](https://pixel-paladin.de)
 
 ## What the app does
@@ -76,4 +76,4 @@ If we update this policy, we will change the "Last updated" date at the top and 
 
 ## Contact
 
-Questions about privacy? Email [Philipp@bchwld.de](mailto:Philipp@bchwld.de).
+Questions about privacy? Email [hi@pixel-paladin.de](mailto:hi@pixel-paladin.de).

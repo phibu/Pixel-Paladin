@@ -1,4 +1,4 @@
-Contact: mailto:Philipp@bchwld.de
+Contact: mailto:hi@pixel-paladin.de
 Expires: 2027-04-19T00:00:00.000Z
 Preferred-Languages: en, de
 Canonical: https://colorbench.pixel-paladin.de/.well-known/security.txt
