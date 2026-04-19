@@ -1,0 +1,155 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>My Mini Colorbench · Pixel Paladin</title>
+<meta name="description" content="A palette & recipe companion for miniature painters. Plan a scheme, log the mix, find the bottle again six months later. Launching soon on iOS and Android."/>
+<link rel="icon" href="/favicon.svg" type="image/svg+xml"/>
+<link rel="stylesheet" href="https://pixel-paladin.de/ds/colors_and_type.css"/>
+<link rel="stylesheet" href="https://pixel-paladin.de/ds/page.css"/>
+<style>
+  .page { max-width: 820px; margin: 0 auto; padding: 40px 32px 80px; }
+  .hero { padding: 48px 0 32px; }
+  .hero .eyebrow { margin-bottom: 14px; }
+  .hero h1 {
+    font-family: var(--pp-font-display);
+    font-size: clamp(40px, 7vw, 72px);
+    letter-spacing: -0.025em;
+    line-height: 1.0;
+    margin: 0 0 18px;
+  }
+  .hero h1 .accent { color: var(--pp-fg-brand); }
+  .hero .kicker {
+    font-size: 18px;
+    line-height: 1.55;
+    color: var(--pp-fg-muted);
+    max-width: 620px;
+    margin: 0 0 28px;
+  }
+  .meta-row {
+    display: flex; flex-wrap: wrap; gap: 10px 18px;
+    font-family: var(--pp-font-mono);
+    font-size: 12px;
+    color: var(--pp-fg-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    margin-bottom: 40px;
+  }
+  .btns { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 8px; }
+
+  .feature-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 16px;
+    margin: 32px 0 48px;
+  }
+  .feat {
+    border: 1px solid var(--pp-border);
+    border-radius: 6px;
+    padding: 20px;
+    background: color-mix(in srgb, var(--pp-fg) 2%, transparent);
+  }
+  .feat h3 {
+    font-family: var(--pp-font-display);
+    font-size: 15px;
+    margin: 0 0 6px;
+  }
+  .feat p {
+    font-size: 13px;
+    line-height: 1.55;
+    color: var(--pp-fg-muted);
+    margin: 0;
+  }
+  .feat .icon {
+    width: 28px; height: 28px;
+    display: inline-flex; align-items: center; justify-content: center;
+    background: color-mix(in srgb, var(--pp-gold-500) 18%, transparent);
+    color: var(--pp-gold-500);
+    border-radius: 4px;
+    margin-bottom: 12px;
+  }
+
+  .legal-strip {
+    margin-top: 56px;
+    padding-top: 24px;
+    border-top: 1px solid var(--pp-border);
+    display: flex;
+    flex-wrap: wrap;
+    gap: 18px;
+    font-family: var(--pp-font-mono);
+    font-size: 12px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--pp-fg-muted);
+  }
+  .legal-strip a {
+    color: var(--pp-fg-muted);
+    border-bottom: 1px solid transparent;
+    transition: color var(--pp-dur-fast), border-color var(--pp-dur-fast);
+  }
+  .legal-strip a:hover { color: var(--pp-fg); border-bottom-color: var(--pp-fg-brand); }
+</style>
+</head>
+<body class="pp-root pp-dark">
+
+<div class="page">
+  <header class="topbar">
+    <a class="brand" href="https://pixel-paladin.de">
+      <svg class="mark" viewBox="0 0 256 256" shape-rendering="crispEdges">
+        <rect width="256" height="256" rx="24" fill="#111110"/>
+        <rect x="48" y="56" width="24" height="144" fill="#e51b10"/><rect x="72" y="56" width="48" height="24" fill="#e51b10"/><rect x="120" y="56" width="16" height="48" fill="#e51b10"/><rect x="72" y="104" width="48" height="16" fill="#e51b10"/>
+        <rect x="152" y="104" width="16" height="112" fill="#f7f6f5"/><rect x="168" y="104" width="40" height="16" fill="#f7f6f5"/><rect x="208" y="104" width="16" height="48" fill="#f7f6f5"/><rect x="168" y="152" width="40" height="16" fill="#f7f6f5"/>
+        <rect x="52" y="60" width="8" height="8" fill="#ff8780"/><rect x="76" y="60" width="8" height="8" fill="#ff8780"/>
+        <rect x="48" y="192" width="24" height="8" fill="#9a0a03"/>
+      </svg>
+      <div><div class="name">Pixel<span>Paladin</span></div><div class="sub">My Mini Colorbench</div></div>
+    </a>
+    <nav class="topnav">
+      <a href="https://pixel-paladin.de/#projects">Projects</a>
+      <a href="https://pixel-paladin.de/#contact">Contact</a>
+    </nav>
+  </header>
+
+  <section class="hero">
+    <div class="eyebrow"><span class="dot gold"></span> Pre-release · Launching soon</div>
+    <h1>My Mini <span class="accent">Colorbench.</span></h1>
+    <p class="kicker">A palette &amp; recipe companion for miniature painters. Plan a scheme, log the mix, find the bottle again six months later.</p>
+    <div class="meta-row">
+      <span>iOS</span><span>·</span>
+      <span>Android</span><span>·</span>
+      <span>Offline-first</span><span>·</span>
+      <span>No account</span>
+    </div>
+    <div class="btns">
+      <a class="btn btn-ghost" href="https://pixel-paladin.de/#contact">Get notified at launch →</a>
+    </div>
+  </section>
+
+  <section class="feature-grid">
+    <div class="feat">
+      <div class="icon">◉</div>
+      <h3>Your palettes</h3>
+      <p>Build a scheme, save it, reuse it across projects. No cloud, no sync fuss — your paints, on your phone.</p>
+    </div>
+    <div class="feat">
+      <div class="icon">◉</div>
+      <h3>Recipe memory</h3>
+      <p>Log the mix once: ratios, thinner, the exact gold you used on the trim. Find it again six months later.</p>
+    </div>
+    <div class="feat">
+      <div class="icon">◉</div>
+      <h3>Paint collection</h3>
+      <p>Track what you own, what you're out of, and what's hiding behind the Retributor Armour for the third time.</p>
+    </div>
+  </section>
+
+  <div class="legal-strip">
+    <a href="/privacy/">Privacy Policy</a>
+    <a href="https://pixel-paladin.de">Pixel Paladin</a>
+    <a href="mailto:Philipp@bchwld.de">Contact</a>
+  </div>
+</div>
+
+</body>
+</html>
