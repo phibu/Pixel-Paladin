@@ -12,7 +12,9 @@ Open, non-urgent items for Pixel Paladin and subprojects. One entry per line —
 
 ## Main site
 
-_(empty)_
+- [ ] **Remove dead Tweaks panel markup, CSS, and wiring.**
+  The `<div class="tweaks">` panel in `index.html`, its ~30 lines of `.tweaks*` CSS, and the segmented-control JS listeners (Layout / Theme / Accent / Density / Headline) are now unreachable — the only opener was a `postMessage` handler removed for CodeQL compliance. Dead code, but interlocked with state-restore logic that runs on page load. Needs a careful audit to unwire cleanly without breaking saved localStorage state on first-ever visits.
+  _Added: 2026-04-20_
 
 ## Infrastructure / Ops
 
