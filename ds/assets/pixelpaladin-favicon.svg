@@ -1,0 +1,34 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" shape-rendering="crispEdges">
+  <title>PixelPaladin · favicon (shield + red cross)</title>
+
+  <!-- Opaque dark background — SVG favicons can be transparent but a solid bg
+       reads more reliably across browser tab contexts (light/dark). -->
+  <rect width="32" height="32" fill="#111110"/>
+
+  <!-- SHIELD outline — simplified heater silhouette, 3px stroke equivalent -->
+  <!-- Top strip -->
+  <rect x="4"  y="3"  width="24" height="2" fill="#d6d4cf"/>
+  <!-- Sides (straight) -->
+  <rect x="4"  y="5"  width="2"  height="13" fill="#d6d4cf"/>
+  <rect x="26" y="5"  width="2"  height="13" fill="#d6d4cf"/>
+  <!-- Tapered lower (2-step heater curve) -->
+  <rect x="6"  y="18" width="2"  height="4"  fill="#d6d4cf"/>
+  <rect x="24" y="18" width="2"  height="4"  fill="#d6d4cf"/>
+  <rect x="8"  y="22" width="2"  height="3"  fill="#d6d4cf"/>
+  <rect x="22" y="22" width="2"  height="3"  fill="#d6d4cf"/>
+  <rect x="10" y="25" width="2"  height="2"  fill="#d6d4cf"/>
+  <rect x="20" y="25" width="2"  height="2"  fill="#d6d4cf"/>
+  <rect x="12" y="27" width="8"  height="2"  fill="#d6d4cf"/>
+
+  <!-- Gold rivets (4 corners of crest field) — 1 px each, just enough -->
+  <rect x="7"  y="7"  width="2" height="2" fill="#f5a524"/>
+  <rect x="23" y="7"  width="2" height="2" fill="#f5a524"/>
+  <rect x="7"  y="17" width="2" height="2" fill="#f5a524"/>
+  <rect x="23" y="17" width="2" height="2" fill="#f5a524"/>
+
+  <!-- RED CROSS VISOR — the identity spotlight -->
+  <!-- horizontal bar -->
+  <rect x="10" y="13" width="12" height="3" fill="#e51b10"/>
+  <!-- vertical bar -->
+  <rect x="15" y="10" width="2"  height="9" fill="#e51b10"/>
+</svg>
