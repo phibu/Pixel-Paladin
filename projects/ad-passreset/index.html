@@ -8,6 +8,25 @@
 <link rel="icon" href="/ds/assets/pixelpaladin-favicon.svg" type="image/svg+xml"/>
 <link rel="stylesheet" href="/ds/colors_and_type.css"/>
 <link rel="stylesheet" href="/ds/page.css"/>
+<style>
+  figure.screenshot { margin: 16px 0 8px; padding: 0; }
+  figure.screenshot img {
+    display: block;
+    width: 100%;
+    max-width: 960px;
+    height: auto;
+    border: 1px solid var(--pp-border);
+    border-radius: 6px;
+    background: color-mix(in srgb, var(--pp-fg) 2%, transparent);
+  }
+  figure.screenshot figcaption {
+    font-family: var(--pp-font-mono);
+    font-size: 12px;
+    color: var(--pp-fg-muted);
+    letter-spacing: 0.04em;
+    margin-top: 10px;
+  }
+</style>
 </head>
 <body class="pp-root pp-dark">
 
@@ -89,12 +108,10 @@
       <p>Full guide: <a href="https://github.com/phibu/AD-Passreset-Portal/blob/master/docs/IIS-Setup.md" target="_blank" rel="noopener">docs/IIS-Setup.md</a>.</p>
 
       <h2>Screens</h2>
-      <div class="gallery">
-        <div class="shot">Login</div>
-        <div class="shot">Change password</div>
-        <div class="shot">Admin view</div>
-      </div>
-      <p class="eyebrow" style="margin-top:4px">Screenshots live in <code>docs/</code> on the repo — drop real ones in <code>/assets/ad-passreset/</code> and swap these tiles.</p>
+      <figure class="screenshot">
+        <img src="/ds/assets/ad-passreset/change-password.png" alt="AD-Passreset Portal — change password screen with breach-check and complexity meter" loading="lazy" />
+        <figcaption>Change password screen — breach-checked against HIBP, complexity meter, rate-limited.</figcaption>
+      </figure>
 
       <h2>Roadmap · v2.0</h2>
       <ul>
@@ -113,7 +130,7 @@
         <div class="panel-body">
           <div class="kv">
             <span class="k">Status</span><span class="v">Shipping · v2.0 WIP</span>
-            <span class="k">Started</span><span class="v">2024</span>
+            <span class="k">Started</span><span class="v">2026</span>
             <span class="k">License</span><span class="v">MIT</span>
             <span class="k">Repo</span><span class="v"><a href="https://github.com/phibu/AD-Passreset-Portal" target="_blank" rel="noopener" style="color:var(--pp-fg-brand)">phibu/AD-Passreset-Portal</a></span>
             <span class="k">Issues</span><span class="v"><a href="https://github.com/phibu/AD-Passreset-Portal/issues" target="_blank" rel="noopener" style="color:var(--pp-fg-brand)">open →</a></span>
