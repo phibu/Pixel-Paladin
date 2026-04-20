@@ -1395,21 +1395,6 @@
     setKey('theme', state.theme === 'dark' ? 'light' : 'dark');
   });
 
-  // ---------- Tweaks panel: host protocol ----------
-  // 1) register listener FIRST
-  window.addEventListener('message', (ev) => {
-    const d = ev.data || {};
-    if (d.type === '__activate_edit_mode') {
-      document.getElementById('tweaks').classList.add('open');
-    } else if (d.type === '__deactivate_edit_mode') {
-      document.getElementById('tweaks').classList.remove('open');
-    }
-  });
-  document.getElementById('tweaksClose').addEventListener('click', () => {
-    document.getElementById('tweaks').classList.remove('open');
-  });
-  // 2) announce availability
-  try { window.parent.postMessage({type:'__edit_mode_available'}, '*'); } catch(e) {}
 
   // ---------- Live-ish stats ----------
   // Uptime: counts from a fixed date (site launch). Format D:HH:MM:SS
