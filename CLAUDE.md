@@ -42,6 +42,30 @@ The main site fetches `https://api.github.com/...` for a public-activity feed; `
 
 When editing any of these, cross-check all four pages for consistency. A change to the contact address in one must be reflected in the others.
 
+## Version stamp
+
+The main site displays a version badge in two places:
+- Hero eyebrow: `<span>Online · v1.0</span>` near the top of `index.html`
+- Footer: `<span style="color:var(--pp-red-500)">v1.0</span>`
+
+Scheme is **semantic**, not calver:
+- Patch bump (`v1.0.1`) — copy, content, and styling fixes
+- Minor bump (`v1.1`) — visible new sections or features
+- Major bump (`v2.0`) — redesign or structural change
+
+Bump both occurrences in the same commit that introduces the change. Don't bump on every commit; batch until a shippable iteration is ready. When in doubt, **don't bump** — it's a vanity stamp, not a release marker.
+
+## Live stats panel
+
+The hero-side "Live stats" panel has four tiles. Three are auto-updating (don't hardcode):
+
+- **Uptime** — JS counter from `EPOCH` const in index.html
+- **Last push** — GitHub API: `/repos/phibu/Pixel-Paladin/commits?per_page=1`
+- **Repos · @phibu** — GitHub API: filtered public non-fork count
+- **Public OSS** — GitHub API: public repos with `license.spdx_id === 'MIT'`
+
+If you add/remove repos or change a license on GitHub, **do nothing in this repo** — the stats refresh on next page load. The hardcoded fallbacks are `—` dashes; don't replace them with static counts.
+
 ## Conventions
 
 - **Public contact email is `hi@pixel-paladin.de`.** Never `Philipp@bchwld.de` in public files — that's personal. If you see it in a public artifact, flag it.

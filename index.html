@@ -930,7 +930,7 @@
 
     <div class="hero-main">
       <div class="hero-eyebrow">
-        <span class="dot"></span> <span>Online · v26.4</span>
+        <span class="dot"></span> <span>Online · v1.0</span>
         <span style="color:var(--pp-border-strong)">·</span>
         <span id="tzNow" class="mono"></span>
       </div>
@@ -1014,11 +1014,11 @@
           </div>
           <div class="stat">
             <div class="k">Repos · @phibu</div>
-            <div class="v red">6<small>total</small></div>
+            <div class="v red" id="stRepos">—<small>total</small></div>
           </div>
           <div class="stat">
             <div class="k">Public OSS</div>
-            <div class="v">1<small>MIT</small></div>
+            <div class="v" id="stMit">—<small>MIT</small></div>
           </div>
         </div>
       </div>
@@ -1218,7 +1218,7 @@
 
   <footer class="foot">
     <div class="mono">© <span id="year">2026</span> · Philipp Buchwald · Pixel-Paladin.de</div>
-    <div class="mono"><a href="/impressum/" style="color:inherit;border-bottom:1px solid var(--pp-border)">Impressum</a> · <a href="/datenschutz/" style="color:inherit;border-bottom:1px solid var(--pp-border)">Datenschutz</a> · Built in the workshop · <span style="color:var(--pp-red-500)">v26.4</span></div>
+    <div class="mono"><a href="/impressum/" style="color:inherit;border-bottom:1px solid var(--pp-border)">Impressum</a> · <a href="/datenschutz/" style="color:inherit;border-bottom:1px solid var(--pp-border)">Datenschutz</a> · Built in the workshop · <span style="color:var(--pp-red-500)">v1.0</span></div>
   </footer>
 
 </div>
@@ -1412,9 +1412,10 @@
   }
   setInterval(tickUptime, 1000); tickUptime();
 
-  // Last push: live from GitHub public events API, with fallback
+  // Last push: live from this repo's commits API (reliable — events feed
+  // deduplicates and can drop PushEvent entirely in bursty activity)
   const GH_USER = 'phibu';
-  const COMMIT_FALLBACK_AT = new Date('2026-04-17T21:14:00Z').getTime();
+  const GH_REPO = 'Pixel-Paladin';
   function relTime(ts) {
     const diff = Math.max(0, Date.now() - ts);
     const m = Math.floor(diff/60000);
@@ -1427,25 +1428,40 @@
   function renderCommit(hash, ts) {
     document.getElementById('stCommit').innerHTML = `${hash} <small>${relTime(ts)}</small>`;
   }
-  renderCommit('—', COMMIT_FALLBACK_AT);
   (async () => {
     try {
-      const r = await fetch(`https://api.github.com/users/${GH_USER}/events/public?per_page=30`, {
+      const r = await fetch(`https://api.github.com/repos/${GH_USER}/${GH_REPO}/commits?per_page=1`, {
         headers: { 'Accept': 'application/vnd.github+json' }
       });
       if (!r.ok) throw new Error('gh '+r.status);
-      const events = await r.json();
-      const push = events.find(e => e.type === 'PushEvent' && e.payload && e.payload.commits && e.payload.commits.length);
-      if (push) {
-        const last = push.payload.commits[push.payload.commits.length - 1];
-        const sha = (last.sha || '').slice(0, 7) || '—';
-        const ts = new Date(push.created_at).getTime();
+      const commits = await r.json();
+      if (commits.length) {
+        const c = commits[0];
+        const sha = (c.sha || '').slice(0, 7) || '—';
+        const ts = new Date(c.commit.author.date).getTime();
         renderCommit(sha, ts);
         return;
       }
-    } catch (e) { /* fallthrough */ }
-    // fallback if rate-limited / offline
-    renderCommit('8f2a14c', COMMIT_FALLBACK_AT);
+    } catch (e) { /* fall through to dash */ }
+    document.getElementById('stCommit').innerHTML = '— <small>n/a</small>';
+  })();
+
+  // Repos + Public OSS: live from GitHub, fallback to hardcoded
+  (async () => {
+    try {
+      const r = await fetch(`https://api.github.com/users/${GH_USER}/repos?per_page=100&type=owner&sort=updated`, {
+        headers: { 'Accept': 'application/vnd.github+json' }
+      });
+      if (!r.ok) throw new Error('gh '+r.status);
+      const repos = await r.json();
+      const publicRepos = repos.filter(x => !x.fork && !x.private);
+      const mit = publicRepos.filter(x => x.license && x.license.spdx_id === 'MIT');
+      document.getElementById('stRepos').innerHTML = `${publicRepos.length}<small>public</small>`;
+      document.getElementById('stMit').innerHTML = `${mit.length}<small>MIT</small>`;
+    } catch (e) {
+      document.getElementById('stRepos').innerHTML = `—<small>n/a</small>`;
+      document.getElementById('stMit').innerHTML = `—<small>n/a</small>`;
+    }
   })();
 
   // TZ clock in eyebrow
