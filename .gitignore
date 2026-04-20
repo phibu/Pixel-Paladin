@@ -1,0 +1,21 @@
+# OS metadata
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Editors / IDEs
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Local env / secrets
+.env
+.env.local
+*.local
+
+# Tool caches (future-proofing — not used today)
+.cache/
+.tmp/
+node_modules/
