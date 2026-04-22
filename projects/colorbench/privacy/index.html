@@ -87,22 +87,8 @@
       <li>The app does not sell or share any data, because it has no data to share.</li>
     </ul>
 
-    <h3>2. Crash diagnostics (via Sentry)</h3>
-    <p>If the app crashes, an anonymous crash report is sent to <strong>Sentry</strong> (sentry.io) so we can diagnose and fix the bug. A crash report includes:</p>
-    <ul>
-      <li>The stack trace (code path that failed)</li>
-      <li>Device model + OS version (e.g. "Pixel 8, Android 15")</li>
-      <li>App version (e.g. 1.0.0)</li>
-      <li>A truncated breadcrumb of which screens were visited in the last few minutes (screen names only, no content)</li>
-    </ul>
-    <p>A crash report does <strong>not</strong> include:</p>
-    <ul>
-      <li>Your name, email, or any identifying information</li>
-      <li>Your palettes, paints, projects, or any content you created</li>
-      <li>Your exact IP address (Sentry receives it but we have it anonymized/discarded on arrival)</li>
-      <li>Advertising identifiers</li>
-    </ul>
-    <p>Sentry is used under their <a href="https://sentry.io/legal/dpa/" target="_blank" rel="noopener">Data Processing Agreement</a>. Data is retained for 90 days then deleted.</p>
+    <h3>2. Crash diagnostics</h3>
+    <p>v1.0 collects nothing at all. A future version may add anonymous crash diagnostics; we'll update this policy before that ships.</p>
 
     <h3>3. Google Play Store</h3>
     <p>When you install the app from Google Play, Google collects standard install telemetry under <a href="https://policies.google.com/privacy" target="_blank" rel="noopener">Google's Privacy Policy</a>. We do not control this and we do not see your individual install/uninstall data — only aggregated counts.</p>

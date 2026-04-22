@@ -34,7 +34,7 @@ PGP is not currently offered. If you need encrypted communication, mention it in
 - RFC 9116 `security.txt` files under `/.well-known/`
 
 **Out of scope**
-- Third-party services we use (Cloudflare, GitHub, Sentry, Google Play) — report to them directly
+- Third-party services we use (Cloudflare, GitHub, Google Play) — report to them directly
 - Social engineering, physical attacks, denial-of-service
 - Issues requiring a rooted/jailbroken device or physical access
 - Missing best-practice headers without a concrete exploit path
