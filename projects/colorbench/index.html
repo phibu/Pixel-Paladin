@@ -109,6 +109,38 @@
     margin-bottom: 12px;
   }
 
+  .tester-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 16px;
+    margin: 8px 0 8px;
+  }
+  .tester-box {
+    border: 1px solid var(--pp-border);
+    border-radius: 6px;
+    padding: 20px;
+    background: color-mix(in srgb, var(--pp-fg) 2%, transparent);
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  .tester-box.accent {
+    border-color: color-mix(in srgb, var(--pp-red-500) 40%, var(--pp-border));
+    background: color-mix(in srgb, var(--pp-red-500) 5%, transparent);
+  }
+  .tester-box h3 {
+    font-family: var(--pp-font-display);
+    font-size: 16px;
+    margin: 0;
+  }
+  .tester-box p {
+    font-size: 13px;
+    line-height: 1.55;
+    color: var(--pp-fg-muted);
+    margin: 0 0 4px;
+  }
+  .tester-box .btn { align-self: flex-start; }
+
   .legal-strip {
     margin-top: 56px;
     padding-top: 24px;
@@ -161,8 +193,17 @@
       <span>Offline-first</span><span>·</span>
       <span>No account</span>
     </div>
-    <div class="btns">
-      <a class="btn btn-ghost" href="mailto:hi@pixel-paladin.de?subject=Colorbench%20%E2%80%94%20notify%20me%20at%20launch&amp;body=Hi%20Philipp%2C%0A%0APlease%20drop%20me%20a%20line%20when%20My%20Mini%20Colorbench%20launches.%0A%0A(Optional)%20Platform%3A%20iOS%20%2F%20Android%0A%0AThanks!">Email me when it launches →</a>
+    <div class="tester-grid">
+      <div class="tester-box">
+        <h3>I want to help testing</h3>
+        <p>Drop me an email and I'll add you to the tester roster for the next build.</p>
+        <a class="btn btn-ghost" href="mailto:hi@pixel-paladin.de?subject=Colorbench%20%E2%80%94%20I%20want%20to%20help%20testing&amp;body=Hi%20Philipp%2C%0A%0AI%27d%20like%20to%20help%20test%20My%20Mini%20Colorbench.%0A%0A(Optional)%20Platform%3A%20iOS%20%2F%20Android%0A(Optional)%20Device%3A%20%0A%0AThanks!">I want to help testing →</a>
+      </div>
+      <div class="tester-box accent">
+        <h3>I am a tester</h3>
+        <p>Already on the list? Jump straight to the internal test track on Google Play.</p>
+        <a class="btn btn-primary" href="https://play.google.com/apps/internaltest/4701203797692456622" target="_blank" rel="noopener">Bring me to Google Play →</a>
+      </div>
     </div>
   </section>
 
