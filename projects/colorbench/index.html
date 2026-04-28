@@ -4,13 +4,13 @@
 <meta charset="utf-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
 <title>My Mini Colorbench · Pixel Paladin</title>
-<meta name="description" content="A palette & recipe companion for miniature painters. Plan a scheme, log the mix, find the bottle again six months later. Launching soon on iOS and Android."/>
+<meta name="description" content="65 curated palettes, 1000+ paints across 7 brands, and a match engine that finds the closest paint on your shelf. Local-first, offline, no accounts. Closed test on Android — iOS in v2.0."/>
 <meta name="author" content="Philipp Buchwald"/>
 <link rel="canonical" href="https://colorbench.pixel-paladin.de/"/>
 <meta property="og:type" content="website"/>
 <meta property="og:site_name" content="My Mini Colorbench"/>
 <meta property="og:title" content="My Mini Colorbench · Pixel Paladin"/>
-<meta property="og:description" content="A palette & recipe companion for miniature painters. Plan a scheme, log the mix, find the bottle again six months later. Launching soon on iOS and Android."/>
+<meta property="og:description" content="65 curated palettes, 1000+ paints across 7 brands, and a match engine that finds the closest paint on your shelf. Local-first, offline, no accounts. Closed test on Android — iOS in v2.0."/>
 <meta property="og:url" content="https://colorbench.pixel-paladin.de/"/>
 <meta property="og:locale" content="en_US"/>
 <meta property="og:image" content="https://pixel-paladin.de/ds/assets/colorbench-og.png"/>
@@ -25,11 +25,11 @@
   "applicationCategory": "LifestyleApplication",
   "applicationSubCategory": "Hobby companion",
   "operatingSystem": "iOS, Android",
-  "description": "A palette & recipe companion for miniature painters. Plan a scheme, log the mix, find the bottle again six months later. Offline-first, no account, no tracking.",
+  "description": "65 curated palettes (250+ in the pipeline), 1000+ paints across 7 brands, and a CIEDE2000 match engine that finds the closest paint you own. Local-first, offline, no accounts, no tracking.",
   "url": "https://colorbench.pixel-paladin.de/",
   "image": "https://pixel-paladin.de/ds/assets/colorbench-og.png",
   "inLanguage": "en",
-  "releaseNotes": "Pre-release",
+  "releaseNotes": "Closed test on Android. iOS support planned for v2.0.",
   "offers": {
     "@type": "Offer",
     "price": "0",
@@ -75,13 +75,98 @@
     letter-spacing: 0.12em;
     margin-bottom: 40px;
   }
+  .meta-row em {
+    font-style: normal;
+    color: var(--pp-fg-brand);
+    text-transform: none;
+    letter-spacing: 0.04em;
+  }
   .btns { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 8px; }
+
+  .shots {
+    margin: 48px 0 16px;
+  }
+  .shots-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+  }
+  .shot {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+  .shot img {
+    display: block;
+    width: 100%;
+    height: auto;
+    border-radius: 14px;
+    border: 1px solid var(--pp-border);
+    background: #000;
+  }
+  .shot .cap {
+    font-family: var(--pp-font-mono);
+    font-size: 11px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--pp-fg-muted);
+    padding-left: 2px;
+  }
+  .shot .cap strong {
+    color: var(--pp-fg);
+    font-weight: 500;
+    margin-right: 8px;
+  }
+  @media (max-width: 720px) {
+    .shots-grid { grid-template-columns: 1fr; gap: 32px; }
+    .shot img { max-width: 320px; margin: 0 auto; }
+    .shot .cap { text-align: center; padding-left: 0; }
+  }
+
+  .potd {
+    display: grid;
+    grid-template-columns: 180px 1fr;
+    gap: 28px;
+    align-items: center;
+    margin: 56px 0 16px;
+    padding: 20px;
+    border: 1px solid var(--pp-border);
+    border-radius: 8px;
+    background: color-mix(in srgb, var(--pp-fg) 2%, transparent);
+  }
+  .potd img {
+    display: block;
+    width: 100%;
+    height: auto;
+    border-radius: 10px;
+    border: 1px solid var(--pp-border);
+  }
+  .potd .eyebrow { margin-bottom: 8px; }
+  .potd h3 {
+    font-family: var(--pp-font-display);
+    font-size: 20px;
+    margin: 0 0 8px;
+    letter-spacing: -0.01em;
+  }
+  .potd p {
+    margin: 0;
+    font-size: 14px;
+    line-height: 1.55;
+    color: var(--pp-fg-muted);
+  }
+  @media (max-width: 600px) {
+    .potd { grid-template-columns: 1fr; text-align: center; }
+    .potd img { max-width: 200px; margin: 0 auto; }
+  }
 
   .feature-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    grid-template-columns: repeat(2, 1fr);
     gap: 16px;
     margin: 32px 0 48px;
+  }
+  @media (max-width: 600px) {
+    .feature-grid { grid-template-columns: 1fr; }
   }
   .feat {
     border: 1px solid var(--pp-border);
@@ -186,12 +271,12 @@
   <section class="hero">
     <div class="eyebrow"><span class="dot gold"></span> Closed test · Android live · iOS in v2.0</div>
     <h1>My Mini <span class="accent">Colorbench.</span></h1>
-    <p class="kicker">A palette &amp; recipe companion for miniature painters. Plan a scheme, log the mix, find the bottle again six months later.</p>
+    <p class="kicker">Curated palettes for miniature painters. Match what's on your shelf with a CIEDE2000 colour-distance engine.</p>
     <div class="meta-row">
-      <span>iOS</span><span>·</span>
-      <span>Android</span><span>·</span>
-      <span>Offline-first</span><span>·</span>
-      <span>No account</span>
+      <span>65 palettes <em>(250+ coming)</em></span><span>·</span>
+      <span>1000+ paints</span><span>·</span>
+      <span>7 brands</span><span>·</span>
+      <span>Offline</span>
     </div>
     <div class="tester-grid">
       <div class="tester-box">
@@ -207,23 +292,54 @@
     </div>
   </section>
 
+  <section class="shots" aria-label="Screenshots">
+    <div class="shots-grid">
+      <figure class="shot">
+        <img src="/ds/assets/01-browser.png" alt="Browse 65 curated palettes with mood, warmth and faction filters" loading="lazy" width="320" height="660"/>
+        <figcaption class="cap"><strong>01</strong> Browse the catalogue</figcaption>
+      </figure>
+      <figure class="shot">
+        <img src="/ds/assets/04-match.png" alt="Match the closest paints from your collection using CIEDE2000 colour distance" loading="lazy" width="320" height="660"/>
+        <figcaption class="cap"><strong>02</strong> Match what you own</figcaption>
+      </figure>
+      <figure class="shot">
+        <img src="/ds/assets/05-project.png" alt="Save palettes to a hobby project with notes and creation dates" loading="lazy" width="320" height="660"/>
+        <figcaption class="cap"><strong>03</strong> Save to a project</figcaption>
+      </figure>
+    </div>
+  </section>
+
   <section class="feature-grid">
     <div class="feat">
       <div class="icon">◉</div>
-      <h3>Your palettes</h3>
-      <p>Build a scheme, save it, reuse it across projects. No cloud, no sync fuss — your paints, on your phone.</p>
+      <h3>65 curated palettes</h3>
+      <p>Mood, warmth, contrast and faction filters. Reference imagery on every card. 250+ more in the pipeline.</p>
     </div>
     <div class="feat">
       <div class="icon">◉</div>
-      <h3>Recipe memory</h3>
-      <p>Log the mix once: ratios, thinner, the exact gold you used on the trim. Find it again six months later.</p>
+      <h3>1000+ paints, 7 brands</h3>
+      <p>Citadel, Vallejo, Scale75, Reaper (MSP/HD/Pro), Formula P3, Coat d'Arms, Two Thin Coats.</p>
     </div>
     <div class="feat">
       <div class="icon">◉</div>
-      <h3>Paint collection</h3>
-      <p>Track what you own, what you're out of, and what's hiding behind the Retributor Armour for the third time.</p>
+      <h3>Match my collection</h3>
+      <p>Closest substitutes from paints you own, scored as % match. CIEDE2000 ΔE under the hood.</p>
+    </div>
+    <div class="feat">
+      <div class="icon">◉</div>
+      <h3>100% local-first</h3>
+      <p>All data on device. No accounts, no telemetry, no network calls in the runtime path.</p>
     </div>
   </section>
+
+  <aside class="potd" aria-label="Palette of the Day">
+    <img src="/ds/assets/06-random.png" alt="Palette of the Day — a curated palette surfaced once per day" loading="lazy" width="180" height="370"/>
+    <div>
+      <div class="eyebrow"><span class="dot gold"></span> One a day</div>
+      <h3>Palette of the Day</h3>
+      <p>One curated palette surfaced on Home, deterministic per local calendar day. A nudge to try something outside your usual lineup.</p>
+    </div>
+  </aside>
 
   <div class="legal-strip">
     <a href="/privacy/">App Privacy</a>
