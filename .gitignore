@@ -15,6 +15,10 @@ desktop.ini
 .env.local
 *.local
 
+# AI workflow files (kept locally, not tracked)
+CLAUDE.md
+**/CLAUDE.md
+
 # Tool caches (future-proofing — not used today)
 .cache/
 .tmp/
