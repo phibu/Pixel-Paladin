@@ -6,9 +6,7 @@ Open, non-urgent items for Pixel Paladin and subprojects. One entry per line —
 
 ## Colorbench
 
-- [ ] **Set up Google Play pre-registration and swap the launch CTA button.**
-  Currently the "Email me when it launches" button on `colorbench.pixel-paladin.de` is a `mailto:` opt-in. Once the Android app hits internal testing, enable pre-registration in Google Play Console and repoint the button to the Play Store URL. Consider a second CTA for TestFlight public link once iOS is ready. Add EmailOctopus/Buttondown as a third channel once 50+ signups accumulate.
-  _Added: 2026-04-20_
+_(no open items)_
 
 ## Main site
 
@@ -20,7 +18,7 @@ Open, non-urgent items for Pixel Paladin and subprojects. One entry per line —
 
 - [ ] **Submit `pixel-paladin.de` to hstspreload.org** — headers are eligible. Note: effectively permanent; any future subdomain must serve HTTPS.
   _Added: 2026-04-20_
-- [ ] **Refresh security.txt before 2027-04-19.** RFC 9116 requires `Expires` ≤ 1 year. Lives at `/.well-known/security.txt` on both sites.
+- [ ] **Refresh security.txt before 2027-04-19.** RFC 9116 requires `Expires` ≤ 1 year. Lives at `/.well-known/security.txt` (main) and `/projects/colorbench/.well-known/security.txt` (Colorbench).
   _Added: 2026-04-20_
 
 ---
@@ -28,3 +26,6 @@ Open, non-urgent items for Pixel Paladin and subprojects. One entry per line —
 ## Done
 
 _Move completed entries here with a date, or delete them. Don't let the open list grow indefinitely._
+
+- [x] **Set up Google Play pre-registration and swap the launch CTA button.** Closed-test signup now flows through the Play Store; the email-opt-in mailto was replaced with two Play Store CTAs ("Join the closed test" / "Install from Google Play"). _Closed: 2026-04-29_
+- [x] **Move Colorbench off its own Cloudflare Pages project.** Now served as `pixel-paladin.de/projects/colorbench/` from the main site Pages project; the legacy subdomain 301-redirects via `_redirects`. _Closed: 2026-04-29_

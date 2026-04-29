@@ -2,7 +2,7 @@
 
 ## Reporting a Vulnerability
 
-If you believe you've found a security vulnerability in Pixel Paladin or any of its subprojects (e.g. the Pixel Paladin website, the Colorbench landing at `colorbench.pixel-paladin.de`, or related tooling in this repo), please report it privately — **do not open a public GitHub issue**.
+If you believe you've found a security vulnerability in Pixel Paladin or any of its subprojects (e.g. the Pixel Paladin website at `pixel-paladin.de`, the Colorbench landing at `pixel-paladin.de/projects/colorbench/`, or related tooling in this repo), please report it privately — **do not open a public GitHub issue**.
 
 ### Preferred: GitHub Private Vulnerability Reporting
 
@@ -30,7 +30,7 @@ PGP is not currently offered. If you need encrypted communication, mention it in
 
 **In scope**
 - This repository's source code
-- Content served at `pixel-paladin.de` and `colorbench.pixel-paladin.de`
+- Content served at `pixel-paladin.de` (including `pixel-paladin.de/projects/colorbench/` and the legacy `colorbench.pixel-paladin.de` 301 redirect)
 - RFC 9116 `security.txt` files under `/.well-known/`
 
 **Out of scope**
