@@ -104,9 +104,9 @@
     width: 100%;
     height: auto;
     aspect-ratio: 1080 / 2280;
-    border-radius: 14px;
+    border-radius: var(--pp-radius-lg);
     border: 1px solid var(--pp-border);
-    background: #000;
+    background: var(--pp-bg-sunken);
   }
   .shot .cap {
     font-family: var(--pp-font-mono);
@@ -158,7 +158,7 @@
     display: inline-flex; align-items: center; justify-content: center;
     background: color-mix(in srgb, var(--pp-gold-500) 14%, transparent);
     color: var(--pp-gold-500);
-    border-radius: 6px;
+    border-radius: var(--pp-radius-md);
     margin-bottom: 14px;
   }
   .feat .icon svg {
@@ -179,7 +179,7 @@
   }
   .tester-box {
     border: 1px solid var(--pp-border);
-    border-radius: 6px;
+    border-radius: var(--pp-radius-md);
     padding: 20px;
     background: color-mix(in srgb, var(--pp-fg) 2%, transparent);
     display: flex;

@@ -23,3 +23,6 @@ CLAUDE.md
 .cache/
 .tmp/
 node_modules/
+
+# Local audit cache (canonical DS files pulled from Design-System repo)
+.ds-cache/
