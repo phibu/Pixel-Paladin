@@ -121,7 +121,7 @@
     margin-bottom: calc(40px * var(--tw-density));
   }
   .brand { display: flex; align-items: center; gap: 12px; }
-  .brand svg.mark { width: 36px; height: 36px; border-radius: 6px; display: block; }
+  .brand svg.mark { width: 36px; height: 36px; border-radius: var(--pp-radius-md); display: block; }
   .brand .name {
     font-family: var(--pp-font-display);
     font-weight: 800;
@@ -153,7 +153,7 @@
     background: transparent;
     color: var(--pp-fg-muted);
     padding: 6px 10px;
-    border-radius: 4px;
+    border-radius: var(--pp-radius-sm);
     font-family: var(--pp-font-mono);
     font-size: 11px;
     text-transform: uppercase;
@@ -234,7 +234,7 @@
   .btn:active { transform: scale(0.98); }
   .btn-primary {
     background: var(--pp-red-500);
-    color: #fff;
+    color: var(--pp-fg-inverse);
     border-color: var(--pp-red-500);
   }
   .btn-primary:hover { background: var(--pp-red-600); border-color: var(--pp-red-600); }
@@ -248,8 +248,8 @@
     font-family: var(--pp-font-mono);
     font-size: 11px;
     padding: 2px 5px;
-    border-radius: 3px;
-    background: rgba(255,255,255,0.14);
+    border-radius: var(--pp-radius-sm);
+    background: color-mix(in srgb, var(--pp-fg-inverse) 14%, transparent);
     margin-left: 4px;
   }
   .btn-ghost .k { background: var(--pp-bg-sunken); color: var(--pp-fg-muted); border: 1px solid var(--pp-border); }
@@ -391,7 +391,7 @@
   .shield i.h { background: var(--pp-red-300); }       /* highlight */
   .shield i.w { background: var(--pp-ink-50); }        /* emblem */
   .shield i.g { background: var(--pp-gold-500); }      /* gold trim */
-  .pp-dark .shield i.b { background: #000; }
+  .pp-dark .shield i.b { background: var(--pp-bg-sunken); }
 
   @keyframes shieldShimmer {
     0%, 100% { transform: translateY(0); }
@@ -503,7 +503,7 @@
      ============================================================ */
   .forge-scene {
     position: relative;
-    background: radial-gradient(ellipse at 50% 90%, #2a0a06 0%, #0a0a09 65%);
+    background: radial-gradient(ellipse at 50% 90%, #2a0a06 0%, var(--pp-bg) 65%);
     overflow: hidden;
   }
   .forge-scene::before {
@@ -863,7 +863,7 @@
   .seg button:last-child { border-right: 0; }
   .seg button:hover { background: var(--pp-bg-sunken); color: var(--pp-fg); }
   .seg button.on {
-    background: var(--pp-red-500); color: #fff;
+    background: var(--pp-red-500); color: var(--pp-fg-inverse);
   }
   .tw-row input[type="range"] { width: 100%; accent-color: var(--pp-red-500); }
 
