@@ -85,6 +85,7 @@
 
   .shots {
     margin: 48px 0 16px;
+    position: relative;
   }
   .shots-grid {
     display: grid;
@@ -98,8 +99,22 @@
     flex-direction: column;
     gap: 12px;
     min-width: 0;
+    margin: 0;
   }
-  .shot img {
+  .shot-trigger {
+    appearance: none;
+    background: transparent;
+    border: 0;
+    padding: 0;
+    cursor: zoom-in;
+    display: block;
+    width: 100%;
+    border-radius: var(--pp-radius-lg);
+    transition: transform var(--pp-dur-fast) var(--pp-ease-out);
+  }
+  .shot-trigger:hover { transform: translateY(-2px); }
+  .shot-trigger:focus-visible { outline: 2px solid var(--pp-fg-brand); outline-offset: 4px; }
+  .shot-trigger img {
     display: block;
     width: 100%;
     height: auto;
@@ -122,10 +137,128 @@
     font-weight: 500;
     margin-right: 8px;
   }
+
+  /* Carousel controls — visible only in mobile carousel mode */
+  .shots-nav { display: none; }
+
   @media (max-width: 720px) {
-    .shots-grid { grid-template-columns: 1fr; gap: 32px; max-width: 320px; }
+    /* Switch from grid to horizontal scroll-snap carousel */
+    .shots-grid {
+      display: flex;
+      grid-template-columns: none;
+      gap: 16px;
+      max-width: none;
+      overflow-x: auto;
+      scroll-snap-type: x mandatory;
+      scroll-behavior: smooth;
+      padding: 4px 32px 8px;
+      margin: 0 -32px;
+      scrollbar-width: none;
+    }
+    .shots-grid::-webkit-scrollbar { display: none; }
+    .shot {
+      flex: 0 0 calc(100% - 64px);
+      max-width: 320px;
+      scroll-snap-align: center;
+    }
     .shot .cap { text-align: center; padding-left: 0; }
+
+    .shots-nav {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 14px;
+      margin-top: 18px;
+    }
+    .shots-arrow {
+      width: 36px; height: 36px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      border: 1px solid var(--pp-border);
+      border-radius: var(--pp-radius-pill);
+      background: color-mix(in srgb, var(--pp-fg) 2%, transparent);
+      color: var(--pp-fg);
+      cursor: pointer;
+      font-size: 18px;
+      line-height: 1;
+      transition: background var(--pp-dur-fast) var(--pp-ease-out), border-color var(--pp-dur-fast) var(--pp-ease-out);
+    }
+    .shots-arrow:hover { background: var(--pp-bg-raised); border-color: var(--pp-border-strong); }
+    .shots-arrow:disabled { opacity: 0.35; cursor: default; }
+    .shots-arrow:focus-visible { outline: 2px solid var(--pp-fg-brand); outline-offset: 2px; }
+    .shots-dots {
+      display: inline-flex;
+      gap: 6px;
+      align-items: center;
+    }
+    .shots-dots button {
+      width: 6px; height: 6px;
+      border-radius: var(--pp-radius-pill);
+      border: 0;
+      background: var(--pp-border-strong);
+      cursor: pointer;
+      padding: 0;
+      transition: background var(--pp-dur-fast) var(--pp-ease-out), transform var(--pp-dur-fast) var(--pp-ease-out);
+    }
+    .shots-dots button[aria-current="true"] {
+      background: var(--pp-fg-brand);
+      transform: scale(1.3);
+    }
+    .shots-dots button:focus-visible { outline: 2px solid var(--pp-fg-brand); outline-offset: 2px; }
   }
+
+  /* Lightbox */
+  dialog#lightbox {
+    border: 0;
+    padding: 0;
+    background: transparent;
+    max-width: 100vw;
+    max-height: 100vh;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+  }
+  dialog#lightbox::backdrop {
+    background: rgba(0, 0, 0, 0.85);
+    backdrop-filter: blur(4px);
+  }
+  .lightbox-inner {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+    box-sizing: border-box;
+    cursor: zoom-out;
+  }
+  .lightbox-inner img {
+    max-width: min(540px, 92vw);
+    max-height: 92vh;
+    width: auto;
+    height: auto;
+    border-radius: var(--pp-radius-lg);
+    border: 1px solid var(--pp-border);
+    box-shadow: 0 20px 60px rgba(0,0,0,0.6);
+  }
+  .lightbox-close {
+    position: absolute;
+    top: 16px; right: 16px;
+    width: 40px; height: 40px;
+    border: 1px solid var(--pp-border-strong);
+    border-radius: var(--pp-radius-pill);
+    background: color-mix(in srgb, var(--pp-bg) 80%, transparent);
+    color: var(--pp-fg);
+    cursor: pointer;
+    font-size: 20px;
+    line-height: 1;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .lightbox-close:hover { background: var(--pp-bg-raised); }
+  .lightbox-close:focus-visible { outline: 2px solid var(--pp-fg-brand); outline-offset: 2px; }
 
 
   .feature-grid {
@@ -280,19 +413,34 @@
   </section>
 
   <section class="shots" aria-label="Screenshots">
-    <div class="shots-grid">
+    <div class="shots-grid" role="region" aria-roledescription="carousel" aria-label="App screenshots">
       <figure class="shot">
-        <img src="/ds/assets/colorbench/01-browser.png" alt="Browse 65 curated palettes with mood, warmth and faction filters" loading="lazy"/>
+        <button class="shot-trigger" type="button" aria-label="Open larger preview: Browse the catalogue">
+          <img src="/ds/assets/colorbench/01-browser.png" alt="Browse 65 curated palettes with mood, warmth and faction filters" loading="lazy"/>
+        </button>
         <figcaption class="cap"><strong>01</strong> Browse the catalogue</figcaption>
       </figure>
       <figure class="shot">
-        <img src="/ds/assets/colorbench/04-match.png" alt="Match the closest paints from your collection using CIEDE2000 colour distance" loading="lazy"/>
+        <button class="shot-trigger" type="button" aria-label="Open larger preview: Match what you own">
+          <img src="/ds/assets/colorbench/04-match.png" alt="Match the closest paints from your collection using CIEDE2000 colour distance" loading="lazy"/>
+        </button>
         <figcaption class="cap"><strong>02</strong> Match what you own</figcaption>
       </figure>
       <figure class="shot">
-        <img src="/ds/assets/colorbench/05-project.png" alt="Save palettes to a hobby project with notes and creation dates" loading="lazy"/>
+        <button class="shot-trigger" type="button" aria-label="Open larger preview: Save to a project">
+          <img src="/ds/assets/colorbench/05-project.png" alt="Save palettes to a hobby project with notes and creation dates" loading="lazy"/>
+        </button>
         <figcaption class="cap"><strong>03</strong> Save to a project</figcaption>
       </figure>
+    </div>
+    <div class="shots-nav" aria-hidden="true">
+      <button class="shots-arrow" type="button" data-shots-prev aria-label="Previous screenshot">‹</button>
+      <div class="shots-dots" role="tablist" aria-label="Choose screenshot">
+        <button type="button" data-shots-dot="0" aria-current="true" aria-label="Screenshot 1 of 3"></button>
+        <button type="button" data-shots-dot="1" aria-label="Screenshot 2 of 3"></button>
+        <button type="button" data-shots-dot="2" aria-label="Screenshot 3 of 3"></button>
+      </div>
+      <button class="shots-arrow" type="button" data-shots-next aria-label="Next screenshot">›</button>
     </div>
   </section>
 
@@ -325,13 +473,111 @@
   </section>
 
   <div class="legal-strip">
-    <a href="/privacy/">App Privacy</a>
-    <a href="/datenschutz/">Datenschutz (Website)</a>
-    <a href="/impressum/">Impressum</a>
-    <a href="https://pixel-paladin.de">Pixel Paladin</a>
+    <a href="/projects/colorbench/privacy/">App Privacy</a>
+    <a href="/projects/colorbench/datenschutz/">Datenschutz (Website)</a>
+    <a href="/projects/colorbench/impressum/">Impressum</a>
+    <a href="/">Pixel Paladin</a>
     <a href="mailto:hi@pixel-paladin.de">Contact</a>
   </div>
 </div>
+
+<dialog id="lightbox" aria-label="Screenshot preview">
+  <button class="lightbox-close" type="button" data-lightbox-close aria-label="Close preview">×</button>
+  <div class="lightbox-inner" data-lightbox-dismiss>
+    <img alt="" />
+  </div>
+</dialog>
+
+<script>
+(function () {
+  // ---------- Carousel (mobile only; desktop uses CSS grid) ----------
+  var grid = document.querySelector('.shots-grid');
+  var prev = document.querySelector('[data-shots-prev]');
+  var next = document.querySelector('[data-shots-next]');
+  var dots = Array.prototype.slice.call(document.querySelectorAll('[data-shots-dot]'));
+  var slides = grid ? Array.prototype.slice.call(grid.children) : [];
+
+  function isCarouselActive() { return window.matchMedia('(max-width: 720px)').matches; }
+
+  function activeIndex() {
+    if (!grid) return 0;
+    var x = grid.scrollLeft + grid.clientWidth / 2;
+    var best = 0;
+    var bestDist = Infinity;
+    slides.forEach(function (slide, i) {
+      var c = slide.offsetLeft + slide.clientWidth / 2;
+      var d = Math.abs(c - x);
+      if (d < bestDist) { bestDist = d; best = i; }
+    });
+    return best;
+  }
+
+  function syncControls() {
+    if (!isCarouselActive()) return;
+    var idx = activeIndex();
+    dots.forEach(function (d, i) {
+      if (i === idx) d.setAttribute('aria-current', 'true');
+      else d.removeAttribute('aria-current');
+    });
+    if (prev) prev.disabled = idx <= 0;
+    if (next) next.disabled = idx >= slides.length - 1;
+  }
+
+  function scrollToIndex(i) {
+    if (!grid || !slides[i]) return;
+    var slide = slides[i];
+    var target = slide.offsetLeft - (grid.clientWidth - slide.clientWidth) / 2;
+    grid.scrollTo({ left: target, behavior: 'smooth' });
+  }
+
+  if (grid) {
+    grid.addEventListener('scroll', function () {
+      window.requestAnimationFrame(syncControls);
+    }, { passive: true });
+  }
+  if (prev) prev.addEventListener('click', function () { scrollToIndex(activeIndex() - 1); });
+  if (next) next.addEventListener('click', function () { scrollToIndex(activeIndex() + 1); });
+  dots.forEach(function (d) {
+    d.addEventListener('click', function () {
+      scrollToIndex(parseInt(d.getAttribute('data-shots-dot'), 10));
+    });
+  });
+  window.addEventListener('resize', syncControls);
+  syncControls();
+
+  // ---------- Lightbox ----------
+  var dlg = document.getElementById('lightbox');
+  var dlgImg = dlg ? dlg.querySelector('img') : null;
+  var dlgClose = dlg ? dlg.querySelector('[data-lightbox-close]') : null;
+  var dlgDismiss = dlg ? dlg.querySelector('[data-lightbox-dismiss]') : null;
+  var triggers = document.querySelectorAll('.shot-trigger');
+
+  function openLightbox(src, alt) {
+    if (!dlg || !dlgImg || typeof dlg.showModal !== 'function') return;
+    dlgImg.src = src;
+    dlgImg.alt = alt || '';
+    dlg.showModal();
+  }
+  function closeLightbox() {
+    if (!dlg) return;
+    if (dlg.open) dlg.close();
+    if (dlgImg) { dlgImg.src = ''; dlgImg.alt = ''; }
+  }
+
+  triggers.forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      var img = btn.querySelector('img');
+      if (!img) return;
+      openLightbox(img.currentSrc || img.src, img.alt);
+    });
+  });
+  if (dlgClose) dlgClose.addEventListener('click', closeLightbox);
+  if (dlgDismiss) dlgDismiss.addEventListener('click', function (e) {
+    if (e.target === dlgDismiss) closeLightbox();
+  });
+  if (dlg) dlg.addEventListener('cancel', closeLightbox); // ESC key
+})();
+</script>
 
 </body>
 </html>
