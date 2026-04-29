@@ -89,9 +89,9 @@
   }
   .shots-grid {
     display: grid;
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-    gap: 20px;
-    max-width: 640px;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 16px;
+    max-width: 760px;
     margin: 0 auto;
   }
   .shot {
@@ -415,30 +415,37 @@
   <section class="shots" aria-label="Screenshots">
     <div class="shots-grid" role="region" aria-roledescription="carousel" aria-label="App screenshots">
       <figure class="shot">
+        <button class="shot-trigger" type="button" aria-label="Open larger preview: Select colours you own">
+          <img src="/ds/assets/colorbench/03-paints.png" alt="Select the paints you own across 7 brands so the match engine knows your collection" loading="lazy"/>
+        </button>
+        <figcaption class="cap"><strong>01</strong> Select colours you own</figcaption>
+      </figure>
+      <figure class="shot">
         <button class="shot-trigger" type="button" aria-label="Open larger preview: Browse the catalogue">
           <img src="/ds/assets/colorbench/01-browser.png" alt="Browse 65 curated palettes with mood, warmth and faction filters" loading="lazy"/>
         </button>
-        <figcaption class="cap"><strong>01</strong> Browse the catalogue</figcaption>
+        <figcaption class="cap"><strong>02</strong> Browse the catalogue</figcaption>
+      </figure>
+      <figure class="shot">
+        <button class="shot-trigger" type="button" aria-label="Open larger preview: Check the details">
+          <img src="/ds/assets/colorbench/02-detail.png" alt="Check the details of a palette — colours, brand assignments, and reference imagery" loading="lazy"/>
+        </button>
+        <figcaption class="cap"><strong>03</strong> Check the details</figcaption>
       </figure>
       <figure class="shot">
         <button class="shot-trigger" type="button" aria-label="Open larger preview: Match what you own">
           <img src="/ds/assets/colorbench/04-match.png" alt="Match the closest paints from your collection using CIEDE2000 colour distance" loading="lazy"/>
         </button>
-        <figcaption class="cap"><strong>02</strong> Match what you own</figcaption>
-      </figure>
-      <figure class="shot">
-        <button class="shot-trigger" type="button" aria-label="Open larger preview: Save to a project">
-          <img src="/ds/assets/colorbench/05-project.png" alt="Save palettes to a hobby project with notes and creation dates" loading="lazy"/>
-        </button>
-        <figcaption class="cap"><strong>03</strong> Save to a project</figcaption>
+        <figcaption class="cap"><strong>04</strong> Match what you own</figcaption>
       </figure>
     </div>
     <div class="shots-nav" aria-hidden="true">
       <button class="shots-arrow" type="button" data-shots-prev aria-label="Previous screenshot">‹</button>
       <div class="shots-dots" role="tablist" aria-label="Choose screenshot">
-        <button type="button" data-shots-dot="0" aria-current="true" aria-label="Screenshot 1 of 3"></button>
-        <button type="button" data-shots-dot="1" aria-label="Screenshot 2 of 3"></button>
-        <button type="button" data-shots-dot="2" aria-label="Screenshot 3 of 3"></button>
+        <button type="button" data-shots-dot="0" aria-current="true" aria-label="Screenshot 1 of 4"></button>
+        <button type="button" data-shots-dot="1" aria-label="Screenshot 2 of 4"></button>
+        <button type="button" data-shots-dot="2" aria-label="Screenshot 3 of 4"></button>
+        <button type="button" data-shots-dot="3" aria-label="Screenshot 4 of 4"></button>
       </div>
       <button class="shots-arrow" type="button" data-shots-next aria-label="Next screenshot">›</button>
     </div>
