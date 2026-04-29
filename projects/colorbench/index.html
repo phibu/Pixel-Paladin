@@ -48,8 +48,12 @@
 <link rel="stylesheet" href="/ds/colors_and_type.css"/>
 <link rel="stylesheet" href="/ds/page.css"/>
 <style>
-  .page { max-width: 820px; margin: 0 auto; padding: 40px 32px 80px; }
-  .hero { padding: 48px 0 32px; }
+  .page { max-width: 1200px; margin: 0 auto; padding: 40px 32px 80px; }
+  /* Topbar extends to full 1200px page width; everything below the
+     topbar caps at 820px for readable line-length and consistent
+     visual rhythm. */
+  .crumbs { max-width: 820px; margin-left: auto; margin-right: auto; }
+  .hero { padding: 48px 0 32px; max-width: 820px; margin: 0 auto; }
   .hero .eyebrow { margin-bottom: 14px; }
   .hero h1 {
     font-family: var(--pp-font-display);
@@ -84,7 +88,8 @@
   .btns { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 8px; }
 
   .shots {
-    margin: 48px 0 16px;
+    max-width: 820px;
+    margin: 48px auto 16px;
     position: relative;
   }
   .shots-grid {
@@ -265,7 +270,8 @@
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     gap: 16px;
-    margin: 40px 0 48px;
+    max-width: 820px;
+    margin: 40px auto 48px;
   }
   @media (max-width: 800px) {
     .feature-grid { grid-template-columns: repeat(2, 1fr); }
@@ -343,7 +349,8 @@
   .tester-box .btn { align-self: flex-start; }
 
   .legal-strip {
-    margin-top: 56px;
+    max-width: 820px;
+    margin: 56px auto 0;
     padding-top: 24px;
     border-top: 1px solid var(--pp-border);
     display: flex;

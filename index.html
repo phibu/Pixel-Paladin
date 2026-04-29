@@ -121,7 +121,7 @@
     margin-bottom: calc(40px * var(--tw-density));
   }
   .brand { display: flex; align-items: center; gap: 12px; }
-  .brand svg.mark { width: 36px; height: 36px; border-radius: var(--pp-radius-md); display: block; }
+  .brand svg.mark { border-radius: var(--pp-radius-md); }
   .brand .name {
     font-family: var(--pp-font-display);
     font-weight: 800;
@@ -148,23 +148,8 @@
     transition: color var(--pp-dur-fast) var(--pp-ease-out);
   }
   .topnav a:hover { color: var(--pp-fg); }
-  .topnav .theme-btn {
-    border: 1px solid var(--pp-border);
-    background: transparent;
-    color: var(--pp-fg-muted);
-    padding: 6px 10px;
-    border-radius: var(--pp-radius-sm);
-    font-family: var(--pp-font-mono);
-    font-size: 11px;
-    text-transform: uppercase;
-    letter-spacing: 0.12em;
-    cursor: pointer;
-    display: inline-flex; align-items: center; gap: 6px;
-    transition: all var(--pp-dur-fast) var(--pp-ease-out);
-  }
-  .topnav .theme-btn:hover { color: var(--pp-fg); border-color: var(--pp-border-strong); }
   @media (max-width: 720px) {
-    .topnav a:not(.primary):not(.theme-btn) { display: none; }
+    .topnav a:not(.primary) { display: none; }
   }
 
   /* ============================================================
@@ -917,10 +902,6 @@
       <a href="#workshop">Workshop</a>
       <a href="#projects">Projects</a>
       <a href="#contact">Contact</a>
-      <button class="theme-btn" id="themeBtn" type="button">
-        <i data-lucide="moon" style="width:12px;height:12px"></i>
-        <span id="themeLabel">Dark</span>
-      </button>
     </nav>
   </header>
 
@@ -1313,17 +1294,9 @@
   }
   function applyTheme(v) {
     document.body.classList.toggle('pp-dark', v === 'dark');
-    const btn = document.getElementById('themeBtn');
-    const lbl = document.getElementById('themeLabel');
-    const icon = btn.querySelector('[data-lucide]');
-    if (v === 'dark') {
-      lbl.textContent = 'Dark';
-      if (icon) icon.setAttribute('data-lucide','moon');
-    } else {
-      lbl.textContent = 'Light';
-      if (icon) icon.setAttribute('data-lucide','sun');
-    }
-    if (window.lucide) lucide.createIcons();
+    // The toggle button was removed from the topbar; this function is now
+    // a no-op past the body class flip, but tweaks-panel state-restore
+    // still calls it, so leave the body class line in place.
   }
   function applyAccent(v) {
     document.body.setAttribute('data-accent', v);
@@ -1389,12 +1362,6 @@
   document.getElementById('segHead').addEventListener('click', e => {
     const b = e.target.closest('button[data-v]'); if (b) setKey('headline', b.dataset.v);
   });
-
-  // Theme toggle in top bar (also persisted)
-  document.getElementById('themeBtn').addEventListener('click', () => {
-    setKey('theme', state.theme === 'dark' ? 'light' : 'dark');
-  });
-
 
   // ---------- Live-ish stats ----------
   // Uptime: counts from a fixed date (site launch). Format D:HH:MM:SS
