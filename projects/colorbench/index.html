@@ -131,7 +131,7 @@
   .feature-grid {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    gap: 8px 28px;
+    gap: 16px;
     margin: 40px 0 48px;
   }
   @media (max-width: 800px) {
@@ -141,7 +141,11 @@
     .feature-grid { grid-template-columns: 1fr; }
   }
   .feat {
-    padding: 20px 20px 20px 0;
+    border: 1px solid var(--pp-border);
+    border-radius: var(--pp-radius-md);
+    padding: 20px;
+    background: color-mix(in srgb, var(--pp-fg) 2%, transparent);
+    box-shadow: var(--pp-shadow-sm);
   }
   .feat h3 {
     font-family: var(--pp-font-display);
