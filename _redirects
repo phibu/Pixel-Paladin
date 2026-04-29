@@ -1,0 +1,9 @@
+# Cloudflare Pages _redirects
+# Docs: https://developers.cloudflare.com/pages/configuration/redirects/
+#
+# Colorbench used to live on a dedicated Pages project at
+# colorbench.pixel-paladin.de. It now lives as a sub-path of the main
+# site. The subdomain is kept as a 301 so any inbound link or bookmark
+# survives the move.
+
+https://colorbench.pixel-paladin.de/*  https://pixel-paladin.de/projects/colorbench/:splat  301
