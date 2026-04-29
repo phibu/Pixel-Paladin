@@ -199,6 +199,8 @@
   --pp-fg-subtle:     var(--pp-ink-400);
   --pp-fg-inverse:    var(--pp-ink-900);
   --pp-fg-brand:      var(--pp-red-400);
+  --pp-fg-brand-low:  #b33d36;          /* desaturated brand red — accent intensity LOW */
+  --pp-fg-brand-high: #ff3327;          /* saturated brand red — accent intensity HIGH */
 
   --pp-border:        #2a2825;
   --pp-border-strong: #3d3b37;

@@ -867,10 +867,10 @@
   }
   .tw-row input[type="range"] { width: 100%; accent-color: var(--pp-red-500); }
 
-  /* Accent intensity CSS impl — we fade red toward ink for lower accent */
-  body[data-accent="low"]  { --pp-fg-brand: #b33d36; }
+  /* Accent intensity CSS impl — references DS tokens promoted into colors_and_type.css */
+  body[data-accent="low"]  { --pp-fg-brand: var(--pp-fg-brand-low); }
   body[data-accent="med"]  { /* default */ }
-  body[data-accent="high"] { --pp-fg-brand: #ff3327; }
+  body[data-accent="high"] { --pp-fg-brand: var(--pp-fg-brand-high); }
 
   /* Subtle grid pattern used under the hero */
   .bg-grid {
