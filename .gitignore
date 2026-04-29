@@ -18,6 +18,7 @@ desktop.ini
 # AI workflow files (kept locally, not tracked)
 CLAUDE.md
 **/CLAUDE.md
+.superpowers/
 
 # Tool caches (future-proofing — not used today)
 .cache/
@@ -26,3 +27,6 @@ node_modules/
 
 # Local audit cache (canonical DS files pulled from Design-System repo)
 .ds-cache/
+
+#Backlog Data
+dev/
