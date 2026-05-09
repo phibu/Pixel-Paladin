@@ -1,0 +1,285 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>Changelog · The Mini Colorbench</title>
+<meta name="description" content="What's new in The Mini Colorbench. Plain-language release notes, newest first."/>
+<link rel="icon" href="/ds/assets/colorbench-favicon.svg" type="image/svg+xml"/>
+<link rel="stylesheet" href="/ds/colors_and_type.css"/>
+<link rel="stylesheet" href="/ds/page.css"/>
+<style>
+  .page { max-width: 820px; margin: 0 auto; padding: 40px 32px 80px; }
+  .prose h1 { font-family: var(--pp-font-display); font-size: clamp(32px, 5vw, 48px); letter-spacing: -0.02em; line-height: 1.05; margin: 0 0 8px; }
+  .prose h1 .accent { color: var(--pp-fg-brand); }
+  .prose .updated { font-family: var(--pp-font-mono); font-size: 12px; color: var(--pp-fg-muted); letter-spacing: 0.08em; text-transform: uppercase; margin: 0 0 24px; }
+  .prose .preamble { font-size: 14px; color: var(--pp-fg-muted); margin: 0 0 32px; }
+  .prose .preamble a { color: var(--pp-fg-muted); border-bottom: 1px solid var(--pp-border-strong); }
+  .prose .preamble a:hover { color: var(--pp-fg); border-bottom-color: var(--pp-fg-brand); }
+  .release {
+    border-top: 1px solid var(--pp-border);
+    padding-top: 28px;
+    margin-top: 36px;
+  }
+  .release:first-of-type { margin-top: 0; }
+  .release h2 {
+    font-family: var(--pp-font-display);
+    font-size: 24px;
+    letter-spacing: -0.01em;
+    margin: 0 0 4px;
+    display: flex;
+    align-items: baseline;
+    gap: 12px;
+    flex-wrap: wrap;
+  }
+  .release h2 .ver { color: var(--pp-fg-brand); }
+  .release h2 .date {
+    font-family: var(--pp-font-mono);
+    font-size: 12px;
+    font-weight: 400;
+    color: var(--pp-fg-muted);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+  .release .lede {
+    font-size: 14px;
+    color: var(--pp-fg-muted);
+    margin: 6px 0 18px;
+  }
+  .release h3 {
+    font-family: var(--pp-font-mono);
+    font-size: 11px;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.16em;
+    color: var(--pp-fg-muted);
+    margin: 18px 0 8px;
+  }
+  .release ul { padding-left: 20px; margin: 0 0 12px; }
+  .release li { font-size: 15px; line-height: 1.6; color: var(--pp-fg); margin: 4px 0; }
+  .release li strong { color: var(--pp-fg); }
+  .crumbs a { color: var(--pp-fg-muted); }
+  .crumbs a:hover { color: var(--pp-fg); }
+</style>
+</head>
+<body class="pp-root pp-dark">
+
+<div class="page">
+  <header class="topbar">
+    <a class="brand" href="/">
+      <svg class="mark" viewBox="0 0 256 256" shape-rendering="crispEdges">
+        <rect width="256" height="256" rx="24" fill="#111110"/>
+        <rect x="48" y="56" width="24" height="144" fill="#e51b10"/><rect x="72" y="56" width="48" height="24" fill="#e51b10"/><rect x="120" y="56" width="16" height="48" fill="#e51b10"/><rect x="72" y="104" width="48" height="16" fill="#e51b10"/>
+        <rect x="152" y="104" width="16" height="112" fill="#f7f6f5"/><rect x="168" y="104" width="40" height="16" fill="#f7f6f5"/><rect x="208" y="104" width="16" height="48" fill="#f7f6f5"/><rect x="168" y="152" width="40" height="16" fill="#f7f6f5"/>
+        <rect x="52" y="60" width="8" height="8" fill="#ff8780"/><rect x="76" y="60" width="8" height="8" fill="#ff8780"/>
+        <rect x="48" y="192" width="24" height="8" fill="#9a0a03"/>
+      </svg>
+      <div><div class="name">Pixel<span>Paladin</span></div><div class="sub">Workshop · Jülich, DE</div></div>
+    </a>
+    <nav class="topnav">
+      <a href="/#workshop">Workshop</a>
+      <a href="/#projects" class="active">Projects</a>
+      <a href="/#contact">Contact</a>
+    </nav>
+  </header>
+
+  <div class="crumbs"><a href="/">Home</a><span class="sep">/</span><a href="/projects/colorbench/">Colorbench</a><span class="sep">/</span>Changelog</div>
+
+  <article class="prose">
+    <h1>What's <span class="accent">new.</span></h1>
+    <p class="updated">The Mini Colorbench · plain-language release notes</p>
+    <p class="preamble">The format is based on <a href="https://keepachangelog.com/en/1.1.0/">Keep a Changelog 1.1.0</a>, and this project adheres to <a href="https://semver.org/spec/v2.0.0.html">Semantic Versioning</a>. Newest first. The full developer changelog lives <a href="https://github.com/phibu/the-mini-colorbench/blob/master/CHANGELOG.md">on GitHub</a>.</p>
+
+    <section class="release">
+      <h2><span class="ver">v1.6.0</span> <span class="date">2026-05-08</span></h2>
+      <p class="lede">A bigger one. Two new Home cards and the first features that talk to the internet — both opt-in.</p>
+
+      <h3>Added</h3>
+      <ul>
+        <li><strong>"Your stats" card on Home.</strong> A quick personal snapshot — most-owned brand, most-viewed palette, palette views this month. Computed on your phone; nothing leaves the device.</li>
+        <li><strong>"Community" card on Home.</strong> Opt-in. If you tap "Opt in" on the consent screen, the app shares anonymous, counts-only data once a day so we can show the top community paints. Default is off; turn it on or off any time from Settings → Share anonymous stats.</li>
+        <li><strong>In-app feedback form.</strong> Settings → Send feedback. Pick Bug / Idea / Other, type a note, hit Submit. Faster than a mailto.</li>
+      </ul>
+
+      <h3>Changed</h3>
+      <ul>
+        <li><strong>Privacy policy v2.0</strong> covering both new opt-in features. Default behaviour is unchanged: nothing leaves your phone unless you explicitly opt in.</li>
+      </ul>
+    </section>
+
+    <section class="release">
+      <h2><span class="ver">v1.5.6</span> <span class="date">2026-05-08</span></h2>
+      <p class="lede">Plumbing release. No visible changes — but paints now have permanent IDs so future updates can never break the paints you've marked owned.</p>
+    </section>
+
+    <section class="release">
+      <h2><span class="ver">v1.5.5</span> <span class="date">2026-05-08</span></h2>
+      <h3>Added</h3>
+      <ul>
+        <li><strong>Citadel and Vallejo catalogues expanded</strong> with paints sourced from painthoarder.com.</li>
+      </ul>
+      <h3>Changed</h3>
+      <ul>
+        <li>Settings tab header now sits at the same height as every other tab — small but it bothered us.</li>
+        <li>Bottom sheets are now properly announced as dialogs to screen readers.</li>
+      </ul>
+    </section>
+
+    <section class="release">
+      <h2><span class="ver">v1.5.4</span> <span class="date">2026-05-07</span></h2>
+      <h3>Added</h3>
+      <ul>
+        <li><strong>20 new palettes (251–270)</strong> filling underrepresented mood and genre combinations.</li>
+        <li><strong>Swipe between palettes</strong> on Palette Detail — left/right swipe walks the current filtered list.</li>
+        <li><strong>Pinch-to-zoom on the hero image</strong> with double-tap to reset.</li>
+      </ul>
+      <h3>Changed</h3>
+      <ul>
+        <li>Refreshed reference photos for palettes 205 (Goff Black), 245 (Sigil & Ash), and 249 (Smasha Forge).</li>
+      </ul>
+    </section>
+
+    <section class="release">
+      <h2><span class="ver">v1.5.3</span> <span class="date">2026-05-07</span></h2>
+      <h3>Added</h3>
+      <ul>
+        <li><strong>Save-to-project confirmation toast.</strong> A small "Saved" pill so you know the tap actually did something.</li>
+      </ul>
+      <h3>Fixed</h3>
+      <ul>
+        <li>"No projects yet" empty state now lines up correctly.</li>
+      </ul>
+    </section>
+
+    <section class="release">
+      <h2><span class="ver">v1.5.2</span> <span class="date">2026-05-05</span></h2>
+      <h3>Fixed</h3>
+      <ul>
+        <li>Palette Detail no longer crashes on cold start when opened from Palette of the Day.</li>
+        <li>Paint suggestions no longer hide the best matches when one of your owned paints is a poor match.</li>
+        <li>Palette ownership badge (X/5) now matches what you see in detail view.</li>
+        <li>Project Detail recovers gracefully if a project's data is malformed.</li>
+      </ul>
+    </section>
+
+    <section class="release">
+      <h2><span class="ver">v1.5.1</span> <span class="date">2026-05-04</span></h2>
+      <h3>Fixed</h3>
+      <ul>
+        <li>Cold-start crash on release builds.</li>
+        <li>Tip jar showed "Couldn't load tip options" on Play-installed builds.</li>
+      </ul>
+    </section>
+
+    <section class="release">
+      <h2><span class="ver">v1.5.0</span> <span class="date">2026-05-03</span></h2>
+      <h3>Added</h3>
+      <ul>
+        <li><strong>In-app tip jar.</strong> If the app is useful and you'd like to support it, you now can. Optional, never nags.</li>
+      </ul>
+    </section>
+
+    <section class="release">
+      <h2><span class="ver">v1.4.1</span> <span class="date">2026-05-03</span></h2>
+      <h3>Fixed</h3>
+      <ul>
+        <li>The soft keyboard no longer floats in front of the text field you're typing in.</li>
+        <li>The Projects tab now always opens to the project list.</li>
+      </ul>
+    </section>
+
+    <section class="release">
+      <h2><span class="ver">v1.4.0</span> <span class="date">2026-05-02</span></h2>
+      <h3>Added</h3>
+      <ul>
+        <li><strong>8 new palettes (243–250).</strong></li>
+        <li><strong>Pro Acryl</strong> and <strong>The Army Painter — Warpaints Fanatic</strong> ranges added to the catalogue.</li>
+      </ul>
+      <h3>Removed</h3>
+      <ul>
+        <li>Citadel "Dry" range removed (the line was discontinued by GW).</li>
+      </ul>
+    </section>
+
+    <section class="release">
+      <h2><span class="ver">v1.3.0</span> <span class="date">2026-04-27</span></h2>
+      <h3>Added</h3>
+      <ul>
+        <li><strong>Help button with onboarding tips</strong> for first-time users.</li>
+      </ul>
+      <h3>Changed</h3>
+      <ul>
+        <li>Browse palettes now sort alphabetically by name (was: catalogue order).</li>
+        <li>Home screen header redesigned to a brand mark.</li>
+        <li>Palette browser cards now show the reference image.</li>
+        <li>Palette reference images converted from PNG to WebP — smaller download, same quality.</li>
+        <li>Palettes screen now respects the device's top safe area.</li>
+      </ul>
+      <h3>Removed</h3>
+      <ul>
+        <li>"Painting style" filter dimension (it overlapped too heavily with mood and genre).</li>
+      </ul>
+      <h3>Fixed</h3>
+      <ul>
+        <li>Help button no longer crashes the app on Android.</li>
+      </ul>
+    </section>
+
+    <section class="release">
+      <h2><span class="ver">v1.2.0</span> <span class="date">2026-04-27</span></h2>
+      <h3>Added</h3>
+      <ul>
+        <li><strong>Palette of the Day.</strong> One curated palette surfaced on Home each day.</li>
+        <li><strong>Paint Detail cross-brand matches.</strong> See the closest paint in every other supported brand.</li>
+        <li><strong>Hero reference image</strong> on Palette of the Day.</li>
+        <li><strong>Tappable saved palettes</strong> in Project Detail — jump straight to the palette.</li>
+        <li><strong>Haptic feedback</strong> on key actions.</li>
+        <li><strong>Mood pill on Browse cards</strong> for at-a-glance scanning.</li>
+        <li><strong>8 new VIP palettes (235–242).</strong></li>
+        <li>Square colour chips and a more consistent main-screen header across tabs.</li>
+      </ul>
+    </section>
+
+    <section class="release">
+      <h2><span class="ver">v1.1.0</span> <span class="date">2026-04-24</span></h2>
+      <h3>Added</h3>
+      <ul>
+        <li><strong>Palette reference photos</strong> on every palette card.</li>
+        <li><strong>Paint catalogue expanded to 7 brands</strong> (added Reaper MSP/HD/Pro, Formula P3, Coat d'Arms, Two Thin Coats).</li>
+        <li><strong>Paint Collection</strong> screen — mark which paints you actually own.</li>
+        <li><strong>Project Detail</strong> screen.</li>
+        <li><strong>Credits screen.</strong></li>
+        <li>"Contribute palette images" entry in Settings.</li>
+      </ul>
+      <h3>Removed</h3>
+      <ul>
+        <li>Metal-colour palette entries (didn't reproduce well in print or on screen).</li>
+      </ul>
+      <h3>Fixed</h3>
+      <ul>
+        <li>Palette Browser brand filter chips behave correctly.</li>
+        <li>Palette Detail now reflects owned paints reliably.</li>
+      </ul>
+    </section>
+
+    <section class="release">
+      <h2><span class="ver">v1.0.0</span> <span class="date">2026-04-22</span></h2>
+      <p class="lede">First public release. Closed beta on Google Play (Android).</p>
+      <h3>Added</h3>
+      <ul>
+        <li><strong>Palette browser</strong> — 65 curated palettes at launch.</li>
+        <li><strong>Palette detail</strong> with colour breakdown and metadata.</li>
+        <li><strong>Paint collection</strong> with three founding brands (Citadel, Vallejo, Scale75).</li>
+        <li><strong>CIEDE2000 match engine</strong> finding the closest paint you own to a target colour.</li>
+        <li><strong>Projects</strong> for grouping palettes and paints.</li>
+        <li><strong>Random Draw</strong> for the indecisive.</li>
+        <li><strong>Settings</strong> screen, splash screen, bottom-tab navigation, and signed Android release build.</li>
+        <li>Local-first persistence — everything stays on your phone.</li>
+        <li>Initial privacy policy.</li>
+      </ul>
+    </section>
+  </article>
+</div>
+
+</body>
+</html>

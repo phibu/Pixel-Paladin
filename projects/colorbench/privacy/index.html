@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>Privacy Policy · My Mini Colorbench</title>
-<meta name="description" content="Privacy policy for My Mini Colorbench — the companion app for miniature painters. No tracking, no accounts, no data collection."/>
+<title>Privacy Policy · The Mini Colorbench</title>
+<meta name="description" content="Privacy policy for The Mini Colorbench — the companion app for miniature painters. Default no collection; opt-in anonymous community stats from v1.6.0."/>
 <link rel="icon" href="/ds/assets/colorbench-favicon.svg" type="image/svg+xml"/>
 <link rel="stylesheet" href="/ds/colors_and_type.css"/>
 <link rel="stylesheet" href="/ds/page.css"/>
@@ -30,6 +30,7 @@
   }
   .tldr .eyebrow { margin-bottom: 6px; }
   .tldr p { margin: 0; }
+  .tldr p + p { margin-top: 10px; }
   .crumbs a { color: var(--pp-fg-muted); }
   .crumbs a:hover { color: var(--pp-fg); }
 </style>
@@ -59,11 +60,12 @@
 
   <article class="prose">
     <h1>Privacy <span class="accent">Policy.</span></h1>
-    <p class="updated">Last updated 2026-04-24 · Version 1.0 · The Mini Colorbench</p>
+    <p class="updated">Last updated 2026-05-09 · Version 2.0 (effective from app v1.6.0) · The Mini Colorbench</p>
 
     <div class="tldr">
       <div class="eyebrow"><span class="dot"></span> TL;DR</div>
-      <p><strong>We don't collect any personal data.</strong> The app runs entirely on your device. No data leaves your phone.</p>
+      <p><strong>By default, we still collect nothing.</strong> v1.6.0 adds an <strong>opt-in</strong> community-stats feature. The app shows a one-time consent screen on first launch with a green "Opt in" button and a smaller "No thanks" button. If — and only if — you tap "Opt in" (now or later via Settings → Share anonymous stats), the app sends counts-only, anonymous data once a day. You can opt back out at any time from the same Settings toggle. Everything else still runs entirely on your device.</p>
+      <p>If you tap "No thanks" on the consent screen — or never opt in via Settings — this policy reads exactly the same as v1.0.</p>
     </div>
 
     <h2>Who we are</h2>
@@ -71,53 +73,103 @@
     <p>
       <strong>Philipp Buchwald</strong> (trading as Pixel Paladin)<br/>
       Contact: <a href="mailto:hi@pixel-paladin.de">hi@pixel-paladin.de</a><br/>
+      Support: <a href="mailto:support@pixel-paladin.de">support@pixel-paladin.de</a><br/>
       Website: <a href="https://pixel-paladin.de">pixel-paladin.de</a>
     </p>
 
     <h2>What the app does</h2>
-    <p>The Mini Colorbench is a companion app for miniature painters. It stores palettes, paint collections, hobby projects, and notes <strong>locally on your device</strong>. We do not have a backend server. Your data never leaves your phone unless you explicitly export it.</p>
+    <p>The Mini Colorbench is a companion app for miniature painters. It stores palettes, paint collections, hobby projects, and notes <strong>locally on your device</strong>. We do not have a user database. Your data never leaves your phone unless you explicitly:</p>
+    <ul>
+      <li>export it (manual share-out from a settings action — we never see the export), OR</li>
+      <li>send us feedback via the in-app feedback form (you choose what to write), OR</li>
+      <li>opt in to community stats (anonymous counts only — see below).</li>
+    </ul>
 
     <h2>Data we collect</h2>
 
-    <h3>1. Nothing about you</h3>
+    <h3>1. Nothing about you (default state)</h3>
     <ul>
-      <li>We do not collect your name, email, phone number, address, IP address, location, or any other identifying information.</li>
-      <li>We do not require an account.</li>
-      <li>The app does not track your behavior (no analytics, no ads, no fingerprinting, no advertising ID).</li>
-      <li>The app does not sell or share any data, because it has no data to share.</li>
+      <li>No name, email, phone number, address, IP address, location, or other identifying information.</li>
+      <li>No account, no login.</li>
+      <li>No behavior tracking (no analytics, no ads, no fingerprinting, no advertising ID).</li>
+      <li>No selling or sharing of data, because there is no personal data to share.</li>
     </ul>
 
-    <h3>2. Crash diagnostics</h3>
-    <p>v1.0 collects nothing at all. A future version may add anonymous crash diagnostics; we'll update this policy before that ships.</p>
+    <h3>2. Anonymous community stats — opt-in, default OFF</h3>
+    <p>The app shows a consent screen on first launch explaining what gets shared, with a green "Opt in" button and a smaller "No thanks" button. Both choices are persisted; the consent screen never shows again. The choice can be flipped at any time from <strong>Settings → Share anonymous stats</strong> (a Switch). Telemetry is <strong>off by default</strong> until you actively opt in.</p>
+    <p><strong>What gets sent</strong> (only when opted in, at most once per 24 hours):</p>
+    <ul>
+      <li>A <strong>one-way hash</strong> of a per-install random ID. This is computed on your device using SHA-256 and the original ID never leaves the device. Two installs of the app — even on the same phone — produce different hashes. The hash cannot be reversed to identify you.</li>
+      <li><strong>Ownership counts</strong> — for each paint you've marked as owned, a row of <code>{paint id: 1}</code>. No paint names, no order of acquisition, no timestamps.</li>
+      <li><strong>Palette view counts</strong> — for each palette you've opened, a row of <code>{palette id: count}</code>. No timestamps.</li>
+      <li><strong>App version</strong> — the version string of the app you're running, e.g. <code>1.6.0</code>.</li>
+    </ul>
+    <p><strong>What never gets sent, opted-in or not:</strong></p>
+    <ul>
+      <li>Your name, email, IP address, advertising ID, device serial, or any other identifier.</li>
+      <li>Precise location, fine-grained timestamps, your typed notes, your project names, your photos.</li>
+      <li>Mix recipes, custom palette names, anything you wrote yourself.</li>
+      <li>Per-event logs — we never know <strong>when</strong> you opened a palette, only <strong>how many</strong> times in the lifetime of the install.</li>
+    </ul>
+    <p>The data lives on a server in the EU (Frankfurt) operated by Supabase Inc., on our behalf, under a standard data processor agreement. We use the data only to compute community-wide aggregates (the "top community paints" list shown on <strong>Settings → Community stats</strong>). Individual rows are not analyzed, not sold, and not shared.</p>
+    <p>You can <strong>opt back out at any time</strong> via the <strong>Settings → Share anonymous stats</strong> Switch. Turning it off prompts a confirmation explaining why the counts help shape the catalogue; tapping "Turn off" stops all future sends immediately. Past anonymous rows remain in the aggregate (we cannot identify which rows were yours), but no further data leaves your device.</p>
+    <p>You can also see exactly what would be sent, in human-readable form, on the <strong>Settings → Community stats</strong> screen. The "What you share" card lists the counts that telemetry would carry: paints owned (with per-brand breakdown), palettes viewed, the truncated install-id hash, and the app version.</p>
 
-    <h3>3. Google Play Store</h3>
+    <h3>3. In-app feedback form — explicit, per-submission</h3>
+    <p>When you tap <strong>Settings → Send feedback</strong> and submit the form, the app sends:</p>
+    <ul>
+      <li>The text you typed.</li>
+      <li>A type tag (<code>bug</code>, <code>idea</code>, or <code>other</code>) you selected.</li>
+      <li>The same one-way install-id hash described above (lets us correlate multiple submissions from the same install if you write back a clarification — but never identifies you).</li>
+      <li>App version, Android version, device model — so we can reproduce bugs on the same configuration.</li>
+    </ul>
+    <p>The form makes the device-info disclosure visible above the Submit button. <strong>No automatic sends; nothing leaves the device until you hit Submit.</strong></p>
+    <p>Feedback rows live in the same Supabase region (EU/Frankfurt) under the same processor agreement. We read them to triage bugs and reply to ideas. We don't share or sell them.</p>
+
+    <h3>4. Crash diagnostics — still none</h3>
+    <p>v1.6.0 still does not collect crash reports automatically. If we add Sentry-style crash reporting later, we'll update this policy and disclose it in the in-app About screen + the release notes.</p>
+
+    <h3>5. Google Play Store</h3>
     <p>When you install the app from Google Play, Google collects standard install telemetry under <a href="https://policies.google.com/privacy" target="_blank" rel="noopener">Google's Privacy Policy</a>. We do not control this and we do not see your individual install/uninstall data — only aggregated counts.</p>
 
     <h2>Data we do not collect</h2>
     <ul>
-      <li>Analytics about feature usage</li>
+      <li>Analytics about feature usage <strong>outside the opt-in counts above</strong> (no per-screen view tracking, no event funnels, no time-spent metrics)</li>
       <li>Advertising data</li>
       <li>Device contacts, calendar, photos, or files (the app does not request these permissions)</li>
       <li>Microphone, camera, or location (the app does not request these permissions)</li>
     </ul>
 
+    <h2>Where the data lives</h2>
+    <ul>
+      <li><strong>Default mode (opt-in OFF):</strong> entirely on your phone, in app-private storage. Uninstalling the app removes it all.</li>
+      <li><strong>Opt-in community stats:</strong> Supabase Inc. (eu-central-1, Frankfurt, Germany). Standard processor terms; data not linked to anything that identifies you.</li>
+      <li><strong>Feedback submissions:</strong> same as above.</li>
+    </ul>
+
     <h2>Your rights under GDPR</h2>
     <p>As an EU/EEA user, you have the right to:</p>
     <ul>
-      <li><strong>Access</strong> — request a copy of any data we have about you. (In practice: we have none — v1.0 doesn't collect anything.)</li>
-      <li><strong>Deletion</strong> — request deletion of any data. (Same caveat — there's nothing to delete.)</li>
-      <li><strong>Object / Opt-out</strong> — not applicable; no data is collected.</li>
+      <li><strong>Access</strong> — request a copy of any data we have about you. Because everything we collect is keyed only by the irreversible install-id hash, we cannot identify your individual rows from your real-world identity. If you can supply the hash (it lives only on your device — we'd guide you through obtaining it via Settings → Clear all local data → "show install id hash"), we can return any matching rows.</li>
+      <li><strong>Deletion</strong> — same caveat. Provide the hash, we'll delete all matching rows. Or simply uninstall + reinstall the app, which generates a fresh install id and you stop being part of any future aggregates.</li>
+      <li><strong>Object / Opt-out</strong> — flip <strong>Settings → Share anonymous stats</strong> off (the app will ask you to confirm). Email us at <a href="mailto:support@pixel-paladin.de">support@pixel-paladin.de</a> if you'd like all rows associated with your install hash deleted.</li>
       <li><strong>Lodge a complaint</strong> — with your national data protection authority. The German supervisory authority is the <a href="https://www.bfdi.bund.de" target="_blank" rel="noopener">BfDI</a>.</li>
     </ul>
 
     <h2>Children</h2>
-    <p>The app is rated for general audiences (PEGI 3 / IARC Everyone). We do not knowingly collect data from children under 13. Because we do not collect data from anyone, this is automatic.</p>
+    <p>The app is rated for general audiences (PEGI 3 / IARC Everyone). We do not knowingly collect data from children under 13. The opt-in flow requires an explicit tap on a button labelled "Opt in" on the consent screen, and is in no way required to use the app — tapping "No thanks" lets the user proceed with no telemetry.</p>
 
     <h2>Changes to this policy</h2>
-    <p>If we update this policy, we will change the "Last updated" date at the top and note the change in the app's About screen. Material changes will be announced in the app's release notes on Google Play.</p>
+    <p>If we update this policy, we will change the "Last updated" date at the top and note the change in the app's About screen. Material changes — including any expansion of what gets sent under opt-in mode — will be announced in the app's release notes on Google Play.</p>
+
+    <h2>Changelog</h2>
+    <ul>
+      <li><strong>v2.0 (2026-05-09, effective from app v1.6.0):</strong> Added section 2 (opt-in community stats) and section 3 (in-app feedback form). Both are opt-in/explicit per submission. The opt-in flow uses a first-launch consent screen + a Settings → Share anonymous stats Switch (with confirmation when turning off). The Settings → Community stats screen exposes a "What you share" preview so users can see exactly what counts would be sent before flipping the toggle. Updated the GDPR rights section to describe how the install-id hash interacts with access/deletion requests.</li>
+      <li><strong>v1.0 (2026-04-24, effective from app v1.0.0):</strong> Initial policy. Local-only, no data collection.</li>
+    </ul>
 
     <h2>Contact</h2>
-    <p>Questions about privacy? Email <a href="mailto:hi@pixel-paladin.de">hi@pixel-paladin.de</a>.</p>
+    <p>Questions about privacy? Email <a href="mailto:support@pixel-paladin.de">support@pixel-paladin.de</a>.</p>
   </article>
 </div>
 
