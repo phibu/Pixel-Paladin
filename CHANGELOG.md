@@ -4,6 +4,11 @@ User-facing changes to [pixel-paladin.de](https://pixel-paladin.de). Newest firs
 
 The format is based on [Keep a Changelog 1.1.0](https://keepachangelog.com/en/1.1.0/), and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.2.1] — 2026-05-10
+
+### Changed
+- Synced the public Colorbench changelog with the latest two app releases (v1.6.1 and v1.6.2). Refreshed the project card and landing page to show the current app version (v1.6.2) and palette count (96).
+
 ## [1.2] — 2026-05-10
 
 ### Added
