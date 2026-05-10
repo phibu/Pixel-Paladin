@@ -94,7 +94,7 @@
   }
   .shots-grid {
     display: grid;
-    grid-template-columns: repeat(4, minmax(0, 1fr));
+    grid-template-columns: repeat(3, minmax(0, 1fr));
     gap: 16px;
     max-width: 760px;
     margin: 0 auto;
@@ -447,14 +447,28 @@
         </button>
         <figcaption class="cap"><strong>04</strong> Match what you own</figcaption>
       </figure>
+      <figure class="shot">
+        <button class="shot-trigger" type="button" aria-label="Open larger preview: Save to a project">
+          <img src="/ds/assets/colorbench/05-project.png" alt="Save palettes and mix recipes to hobby projects so you can find them again later" loading="lazy"/>
+        </button>
+        <figcaption class="cap"><strong>05</strong> Save to a project</figcaption>
+      </figure>
+      <figure class="shot">
+        <button class="shot-trigger" type="button" aria-label="Open larger preview: Palette of the Day">
+          <img src="/ds/assets/colorbench/06-random.png" alt="Palette of the Day surfaces one curated palette per local calendar day" loading="lazy"/>
+        </button>
+        <figcaption class="cap"><strong>06</strong> Palette of the Day</figcaption>
+      </figure>
     </div>
     <div class="shots-nav" aria-hidden="true">
       <button class="shots-arrow" type="button" data-shots-prev aria-label="Previous screenshot">‹</button>
       <div class="shots-dots" role="tablist" aria-label="Choose screenshot">
-        <button type="button" data-shots-dot="0" aria-current="true" aria-label="Screenshot 1 of 4"></button>
-        <button type="button" data-shots-dot="1" aria-label="Screenshot 2 of 4"></button>
-        <button type="button" data-shots-dot="2" aria-label="Screenshot 3 of 4"></button>
-        <button type="button" data-shots-dot="3" aria-label="Screenshot 4 of 4"></button>
+        <button type="button" data-shots-dot="0" aria-current="true" aria-label="Screenshot 1 of 6"></button>
+        <button type="button" data-shots-dot="1" aria-label="Screenshot 2 of 6"></button>
+        <button type="button" data-shots-dot="2" aria-label="Screenshot 3 of 6"></button>
+        <button type="button" data-shots-dot="3" aria-label="Screenshot 4 of 6"></button>
+        <button type="button" data-shots-dot="4" aria-label="Screenshot 5 of 6"></button>
+        <button type="button" data-shots-dot="5" aria-label="Screenshot 6 of 6"></button>
       </div>
       <button class="shots-arrow" type="button" data-shots-next aria-label="Next screenshot">›</button>
     </div>
