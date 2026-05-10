@@ -4,6 +4,11 @@ User-facing changes to [pixel-paladin.de](https://pixel-paladin.de). Newest firs
 
 The format is based on [Keep a Changelog 1.1.0](https://keepachangelog.com/en/1.1.0/), and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.2] — 2026-05-10
+
+### Added
+- New **SBOM** page on the Colorbench project: a sortable, searchable table of every open-source package the app is built on, with versions and licenses. Linked from the Colorbench legal-strip.
+
 ## [1.1] — 2026-05-09
 
 ### Added
