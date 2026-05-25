@@ -91,6 +91,53 @@
     <p class="preamble">The format is based on <a href="https://keepachangelog.com/en/1.1.0/">Keep a Changelog 1.1.0</a>, and this project adheres to <a href="https://semver.org/spec/v2.0.0.html">Semantic Versioning</a>. Newest first.</p>
 
     <section class="release">
+      <h2><span class="ver">v1.9.0</span> <span class="date">2026-05-22</span></h2>
+      <p class="lede">The big one. We're out of closed beta — The Mini Colorbench is now live on Google Play for everyone.</p>
+
+      <h3>Added</h3>
+      <ul>
+        <li><strong>Your Stats screen, expanded.</strong> The single stats card is now split into two: a Collection card (most-owned brand, total paints owned, distinct brands, palettes saved across projects, most-saved palette) and an Activity card (most-viewed palette, palette views this month, current streak — consecutive days you opened a palette — and a "closest to complete" mini-list of the three palettes nearest to having every paint owned).</li>
+        <li>One new palette, bringing the catalogue total to <strong>106</strong>.</li>
+      </ul>
+
+      <h3>Changed</h3>
+      <ul>
+        <li><strong>Production launch.</strong> No more closed test — anyone can install The Mini Colorbench directly from Google Play.</li>
+        <li>Upgraded the underlying app framework to its newest stable release. You shouldn't notice anything except faster cold-start and fewer crashes.</li>
+      </ul>
+    </section>
+
+    <section class="release">
+      <h2><span class="ver">v1.8.0</span> <span class="date">2026-05-19</span></h2>
+      <p class="lede">Plumbing for a future share-and-jump-to-palette feature.</p>
+
+      <h3>Added</h3>
+      <ul>
+        <li>Foundation for <strong>deep links</strong> — opening a palette URL (from a future share sheet) will jump straight to that palette inside the app. Not user-visible yet; ground-laying for the next share feature.</li>
+      </ul>
+    </section>
+
+    <section class="release">
+      <h2><span class="ver">v1.7.0</span> <span class="date">2026-05-10</span></h2>
+
+      <h3>Added</h3>
+      <ul>
+        <li>New palette set: <strong>"Hanseong"</strong> (Korean palettes).</li>
+      </ul>
+
+      <h3>Changed</h3>
+      <ul>
+        <li><strong>Cleaner Android install screen.</strong> Removed two stale permissions (overlay / draw-over-other-apps and external-storage read/write) that the app didn't actually use. Means banking and password-manager apps no longer refuse to coexist, and the Play Store install screen shows a shorter permissions list.</li>
+        <li>Internal architecture cleanup — no visible difference, but several screens got faster and smaller behind the scenes.</li>
+      </ul>
+
+      <h3>Removed</h3>
+      <ul>
+        <li>Two unused feature stubs (mix-recipe and project-photo scaffolding) that never shipped. If either lands in a future release, they'll come back with a proper changelog entry.</li>
+      </ul>
+    </section>
+
+    <section class="release">
       <h2><span class="ver">v1.6.2</span> <span class="date">2026-05-10</span></h2>
       <p class="lede">Polish on top of v1.6.1.</p>
 

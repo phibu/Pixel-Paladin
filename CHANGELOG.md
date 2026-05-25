@@ -4,6 +4,16 @@ User-facing changes to [pixel-paladin.de](https://pixel-paladin.de). Newest firs
 
 The format is based on [Keep a Changelog 1.1.0](https://keepachangelog.com/en/1.1.0/), and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.3] — 2026-05-25
+
+### Added
+- New direct-install CTA on the Colorbench landing page — no more closed-test opt-in step.
+
+### Changed
+- **The Mini Colorbench is live.** Landing page, homepage card, Now panel, and JSON-LD metadata flipped from "Closed beta" to "Live on Google Play". Reflects the upstream app v1.9.0 production launch.
+- Synced the public Colorbench changelog with the user-facing highlights of v1.7.0, v1.8.0, and v1.9.0. Patch-level releases between (v1.7.1–v1.7.12, v1.8.1, v1.8.2) were internal-only and collapsed.
+- Refreshed palette count 96 → 106 across the landing page and homepage card.
+
 ## [1.2.2] — 2026-05-10
 
 ### Changed
