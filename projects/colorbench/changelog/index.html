@@ -91,6 +91,76 @@
     <p class="preamble">The format is based on <a href="https://keepachangelog.com/en/1.1.0/">Keep a Changelog 1.1.0</a>, and this project adheres to <a href="https://semver.org/spec/v2.0.0.html">Semantic Versioning</a>. Newest first.</p>
 
     <section class="release">
+      <h2><span class="ver">v2.1.1</span> <span class="date">2026-06-07</span></h2>
+      <p class="lede">Sign-in polish.</p>
+
+      <h3>Changed</h3>
+      <ul>
+        <li><strong>Account screen.</strong> Added a short helper note below the "Sign in with Google" button explaining the brief <code>supabase.co</code> address you see during the OAuth round-trip — and that data is stored in the EU (Frankfurt).</li>
+      </ul>
+
+      <h3>Fixed</h3>
+      <ul>
+        <li><strong>Google sign-in attaches to your existing in-app identity</strong> instead of creating a duplicate account on first sign-in. Users who first signed in during v2.0.0 or v2.1.0 are handled by a fallback that signs them in as their existing account.</li>
+      </ul>
+    </section>
+
+    <section class="release">
+      <h2><span class="ver">v2.1.0</span> <span class="date">2026-06-05</span></h2>
+      <p class="lede">Foundation for an upcoming community-photo feature. Wired but not yet exposed in the UI.</p>
+
+      <h3>Added</h3>
+      <ul>
+        <li><strong>Photo upload pipeline.</strong> The full path is in place under the hood: photos get EXIF metadata stripped on your device <em>before</em> they leave your phone, are resized to a thumbnail (~50 KB) and a mobile-sized version (~500 KB), and stored in the EU (Frankfurt) with a moderation gate. Per-account limits are 5 uploads per 24 hours and 50 total. <strong>No UI consumes this in v2.1</strong> — the upload surface lands in a later release. The privacy policy already covers the full behaviour.</li>
+      </ul>
+
+      <h3>Changed</h3>
+      <ul>
+        <li><strong>Privacy policy bumped to v4.0</strong> covering the new photo pipeline (EXIF stripping, two-size storage, quotas, moderation, cascade-delete on account deletion, explicit "no AI / no face recognition / no third-party sharing" clauses).</li>
+      </ul>
+    </section>
+
+    <section class="release">
+      <h2><span class="ver">v2.0.0</span> <span class="date">2026-06-03</span></h2>
+      <p class="lede">Optional Google sign-in lands. Foundation for upcoming community features.</p>
+
+      <h3>Added</h3>
+      <ul>
+        <li><strong>Account sign-in (Settings → Account).</strong> Optional sign-in with Google. Every existing feature continues to work without an account — signing in is opt-in and reserved for upcoming community features like a monthly palette competition. Apple Sign-In code is included for the future iOS build but the Android v2.0 build only shows the Google button.</li>
+        <li><strong>Account → Delete account.</strong> Hard-deletes your account, profile, and all local data on the device, satisfying GDPR right-to-erasure. Two-step confirmation: open the modal, type <code>DELETE</code>, then confirm. A dedicated <a href="/projects/colorbench/account-deletion/">Account deletion page</a> describes the flow in detail.</li>
+      </ul>
+
+      <h3>Changed</h3>
+      <ul>
+        <li><strong>Privacy policy bumped to v3.0</strong> covering OAuth data (display name, email, avatar URL) and the new account-deletion path.</li>
+        <li>Existing users continue using all v1.x features unchanged. If you never open Settings → Account, you see zero behaviour change.</li>
+      </ul>
+    </section>
+
+    <section class="release">
+      <h2><span class="ver">v1.9.3</span> <span class="date">2026-06-03</span></h2>
+      <p class="lede">Internal build and CI hardening. No user-visible behaviour change.</p>
+    </section>
+
+    <section class="release">
+      <h2><span class="ver">v1.9.2</span> <span class="date">2026-05-29</span></h2>
+
+      <h3>Removed</h3>
+      <ul>
+        <li><strong>Stripped a stray Android "draw over other apps" permission</strong> that was leaking from a debug-only manifest into the production build. Result: a shorter permissions list on the Play Store install screen and one less sensitive-permissions surface.</li>
+      </ul>
+    </section>
+
+    <section class="release">
+      <h2><span class="ver">v1.9.1</span> <span class="date">2026-05-26</span></h2>
+
+      <h3>Changed</h3>
+      <ul>
+        <li><strong>Palette Browser filter chips now show a cumulative match count</strong> (e.g. <code>Cold (12)</code>). The count updates as you tap chips so it's clear which selections widen vs. narrow the result set. Chips that would yield zero matches stay disabled and show <code>(0)</code>.</li>
+      </ul>
+    </section>
+
+    <section class="release">
       <h2><span class="ver">v1.9.0</span> <span class="date">2026-05-22</span></h2>
       <p class="lede">The big one. We're out of closed beta — The Mini Colorbench is now live on Google Play for everyone.</p>
 

@@ -4,7 +4,7 @@
 <meta charset="utf-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
 <title>Privacy Policy · The Mini Colorbench</title>
-<meta name="description" content="Privacy policy for The Mini Colorbench — the companion app for miniature painters. Default no collection; opt-in anonymous community stats from v1.6.0."/>
+<meta name="description" content="Privacy policy for The Mini Colorbench — covers optional Google/Apple sign-in, account deletion, opt-in community stats, and the on-device photo-upload pipeline. Default: nothing leaves your phone."/>
 <link rel="icon" href="/ds/assets/colorbench-favicon.svg" type="image/svg+xml"/>
 <link rel="stylesheet" href="/ds/colors_and_type.css"/>
 <link rel="stylesheet" href="/ds/page.css"/>
@@ -16,11 +16,12 @@
   .prose h2 { font-family: var(--pp-font-display); font-size: 22px; letter-spacing: -0.01em; margin: 40px 0 12px; padding-top: 20px; border-top: 1px solid var(--pp-border); }
   .prose h3 { font-family: var(--pp-font-display); font-size: 16px; margin: 24px 0 8px; }
   .prose p, .prose li { font-size: 15px; line-height: 1.65; color: var(--pp-fg); }
-  .prose ul { padding-left: 20px; }
+  .prose ul, .prose ol { padding-left: 20px; }
   .prose li { margin: 6px 0; }
   .prose a { color: var(--pp-fg-brand); border-bottom: 1px solid transparent; transition: border-color var(--pp-dur-fast) var(--pp-ease-out); }
   .prose a:hover { border-bottom-color: var(--pp-fg-brand); }
   .prose strong { color: var(--pp-fg); }
+  .prose code { font-family: var(--pp-font-mono); font-size: 13px; color: var(--pp-fg); background: color-mix(in srgb, var(--pp-fg) 6%, transparent); padding: 1px 6px; border-radius: 4px; }
   .tldr {
     border-left: 3px solid var(--pp-red-500);
     background: color-mix(in srgb, var(--pp-red-500) 6%, transparent);
@@ -60,12 +61,12 @@
 
   <article class="prose">
     <h1>Privacy <span class="accent">Policy.</span></h1>
-    <p class="updated">Last updated 2026-05-09 · Version 2.0 (effective from app v1.6.0) · The Mini Colorbench</p>
+    <p class="updated">Last updated 2026-06-05 · Version 4.0 (effective from app v2.1.0) · The Mini Colorbench</p>
 
     <div class="tldr">
       <div class="eyebrow"><span class="dot"></span> TL;DR</div>
-      <p><strong>By default, we still collect nothing.</strong> v1.6.0 adds an <strong>opt-in</strong> community-stats feature. The app shows a one-time consent screen on first launch with a green "Opt in" button and a smaller "No thanks" button. If — and only if — you tap "Opt in" (now or later via Settings → Share anonymous stats), the app sends counts-only, anonymous data once a day. You can opt back out at any time from the same Settings toggle. Everything else still runs entirely on your device.</p>
-      <p>If you tap "No thanks" on the consent screen — or never opt in via Settings — this policy reads exactly the same as v1.0.</p>
+      <p><strong>By default, we still collect nothing.</strong> v2.1.0 adds a <strong>photo upload pipeline</strong> that's wired in but <strong>not consumed by any UI in this release</strong> — foundation for an upcoming monthly palette competition. When a future release adds photo uploads to the app's surface, this policy already covers what happens (strip EXIF on-device, two-size WebP storage, per-user quotas, moderation gate, hard-delete on account deletion).</p>
+      <p>If you never tap a future upload button, this policy reads exactly the same as v3 — optional Google/Apple sign-in, anonymous opt-in telemetry, in-app feedback, local-first for everything else.</p>
     </div>
 
     <h2>Who we are</h2>
@@ -78,7 +79,7 @@
     </p>
 
     <h2>What the app does</h2>
-    <p>The Mini Colorbench is a companion app for miniature painters. It stores palettes, paint collections, hobby projects, and notes <strong>locally on your device</strong>. We do not have a user database. Your data never leaves your phone unless you explicitly:</p>
+    <p>The Mini Colorbench is a companion app for miniature painters. It stores palettes, paint collections, hobby projects, and notes <strong>locally on your device</strong>. As of v2.0.0, you can <strong>optionally</strong> sign in with Google or Apple to enable upcoming community features. Without an account, your data never leaves your phone unless you explicitly:</p>
     <ul>
       <li>export it (manual share-out from a settings action — we never see the export), OR</li>
       <li>send us feedback via the in-app feedback form (you choose what to write), OR</li>
@@ -96,75 +97,140 @@
     </ul>
 
     <h3>2. Anonymous community stats — opt-in, default OFF</h3>
-    <p>The app shows a consent screen on first launch explaining what gets shared, with a green "Opt in" button and a smaller "No thanks" button. Both choices are persisted; the consent screen never shows again. The choice can be flipped at any time from <strong>Settings → Share anonymous stats</strong> (a Switch). Telemetry is <strong>off by default</strong> until you actively opt in.</p>
+    <p>Unchanged from v2.0. The app shows a consent screen on first launch explaining what gets shared, with a green "Opt in" button and a smaller "No thanks" button. Both choices are persisted; the consent screen never shows again. The choice can be flipped at any time from <strong>Settings → Share anonymous stats</strong>. Telemetry is <strong>off by default</strong> until you actively opt in.</p>
     <p><strong>What gets sent</strong> (only when opted in, at most once per 24 hours):</p>
     <ul>
-      <li>A <strong>one-way hash</strong> of a per-install random ID. This is computed on your device using SHA-256 and the original ID never leaves the device. Two installs of the app — even on the same phone — produce different hashes. The hash cannot be reversed to identify you.</li>
+      <li>A <strong>one-way hash</strong> of a per-install random ID (SHA-256, computed on your device). The original ID never leaves the device. Two installs — even on the same phone — produce different hashes. The hash cannot be reversed to identify you.</li>
       <li><strong>Ownership counts</strong> — for each paint you've marked as owned, a row of <code>{paint id: 1}</code>. No paint names, no order of acquisition, no timestamps.</li>
       <li><strong>Palette view counts</strong> — for each palette you've opened, a row of <code>{palette id: count}</code>. No timestamps.</li>
-      <li><strong>App version</strong> — the version string of the app you're running, e.g. <code>1.6.0</code>.</li>
+      <li><strong>App version</strong> — the version string of the app you're running, e.g. <code>2.1.1</code>.</li>
     </ul>
-    <p><strong>What never gets sent, opted-in or not:</strong></p>
-    <ul>
-      <li>Your name, email, IP address, advertising ID, device serial, or any other identifier.</li>
-      <li>Precise location, fine-grained timestamps, your typed notes, your project names, your photos.</li>
-      <li>Mix recipes, custom palette names, anything you wrote yourself.</li>
-      <li>Per-event logs — we never know <strong>when</strong> you opened a palette, only <strong>how many</strong> times in the lifetime of the install.</li>
-    </ul>
-    <p>The data lives on a server in the EU (Frankfurt) operated by Supabase Inc., on our behalf, under a standard data processor agreement. We use the data only to compute community-wide aggregates (the "top community paints" list shown on <strong>Settings → Community stats</strong>). Individual rows are not analyzed, not sold, and not shared.</p>
-    <p>You can <strong>opt back out at any time</strong> via the <strong>Settings → Share anonymous stats</strong> Switch. Turning it off prompts a confirmation explaining why the counts help shape the catalogue; tapping "Turn off" stops all future sends immediately. Past anonymous rows remain in the aggregate (we cannot identify which rows were yours), but no further data leaves your device.</p>
-    <p>You can also see exactly what would be sent, in human-readable form, on the <strong>Settings → Community stats</strong> screen. The "What you share" card lists the counts that telemetry would carry: paints owned (with per-brand breakdown), palettes viewed, the truncated install-id hash, and the app version.</p>
+    <p>This identity layer (the install-id hash) is <strong>completely separate from your sign-in account</strong>. Even if you sign in with Google, telemetry rows continue to use the install-id hash, never your account. Telemetry rows are NOT deleted when you delete your account.</p>
+    <p>You can <strong>opt back out at any time</strong> via the <strong>Settings → Share anonymous stats</strong> Switch.</p>
 
     <h3>3. In-app feedback form — explicit, per-submission</h3>
-    <p>When you tap <strong>Settings → Send feedback</strong> and submit the form, the app sends:</p>
+    <p>Unchanged from v2.0. When you tap <strong>Settings → Send feedback</strong> and submit the form, the app sends the text, a type tag (<code>bug</code> / <code>idea</code> / <code>other</code>), the install-id hash, and device info (app version, Android version, device model). <strong>No automatic sends; nothing leaves the device until you hit Submit.</strong></p>
+    <p>Feedback rows live in the same Supabase region (EU/Frankfurt) under the same processor agreement.</p>
+
+    <h3>4. Account data via Google / Apple sign-in — opt-in (NEW in v3.0)</h3>
+    <p>If you choose to sign in with Google or Apple (Settings → Account), your provider shares the following with us:</p>
     <ul>
-      <li>The text you typed.</li>
-      <li>A type tag (<code>bug</code>, <code>idea</code>, or <code>other</code>) you selected.</li>
-      <li>The same one-way install-id hash described above (lets us correlate multiple submissions from the same install if you write back a clarification — but never identifies you).</li>
-      <li>App version, Android version, device model — so we can reproduce bugs on the same configuration.</li>
+      <li><strong>Your display name</strong> (the name on your Google or Apple account).</li>
+      <li><strong>Your email address</strong> — used only for account uniqueness. We never send marketing emails; we have no marketing-email surface.</li>
+      <li><strong>Your avatar URL</strong> — the public image URL from your provider account, if one exists.</li>
     </ul>
-    <p>The form makes the device-info disclosure visible above the Submit button. <strong>No automatic sends; nothing leaves the device until you hit Submit.</strong></p>
-    <p>Feedback rows live in the same Supabase region (EU/Frankfurt) under the same processor agreement. We read them to triage bugs and reply to ideas. We don't share or sell them.</p>
+    <p>We store these on Supabase (EU/Frankfurt) in a profile row tied to your account. The email is stored in the Supabase Auth system separately, used for account uniqueness only, and never displayed publicly.</p>
+    <p><strong>What ELSE happens when you sign in:</strong></p>
+    <ul>
+      <li>A record is created in the Supabase Auth system tied to your Google or Apple identity.</li>
+      <li>A stable per-account ID (UUID) is generated. The photo upload pipeline (see section 6) uses this ID to associate uploaded photos with your account. Future community features (competition entries, votes, comments) will use the same ID.</li>
+    </ul>
+    <p><strong>Sign-in providers — what they receive:</strong></p>
+    <ul>
+      <li><strong>Google:</strong> receives our app's package name (<code>de.pixelpaladin.colorbench</code>) plus a public OAuth client ID. Google may apply its own privacy policy to that interaction — consult <a href="https://policies.google.com/privacy" target="_blank" rel="noopener">Google's Privacy Policy</a>.</li>
+      <li><strong>Apple:</strong> receives our app's Services ID. Apple may apply its own privacy policy — consult <a href="https://www.apple.com/legal/privacy/" target="_blank" rel="noopener">Apple's Privacy Policy</a>.</li>
+    </ul>
+    <p>We never see your password. We only ever receive what Google or Apple choose to share with us based on the permissions you grant.</p>
 
-    <h3>4. Crash diagnostics — still none</h3>
-    <p>v1.6.0 still does not collect crash reports automatically. If we add Sentry-style crash reporting later, we'll update this policy and disclose it in the in-app About screen + the release notes.</p>
+    <h3>5. Account deletion (NEW in v3.0)</h3>
+    <p>You can delete your account at any time from <strong>Settings → Account → Delete account</strong>. Deletion is <strong>immediate, permanent, and not reversible</strong>. It removes:</p>
+    <ul>
+      <li>Your sign-in record on our backend.</li>
+      <li>Your profile row (display name, avatar URL).</li>
+      <li>All photos you've uploaded — both database rows and the underlying storage files (both thumbnail and full-size versions).</li>
+      <li>All local data on this device (owned paints, projects, view history, settings).</li>
+      <li>Future account-linked rows (community features land in a later release; everything cascades on deletion).</li>
+    </ul>
+    <p>Deletion does NOT remove:</p>
+    <ul>
+      <li>Anonymous telemetry rows you may have opted into — those are tied to your device's pseudonymous install-id hash, NOT your account. The install-id is regenerated after account deletion, so future telemetry from the same device contributes to a fresh anonymous identity.</li>
+      <li>Anonymous feedback you submitted before signing in.</li>
+    </ul>
+    <p>We do not retain backups of your account beyond standard Supabase nightly snapshots, which roll off after 7 days.</p>
+    <p><strong>If you can no longer access the app:</strong> email <a href="mailto:support@pixel-paladin.de">support@pixel-paladin.de</a> with the subject <code>Account deletion request</code>. Include the email address you used to sign in. We will delete the account within 30 days.</p>
+    <p>The accessible web URL for the deletion procedure (referenced by Google Play's Data Safety form) is:<br/>
+    <a href="/projects/colorbench/account-deletion/">pixel-paladin.de/projects/colorbench/account-deletion</a>.</p>
 
-    <h3>5. Google Play Store</h3>
+    <h3>6. User-uploaded photos — NEW in v4.0</h3>
+    <p>If you upload a photo via a future in-app photo-upload feature (the pipeline is wired in v2.1 but no UI consumes it yet — a later release will add the surface), the app:</p>
+    <ol>
+      <li><strong>Strips all EXIF metadata</strong> from the photo on your device BEFORE the photo leaves your phone. EXIF metadata typically includes GPS coordinates, camera model and serial number, and the original capture timestamp. We never see any of it.</li>
+      <li><strong>Resizes</strong> the photo to a small thumbnail (320px max edge, ~50 KB) and a mobile-sized version (1080px max edge, ~500 KB), both in WebP format.</li>
+      <li><strong>Uploads</strong> both sizes to our Supabase Storage in EU/Frankfurt under the same processor terms as the rest of our backend.</li>
+      <li><strong>Tags</strong> each upload with a moderation status defaulting to "pending". Photos are only publicly visible after a manual approval (this matters only when a public-display surface ships in a later release; in v2.1 nothing is publicly visible).</li>
+    </ol>
+    <p><strong>Per-user limits in v2.1:</strong></p>
+    <ul>
+      <li>Maximum 5 uploads per 24-hour window.</li>
+      <li>Maximum 50 photos total per account.</li>
+    </ul>
+    <p><strong>What we DO NOT do with your photos:</strong></p>
+    <ul>
+      <li>We do not run any image analysis on them (no face recognition, no content classification, no AI training).</li>
+      <li>We do not share photos with any third party.</li>
+      <li>We do not retain photos that were never publicly approved beyond your own deletion.</li>
+    </ul>
+    <p><strong>Account deletion + photo retention:</strong> when you delete your account (section 5 above), ALL your photos are removed in the cascade — both the database rows and the storage files. Photos deleted before the 7-day Supabase backup window may persist in those backups; after 7 days, no copy exists.</p>
+    <p>When the public-visibility competition surface ships, this policy will be updated with the corresponding sections.</p>
+
+    <h3>7. Crash diagnostics — still none</h3>
+    <p>v2.1.0 still does not collect crash reports automatically. If we add crash reporting later, we'll update this policy and disclose it in the in-app About screen and the release notes.</p>
+
+    <h3>8. Google Play Store</h3>
     <p>When you install the app from Google Play, Google collects standard install telemetry under <a href="https://policies.google.com/privacy" target="_blank" rel="noopener">Google's Privacy Policy</a>. We do not control this and we do not see your individual install/uninstall data — only aggregated counts.</p>
 
     <h2>Data we do not collect</h2>
     <ul>
-      <li>Analytics about feature usage <strong>outside the opt-in counts above</strong> (no per-screen view tracking, no event funnels, no time-spent metrics)</li>
-      <li>Advertising data</li>
-      <li>Device contacts, calendar, photos, or files (the app does not request these permissions)</li>
-      <li>Microphone, camera, or location (the app does not request these permissions)</li>
+      <li>Analytics about feature usage <strong>outside the opt-in counts above</strong> (no per-screen view tracking, no event funnels, no time-spent metrics).</li>
+      <li>Advertising data.</li>
+      <li>Device contacts, calendar, or files (the app does not request these permissions).</li>
+      <li>Microphone or location (the app does not request these permissions).</li>
+      <li><strong>Photo content beyond what you explicitly upload</strong> — the app reads photos from your library only after you tap a photo-upload button and grant the library permission; we receive nothing automatically. Camera permission, if granted, is used solely to capture a photo for an explicit upload.</li>
     </ul>
 
     <h2>Where the data lives</h2>
     <ul>
-      <li><strong>Default mode (opt-in OFF):</strong> entirely on your phone, in app-private storage. Uninstalling the app removes it all.</li>
-      <li><strong>Opt-in community stats:</strong> Supabase Inc. (eu-central-1, Frankfurt, Germany). Standard processor terms; data not linked to anything that identifies you.</li>
-      <li><strong>Feedback submissions:</strong> same as above.</li>
+      <li><strong>Default mode (no sign-in, no telemetry):</strong> entirely on your phone, in app-private storage. Uninstalling the app removes it all.</li>
+      <li><strong>Opt-in community stats + in-app feedback:</strong> Supabase Inc. (eu-central-1, Frankfurt, Germany). Standard processor terms; data not linked to anything that identifies you.</li>
+      <li><strong>Account data (signed-in users):</strong> same Supabase project, same region. Tied to your Google/Apple identity. Hard-deletable from Settings → Account → Delete account.</li>
+      <li><strong>Uploaded photos:</strong> same Supabase project, same region, in dedicated storage buckets for thumbnail and full-size versions. Cascade-deleted with your account.</li>
     </ul>
 
     <h2>Your rights under GDPR</h2>
     <p>As an EU/EEA user, you have the right to:</p>
     <ul>
-      <li><strong>Access</strong> — request a copy of any data we have about you. Because everything we collect is keyed only by the irreversible install-id hash, we cannot identify your individual rows from your real-world identity. If you can supply the hash (it lives only on your device — we'd guide you through obtaining it via Settings → Clear all local data → "show install id hash"), we can return any matching rows.</li>
-      <li><strong>Deletion</strong> — same caveat. Provide the hash, we'll delete all matching rows. Or simply uninstall + reinstall the app, which generates a fresh install id and you stop being part of any future aggregates.</li>
-      <li><strong>Object / Opt-out</strong> — flip <strong>Settings → Share anonymous stats</strong> off (the app will ask you to confirm). Email us at <a href="mailto:support@pixel-paladin.de">support@pixel-paladin.de</a> if you'd like all rows associated with your install hash deleted.</li>
+      <li><strong>Access</strong> —
+        <ul>
+          <li>For anonymous data (telemetry, feedback): keyed only by the irreversible install-id hash; if you can supply the hash (Settings → Clear all local data shows it), we can return matching rows.</li>
+          <li>For account data (including uploaded photos): email <a href="mailto:support@pixel-paladin.de">support@pixel-paladin.de</a> with the email tied to your account; we'll provide a JSON export of your profile, photo rows, and future account-linked rows within 30 days.</li>
+        </ul>
+      </li>
+      <li><strong>Deletion</strong> —
+        <ul>
+          <li>For anonymous data: provide the hash, we'll delete matching rows. Or uninstall + reinstall the app (new install-id, fresh start).</li>
+          <li><strong>For account data:</strong> the immediate path is <strong>Settings → Account → Delete account</strong> (in-app, no email needed) — this also removes all your uploaded photos. Email support if you can no longer access the app.</li>
+        </ul>
+      </li>
+      <li><strong>Object / Opt-out</strong> —
+        <ul>
+          <li>For telemetry: flip <strong>Settings → Share anonymous stats</strong> off.</li>
+          <li>For account: sign out (your data stays in our backend, ready for sign-in again) or delete (permanent removal).</li>
+        </ul>
+      </li>
       <li><strong>Lodge a complaint</strong> — with your national data protection authority. The German supervisory authority is the <a href="https://www.bfdi.bund.de" target="_blank" rel="noopener">BfDI</a>.</li>
     </ul>
 
     <h2>Children</h2>
-    <p>The app is rated for general audiences (PEGI 3 / IARC Everyone). We do not knowingly collect data from children under 13. The opt-in flow requires an explicit tap on a button labelled "Opt in" on the consent screen, and is in no way required to use the app — tapping "No thanks" lets the user proceed with no telemetry.</p>
+    <p>The app is rated for general audiences (PEGI 3 / IARC Everyone). We do not knowingly collect data from children under 13. The sign-in flow is gated behind Settings → Account and is not required to use the app. Google and Apple's own age-of-consent enforcement applies to the OAuth flow.</p>
 
     <h2>Changes to this policy</h2>
-    <p>If we update this policy, we will change the "Last updated" date at the top and note the change in the app's About screen. Material changes — including any expansion of what gets sent under opt-in mode — will be announced in the app's release notes on Google Play.</p>
+    <p>If we update this policy, we will change the "Last updated" date at the top and note the change in the app's About screen. Material changes will be announced in the app's release notes on Google Play.</p>
 
     <h2>Changelog</h2>
     <ul>
-      <li><strong>v2.0 (2026-05-09, effective from app v1.6.0):</strong> Added section 2 (opt-in community stats) and section 3 (in-app feedback form). Both are opt-in/explicit per submission. The opt-in flow uses a first-launch consent screen + a Settings → Share anonymous stats Switch (with confirmation when turning off). The Settings → Community stats screen exposes a "What you share" preview so users can see exactly what counts would be sent before flipping the toggle. Updated the GDPR rights section to describe how the install-id hash interacts with access/deletion requests.</li>
+      <li><strong>v4.0 (2026-06-05, effective from app v2.1.0):</strong> Added section 6 (user-uploaded photos): EXIF strip on-device, two-size WebP storage, per-user limits (5/day + 50 total), moderation default, cascade-delete on account deletion. Explicitly disclaims face recognition, content classification, AI training, third-party sharing. Updated section 5 (account deletion) to include the photo cascade. Updated "Data we do not collect" to clarify how camera + photo-library permissions are used. Updated "Where the data lives" with the new buckets. Updated GDPR access path to cover photos.</li>
+      <li><strong>v3.0 (2026-06-03, effective from app v2.0.0):</strong> Added section 4 (account data via Google/Apple sign-in) and section 5 (account deletion). Added the Play Console data-deletion URL.</li>
+      <li><strong>v2.0 (2026-05-09, effective from app v1.6.0):</strong> Added section 2 (opt-in community stats) and section 3 (in-app feedback form). Both are opt-in/explicit per submission.</li>
       <li><strong>v1.0 (2026-04-24, effective from app v1.0.0):</strong> Initial policy. Local-only, no data collection.</li>
     </ul>
 

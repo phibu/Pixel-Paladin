@@ -4,6 +4,16 @@ User-facing changes to [pixel-paladin.de](https://pixel-paladin.de). Newest firs
 
 The format is based on [Keep a Changelog 1.1.0](https://keepachangelog.com/en/1.1.0/), and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.4] — 2026-06-08
+
+### Added
+- New public **Account deletion** page at `/projects/colorbench/account-deletion/` describing the in-app delete flow, what gets deleted, and the 7-day data-retention window. Linked from the Colorbench legal-strip.
+
+### Changed
+- Updated the Colorbench **privacy policy** to v4.0 — covers Google sign-in / OAuth data, account deletion, and the new on-device photo-upload pipeline (EXIF strip + two-size WebP + EU-Frankfurt storage + per-user quotas + moderation gate, with explicit no-AI / no-face-recognition / no-third-party-sharing clauses).
+- Synced the public Colorbench changelog with v1.9.1, v1.9.2, v1.9.3, v2.0.0, v2.1.0, and v2.1.1.
+- Refreshed Colorbench landing-page version stamp v1.9.0 → v2.1.1 (homepage project card + JSON-LD).
+
 ## [1.3] — 2026-05-25
 
 ### Added

@@ -1,0 +1,110 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>Account deletion · The Mini Colorbench</title>
+<meta name="description" content="How to delete your Mini Colorbench account and all data associated with it. In-app steps, what gets deleted, the data-retention window, and the email-based escape hatch."/>
+<link rel="icon" href="/ds/assets/colorbench-favicon.svg" type="image/svg+xml"/>
+<link rel="stylesheet" href="/ds/colors_and_type.css"/>
+<link rel="stylesheet" href="/ds/page.css"/>
+<style>
+  .page { max-width: 820px; margin: 0 auto; padding: 40px 32px 80px; }
+  .prose h1 { font-family: var(--pp-font-display); font-size: clamp(32px, 5vw, 48px); letter-spacing: -0.02em; line-height: 1.05; margin: 0 0 8px; }
+  .prose h1 .accent { color: var(--pp-fg-brand); }
+  .prose .updated { font-family: var(--pp-font-mono); font-size: 12px; color: var(--pp-fg-muted); letter-spacing: 0.08em; text-transform: uppercase; margin: 0 0 32px; }
+  .prose h2 { font-family: var(--pp-font-display); font-size: 22px; letter-spacing: -0.01em; margin: 40px 0 12px; padding-top: 20px; border-top: 1px solid var(--pp-border); }
+  .prose p, .prose li { font-size: 15px; line-height: 1.65; color: var(--pp-fg); }
+  .prose ol, .prose ul { padding-left: 20px; }
+  .prose li { margin: 6px 0; }
+  .prose a { color: var(--pp-fg-brand); border-bottom: 1px solid transparent; transition: border-color var(--pp-dur-fast) var(--pp-ease-out); }
+  .prose a:hover { border-bottom-color: var(--pp-fg-brand); }
+  .prose strong { color: var(--pp-fg); }
+  .prose code { font-family: var(--pp-font-mono); font-size: 13px; color: var(--pp-fg); background: color-mix(in srgb, var(--pp-fg) 6%, transparent); padding: 1px 6px; border-radius: 4px; }
+  .lead {
+    border-left: 3px solid var(--pp-red-500);
+    background: color-mix(in srgb, var(--pp-red-500) 6%, transparent);
+    padding: 16px 20px;
+    margin: 24px 0 32px;
+    border-radius: var(--pp-radius-xs);
+  }
+  .lead p { margin: 0; }
+  .lead p + p { margin-top: 10px; }
+  .crumbs a { color: var(--pp-fg-muted); }
+  .crumbs a:hover { color: var(--pp-fg); }
+</style>
+</head>
+<body class="pp-root pp-dark">
+
+<div class="page">
+  <header class="topbar">
+    <a class="brand" href="/">
+      <svg class="mark" viewBox="0 0 256 256" shape-rendering="crispEdges">
+        <rect width="256" height="256" rx="24" fill="#111110"/>
+        <rect x="48" y="56" width="24" height="144" fill="#e51b10"/><rect x="72" y="56" width="48" height="24" fill="#e51b10"/><rect x="120" y="56" width="16" height="48" fill="#e51b10"/><rect x="72" y="104" width="48" height="16" fill="#e51b10"/>
+        <rect x="152" y="104" width="16" height="112" fill="#f7f6f5"/><rect x="168" y="104" width="40" height="16" fill="#f7f6f5"/><rect x="208" y="104" width="16" height="48" fill="#f7f6f5"/><rect x="168" y="152" width="40" height="16" fill="#f7f6f5"/>
+        <rect x="52" y="60" width="8" height="8" fill="#ff8780"/><rect x="76" y="60" width="8" height="8" fill="#ff8780"/>
+        <rect x="48" y="192" width="24" height="8" fill="#9a0a03"/>
+      </svg>
+      <div><div class="name">Pixel<span>Paladin</span></div><div class="sub">Workshop · Jülich, DE</div></div>
+    </a>
+    <nav class="topnav">
+      <a href="/#workshop">Workshop</a>
+      <a href="/#projects" class="active">Projects</a>
+      <a href="/#contact">Contact</a>
+    </nav>
+  </header>
+
+  <div class="crumbs"><a href="/">Home</a><span class="sep">/</span><a href="/projects/colorbench/">Colorbench</a><span class="sep">/</span>Account deletion</div>
+
+  <article class="prose">
+    <h1>Account <span class="accent">deletion.</span></h1>
+    <p class="updated">Last updated 2026-06-03 · The Mini Colorbench</p>
+
+    <div class="lead">
+      <p>This page describes how to delete your Mini Colorbench account and all data associated with it.</p>
+      <p>The accessible web URL referenced by Google Play's Data Safety form is <strong>pixel-paladin.de/projects/colorbench/account-deletion</strong>.</p>
+    </div>
+
+    <h2>How to delete your account (in-app)</h2>
+    <ol>
+      <li>Open the Mini Colorbench app on your Android device.</li>
+      <li>Tap <strong>Settings</strong> in the bottom navigation.</li>
+      <li>Tap <strong>Account</strong>.</li>
+      <li>Tap <strong>Delete account</strong>.</li>
+      <li>Confirm by typing <code>DELETE</code> in the confirmation dialog.</li>
+      <li>Tap <strong>Delete my account</strong>.</li>
+    </ol>
+
+    <h2>What gets deleted</h2>
+    <p>Deletion is <strong>immediate and permanent</strong>. It removes:</p>
+    <ul>
+      <li>Your sign-in record (Google or Apple identity).</li>
+      <li>Your Mini Colorbench profile (display name, avatar URL).</li>
+      <li>All local data on this device (owned paints, projects, view history, settings).</li>
+      <li>Future account-linked data — upcoming community features (competition entries, photo uploads, votes, comments) will all cascade-delete on account deletion.</li>
+    </ul>
+
+    <h2>What does NOT get deleted</h2>
+    <ul>
+      <li><strong>Anonymous telemetry rows</strong> (if you opted into community stats) — these are tied to a device-pseudonymous install-id hash that is separate from your account. The install-id is regenerated after account deletion, so future telemetry from the same device contributes to a fresh anonymous identity.</li>
+      <li><strong>Anonymous feedback you submitted before signing in</strong> — same reasoning.</li>
+    </ul>
+    <p>If you also want anonymous data deleted, email support (below) with the install-id hash (visible at <strong>Settings → Clear all local data → show install id hash</strong> before you delete the account).</p>
+
+    <h2>If you can no longer access the app</h2>
+    <p>Email <a href="mailto:support@pixel-paladin.de?subject=Account%20deletion%20request">support@pixel-paladin.de</a> with the subject <code>Account deletion request</code>. Include the email address you used to sign in with Google or Apple. We will delete the account within 30 days.</p>
+
+    <h2>Data retention</h2>
+    <p>We do not retain backups of your account beyond standard Supabase nightly snapshots, which roll off after 7 days. After 7 days from deletion, no record of your account exists in our systems.</p>
+
+    <h2>See also</h2>
+    <ul>
+      <li><a href="/projects/colorbench/privacy/">Full privacy policy</a></li>
+      <li><a href="mailto:support@pixel-paladin.de">Support contact</a></li>
+    </ul>
+  </article>
+</div>
+
+</body>
+</html>
