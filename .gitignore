@@ -18,7 +18,15 @@ desktop.ini
 # AI workflow files (kept locally, not tracked)
 CLAUDE.md
 **/CLAUDE.md
+.claude/
+docs/agents/
+docs/adr/
+docs/research/
+CONTEXT.md
+CONTEXT-MAP.md
+.scratch/
 .superpowers/
+.impeccable
 
 # Tool caches (future-proofing — not used today)
 .cache/
