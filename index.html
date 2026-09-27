@@ -995,15 +995,15 @@
           </div>
           <div class="stat">
             <div class="k">Last push</div>
-            <div class="v" id="stCommit">—</div>
+            <div class="v" id="stCommit" aria-live="polite">—</div>
           </div>
           <div class="stat">
             <div class="k">Repos · @phibu</div>
-            <div class="v red" id="stRepos">—<small>total</small></div>
+            <div class="v red" id="stRepos" aria-live="polite">—<small>total</small></div>
           </div>
           <div class="stat">
             <div class="k">Public OSS</div>
-            <div class="v" id="stMit">—<small>MIT</small></div>
+            <div class="v" id="stMit" aria-live="polite">—<small>MIT</small></div>
           </div>
         </div>
       </div>
@@ -1210,54 +1210,54 @@
 </div>
 
 <!-- TWEAKS PANEL -->
-<div class="tweaks" id="tweaks" aria-hidden="true">
+<div class="tweaks" id="tweaks" aria-hidden="true" inert>
   <div class="tweaks-head">
     <span class="t">Tweaks</span>
-    <button class="x" id="tweaksClose" type="button">✕</button>
+    <button class="x" id="tweaksClose" type="button" aria-label="Close"><span aria-hidden="true">✕</span></button>
   </div>
   <div class="tweaks-body">
 
     <div class="tw-row">
       <label><span>Layout</span><span class="mono" id="lblLayout">Minimal</span></label>
-      <div class="seg" id="segLayout">
-        <button data-v="minimal" class="on">Minimal</button>
-        <button data-v="terminal">Terminal</button>
-        <button data-v="editorial">Editorial</button>
+      <div class="seg" id="segLayout" role="group" aria-label="Layout">
+        <button type="button" data-v="minimal" class="on">Minimal</button>
+        <button type="button" data-v="terminal">Terminal</button>
+        <button type="button" data-v="editorial">Editorial</button>
       </div>
     </div>
 
     <div class="tw-row">
       <label><span>Theme</span><span class="mono" id="lblTheme">Dark</span></label>
-      <div class="seg" id="segTheme">
-        <button data-v="dark" class="on">Dark</button>
-        <button data-v="light">Light</button>
+      <div class="seg" id="segTheme" role="group" aria-label="Theme">
+        <button type="button" data-v="dark" class="on">Dark</button>
+        <button type="button" data-v="light">Light</button>
       </div>
     </div>
 
     <div class="tw-row">
       <label><span>Accent</span><span class="mono" id="lblAccent">Med</span></label>
-      <div class="seg" id="segAccent">
-        <button data-v="low">Low</button>
-        <button data-v="med" class="on">Med</button>
-        <button data-v="high">High</button>
+      <div class="seg" id="segAccent" role="group" aria-label="Accent">
+        <button type="button" data-v="low">Low</button>
+        <button type="button" data-v="med" class="on">Med</button>
+        <button type="button" data-v="high">High</button>
       </div>
     </div>
 
     <div class="tw-row">
       <label><span>Density</span><span class="mono" id="lblDensity">Default</span></label>
-      <div class="seg" id="segDensity">
-        <button data-v="compact">Compact</button>
-        <button data-v="default" class="on">Default</button>
-        <button data-v="spacious">Spacious</button>
+      <div class="seg" id="segDensity" role="group" aria-label="Density">
+        <button type="button" data-v="compact">Compact</button>
+        <button type="button" data-v="default" class="on">Default</button>
+        <button type="button" data-v="spacious">Spacious</button>
       </div>
     </div>
 
     <div class="tw-row">
       <label><span>Hero headline</span><span class="mono" id="lblHead">A</span></label>
-      <div class="seg" id="segHead">
-        <button data-v="a" class="on">A</button>
-        <button data-v="b">B</button>
-        <button data-v="c">C</button>
+      <div class="seg" id="segHead" role="group" aria-label="Hero headline">
+        <button type="button" data-v="a" class="on">A</button>
+        <button type="button" data-v="b">B</button>
+        <button type="button" data-v="c">C</button>
       </div>
     </div>
 
@@ -1334,6 +1334,7 @@
       if (!key) return;
       seg.querySelectorAll('button').forEach(b => {
         b.classList.toggle('on', b.dataset.v === state[key]);
+        b.setAttribute('aria-pressed', String(b.dataset.v === state[key]));
       });
     });
     document.getElementById('lblLayout').textContent  = cap(state.layout);
