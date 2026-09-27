@@ -321,3 +321,19 @@
 .pp-root h4 { font-family: var(--pp-font-body); font-weight: 700; font-size: var(--pp-text-lg); line-height: 1.25; }
 .pp-root p  { font-family: var(--pp-font-body); font-size: var(--pp-text-base); line-height: 1.5; }
 .pp-root code { font-family: var(--pp-font-mono); font-size: 0.9em; }
+
+/* ---------- Accessibility ---------- */
+.pp-dark, [data-theme="dark"] { color-scheme: dark; }
+
+:focus-visible {
+  outline: 2px solid var(--pp-border-focus);
+  outline-offset: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation: none !important;
+    transition: none !important;
+    scroll-behavior: auto !important;
+  }
+}

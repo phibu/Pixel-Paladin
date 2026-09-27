@@ -3,6 +3,8 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="color-scheme" content="dark" />
+<meta name="theme-color" content="#0a0a09" />
 <title>PixelPaladin · Philipp Buchwald</title>
 <meta name="description" content="Philipp Buchwald · IT Security Specialist. A workshop of 3D prints, homelab gear, painted minis, vibe-coded apps, and occasional reenactment." />
 <meta name="author" content="Philipp Buchwald" />
@@ -1294,6 +1296,8 @@
   }
   function applyTheme(v) {
     document.body.classList.toggle('pp-dark', v === 'dark');
+    document.querySelector('meta[name="color-scheme"]').content = v === 'dark' ? 'dark' : 'light';
+    document.querySelector('meta[name="theme-color"]').content = v === 'dark' ? '#0a0a09' : '#f7f6f5';
     // The toggle button was removed from the topbar; this function is now
     // a no-op past the body class flip, but tweaks-panel state-restore
     // still calls it, so leave the body class line in place.

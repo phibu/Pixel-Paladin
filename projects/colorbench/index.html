@@ -3,6 +3,8 @@
 <head>
 <meta charset="utf-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
+<meta name="color-scheme" content="dark" />
+<meta name="theme-color" content="#0a0a09" />
 <title>The Mini Colorbench · Pixel Paladin</title>
 <meta name="description" content="106 curated palettes, 1399 paints across 9 brands, and a match engine that finds the closest paint on your shelf. Offline, no accounts. Live on Google Play (Android). iOS deferred."/>
 <meta name="author" content="Philipp Buchwald"/>
@@ -118,6 +120,7 @@
     transition: transform var(--pp-dur-fast) var(--pp-ease-out);
   }
   .shot-trigger:hover { transform: translateY(-2px); }
+  @media (prefers-reduced-motion: reduce) { .shot-trigger:hover { transform: none; } }
   .shot-trigger:focus-visible { outline: 2px solid var(--pp-fg-brand); outline-offset: 4px; }
   .shot-trigger img {
     display: block;
@@ -550,7 +553,8 @@
     if (!grid || !slides[i]) return;
     var slide = slides[i];
     var target = slide.offsetLeft - (grid.clientWidth - slide.clientWidth) / 2;
-    grid.scrollTo({ left: target, behavior: 'smooth' });
+    var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    grid.scrollTo({ left: target, behavior: reduce ? 'auto' : 'smooth' });
   }
 
   if (grid) {
