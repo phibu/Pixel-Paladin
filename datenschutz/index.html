@@ -58,7 +58,7 @@
 
   <article class="prose">
     <h1>Daten<span class="accent">schutz.</span></h1>
-    <p class="updated">Stand 2026-04-20 · Version 1.0 · pixel-paladin.de</p>
+    <p class="updated">Stand 2026-09-27 · Version 1.1 · pixel-paladin.de</p>
 
     <div class="tldr">
       <div class="eyebrow"><span class="dot"></span> Kurzfassung</div>
@@ -94,17 +94,10 @@
     <h2>4. Cookies</h2>
     <p>Diese Website setzt <strong>keine Cookies</strong> und nutzt keinen vergleichbaren lokalen Speicher für identifizierende Zwecke. Es ist daher keine Einwilligung nach § 25 TDDDG erforderlich und kein Cookie-Banner vorhanden.</p>
 
-    <h2>5. GitHub Public Events API</h2>
-    <p>Auf der Startseite wird eine Liste der jüngsten öffentlichen GitHub-Aktivitäten angezeigt. Dazu ruft Ihr Browser die öffentliche API von <strong>GitHub</strong> (GitHub, Inc., 88 Colin P. Kelly Jr. Street, San Francisco, CA 94107, USA) unter <code>api.github.com</code> auf.</p>
-    <p>Bei diesem Abruf übermittelt Ihr Browser an GitHub:</p>
-    <ul>
-      <li>Ihre IP-Adresse</li>
-      <li>User-Agent (Browserkennung)</li>
-      <li>ggf. Referrer-URL</li>
-    </ul>
-    <p>Die Anfrage erfolgt ohne Authentifizierung; GitHub verarbeitet diese Abrufe wie den normalen Besuch ihres API-Endpunkts. Rechtsgrundlage ist Art. 6 Abs. 1 lit. f DSGVO — das berechtigte Interesse besteht darin, einen aktuellen Tätigkeitsstand ohne eigene Infrastruktur darzustellen.</p>
-    <p>Datenschutzerklärung von GitHub: <a href="https://docs.github.com/site-policy/privacy-policies/github-general-privacy-statement" target="_blank" rel="noopener">GitHub General Privacy Statement</a></p>
-    <p>Wenn Sie diesen API-Abruf verhindern möchten, können Sie JavaScript in Ihrem Browser deaktivieren oder einen Content-Blocker einsetzen. Die Kernfunktion der Seite (Textinhalte) bleibt davon unberührt.</p>
+    <h2>5. GitHub-Statistiken auf der Startseite</h2>
+    <p>Die Kacheln „Last push“, „Repos“ und „Public OSS“ auf der Startseite zeigen öffentliche Kennzahlen aus meinem GitHub-Konto. Ihr Browser fragt diese Werte ausschließlich bei <code>pixel-paladin.de/api/stats</code> ab, also beim selben Server, der auch die Seite ausliefert (Cloudflare, siehe Abschnitt 3).</p>
+    <p>Die Daten selbst holt der Server bei <strong>GitHub</strong> (GitHub, Inc., 88 Colin P. Kelly Jr. Street, San Francisco, CA 94107, USA) ab und hält sie einige Minuten zwischengespeichert. Dabei werden <strong>keine Daten über Sie</strong> an GitHub übermittelt, weder Ihre IP-Adresse noch Ihr User-Agent. Ihr Browser baut keine Verbindung zu <code>api.github.com</code> auf.</p>
+    <p>Rechtsgrundlage für die Verarbeitung Ihrer IP-Adresse beim Abruf von <code>/api/stats</code> ist wie bei jedem Seitenaufruf Art. 6 Abs. 1 lit. f DSGVO. Das berechtigte Interesse besteht darin, einen aktuellen Tätigkeitsstand darzustellen.</p>
 
     <h2>6. Keine externen Fonts, Skripte oder Analyse-Dienste</h2>
     <p>Diese Website lädt <strong>keine</strong> externen Schriftarten (z.&nbsp;B. Google Fonts), keine Analyse- oder Tracking-Dienste (z.&nbsp;B. Google Analytics, Matomo, Plausible), keine Werbung und keine Social-Media-Plugins. Alle verwendeten Icon-Bibliotheken und Stylesheets werden vom eigenen Server bzw. CDN (Cloudflare) ausgeliefert.</p>

@@ -4,6 +4,15 @@ User-facing changes to [pixel-paladin.de](https://pixel-paladin.de). Newest firs
 
 The format is based on [Keep a Changelog 1.1.0](https://keepachangelog.com/en/1.1.0/), and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.5.0] — 2026-09-27
+
+### Changed
+- The homepage live stats (Last push, Repos, Public OSS) now come from pixel-paladin.de itself instead of each visitor's browser calling GitHub, so they no longer go blank when GitHub rate-limits a visitor. The numbers refresh every few minutes, and if GitHub is down you see the last known values.
+- "Public OSS" now counts every repository under an OSI-approved open-source licence, not only MIT.
+- "Last push" shows when a commit actually landed, not when it was first written.
+- The "Uptime" tile is now called "Since launch" and counts from the site's real go-live date.
+- Privacy policy v1.1: your browser no longer contacts GitHub; section 5 describes the new setup.
+
 ## [1.4.2] — 2026-09-27
 
 ### Changed
