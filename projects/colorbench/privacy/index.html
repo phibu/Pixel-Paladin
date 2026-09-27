@@ -4,7 +4,7 @@
 <meta charset="utf-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
 <title>Privacy Policy · The Mini Colorbench</title>
-<meta name="description" content="Privacy policy for The Mini Colorbench — covers optional Google/Apple sign-in, account deletion, opt-in community stats, and the on-device photo-upload pipeline. Default: nothing leaves your phone."/>
+<meta name="description" content="Privacy policy for The Mini Colorbench — covers optional Google/Apple sign-in, public competition entries, comments and profile fields, account deletion, and opt-in community stats. Default: nothing leaves your phone."/>
 <link rel="icon" href="/ds/assets/colorbench-favicon.svg" type="image/svg+xml"/>
 <link rel="stylesheet" href="/ds/colors_and_type.css"/>
 <link rel="stylesheet" href="/ds/page.css"/>
@@ -61,12 +61,14 @@
 
   <article class="prose">
     <h1>Privacy <span class="accent">Policy.</span></h1>
-    <p class="updated">Last updated 2026-06-05 · Version 4.0 (effective from app v2.1.0) · The Mini Colorbench</p>
+    <p class="updated">Last updated 2026-09-26 · Version 7.0 (effective from app v2.7.0) · The Mini Colorbench</p>
 
     <div class="tldr">
       <div class="eyebrow"><span class="dot"></span> TL;DR</div>
-      <p><strong>By default, we still collect nothing.</strong> v2.1.0 adds a <strong>photo upload pipeline</strong> that's wired in but <strong>not consumed by any UI in this release</strong> — foundation for an upcoming monthly palette competition. When a future release adds photo uploads to the app's surface, this policy already covers what happens (strip EXIF on-device, two-size WebP storage, per-user quotas, moderation gate, hard-delete on account deletion).</p>
-      <p>If you never tap a future upload button, this policy reads exactly the same as v3 — optional Google/Apple sign-in, anonymous opt-in telemetry, in-app feedback, local-first for everything else.</p>
+      <p><strong>By default, we still collect nothing.</strong> v2.3.0 adds the user-facing <strong>monthly palette competition</strong>: if you submit a photo as an entry, that photo and your optional commentary become <strong>publicly visible to all app users</strong> for the duration of the competition AND indefinitely afterwards in the "Past Competitions" archive. Submission is opt-in per competition; we never auto-enrol a photo.</p>
+      <p>v2.5.0 adds <strong>comments and abuse reporting</strong> on competition entries: if you are signed in, you can post comments (visible to everyone, deletable by you) and file reports (private to you and the admin). Both are opt-in actions you take; reading comments needs no account.</p>
+      <p>v2.7.0 adds two optional fields to your public profile: your <strong>social handles</strong> (Instagram, X, Bluesky, TikTok, YouTube) and your <strong>country</strong>. If you fill them in, every app user can see them, signed in or not: your country as a flag next to your name on competition entries and comments, and your handles on your entry's page and in a past competition's Top 3. Both are deleted with your account. See section 4.</p>
+      <p>If you never sign in, never upload photos, never submit a competition entry, and never post a comment or report, this policy reads exactly the same as v3 — optional Google/Apple sign-in, anonymous opt-in telemetry, in-app feedback, local-first for everything else.</p>
     </div>
 
     <h2>Who we are</h2>
@@ -120,10 +122,24 @@
       <li><strong>Your avatar URL</strong> — the public image URL from your provider account, if one exists.</li>
     </ul>
     <p>We store these on Supabase (EU/Frankfurt) in a profile row tied to your account. The email is stored in the Supabase Auth system separately, used for account uniqueness only, and never displayed publicly.</p>
+    <p><strong>What you can add yourself (NEW in v7.0) — optional, public:</strong></p>
+    <p>On the Profile screen (<strong>Settings → Account → Edit display name</strong>) you may add:</p>
+    <ul>
+      <li><strong>Social handles</strong> — your handle on Instagram, X, Bluesky, TikTok and YouTube, at most one per platform. We store the handle only, never a link. If you paste a link to your page on one of them, the app keeps just the handle.</li>
+      <li><strong>Your country</strong> — picked from a list, stored as a two-letter ISO 3166-1 code (for example <code>DE</code>).</li>
+    </ul>
+    <p>Every field is optional and empty until you fill it in. You can change or clear it at any time on the same screen. We store both in your profile row, next to your display name.</p>
+    <p><strong>Both are public.</strong> Every app user, signed in or not, can see them where your name appears in the monthly palette competition:</p>
+    <ul>
+      <li>Your country shows as a flag next to your name on entry cards, comments, the entry page, the Hall of Fame and a past competition's Top 3.</li>
+      <li>Your social handles show on your entry's page and in a past competition's Top 3. Tapping one opens your page on that platform. The app builds that link from the handle itself.</li>
+    </ul>
+    <p>We do not check that a handle is really yours, and we never contact the platforms about it. When someone taps your handle, their phone opens that platform, and that platform's own privacy policy applies. Because nobody checks handles, other users can report a profile (section 6).</p>
+    <p>Both are deleted with your account (section 5).</p>
     <p><strong>What ELSE happens when you sign in:</strong></p>
     <ul>
       <li>A record is created in the Supabase Auth system tied to your Google or Apple identity.</li>
-      <li>A stable per-account ID (UUID) is generated. The photo upload pipeline (see section 6) uses this ID to associate uploaded photos with your account. Future community features (competition entries, votes, comments) will use the same ID.</li>
+      <li>A stable per-account ID (UUID) is generated. The photo upload pipeline (see section 6) uses this ID to associate uploaded photos with your account. Competition entries, votes, and comments use the same ID.</li>
     </ul>
     <p><strong>Sign-in providers — what they receive:</strong></p>
     <ul>
@@ -136,10 +152,10 @@
     <p>You can delete your account at any time from <strong>Settings → Account → Delete account</strong>. Deletion is <strong>immediate, permanent, and not reversible</strong>. It removes:</p>
     <ul>
       <li>Your sign-in record on our backend.</li>
-      <li>Your profile row (display name, avatar URL).</li>
+      <li>Your profile row, and with it your display name, avatar URL, social handles and country.</li>
       <li>All photos you've uploaded — both database rows and the underlying storage files (both thumbnail and full-size versions).</li>
       <li>All local data on this device (owned paints, projects, view history, settings).</li>
-      <li>Future account-linked rows (community features land in a later release; everything cascades on deletion).</li>
+      <li>Everything else tied to your account: competition entries, votes, comments and reports (section 6).</li>
     </ul>
     <p>Deletion does NOT remove:</p>
     <ul>
@@ -171,12 +187,26 @@
       <li>We do not retain photos that were never publicly approved beyond your own deletion.</li>
     </ul>
     <p><strong>Account deletion + photo retention:</strong> when you delete your account (section 5 above), ALL your photos are removed in the cascade — both the database rows and the storage files. Photos deleted before the 7-day Supabase backup window may persist in those backups; after 7 days, no copy exists.</p>
-    <p>When the public-visibility competition surface ships, this policy will be updated with the corresponding sections.</p>
 
-    <h3>7. Crash diagnostics — still none</h3>
-    <p>v2.1.0 still does not collect crash reports automatically. If we add crash reporting later, we'll update this policy and disclose it in the in-app About screen and the release notes.</p>
+    <p><strong>Addendum (v6.0, app v2.3.0): competition entries.</strong> If you submit a photo as an entry to a monthly palette competition (<strong>Home → Competition card → Submit</strong>), that photo becomes visible to all app users — anonymous and signed-in — for the duration of the competition AND indefinitely afterwards in the "Past Competitions" archive. Submission is opt-in per competition; we never auto-enrol a photo. Withdrawing a competition entry (from the Entry Detail screen, while the competition is in its "open" state) removes the photo from public view immediately. The photo file itself remains in our Supabase Storage per the retention rules above (cascade-deleted on account deletion) but is no longer linked to any visible entry. Photos visible in competition entries are served via short-lived (1-hour) signed links created by our backend; the storage itself is not publicly readable.</p>
 
-    <h3>8. Google Play Store</h3>
+    <p><strong>Addendum (v6.1, app v2.5.0): comments and abuse reporting.</strong> v2.5.0 adds two opt-in, signed-in-only ways to interact with competition entries:</p>
+    <ul>
+      <li><strong>Comments.</strong> If you are signed in with Google or Apple, you may post short text comments on competition entries while a competition is in its voting phase or archived afterwards. Your comment — the text you write, plus your public display name — is visible to all app users (anonymous and signed-in) the moment you post it. We store the comment text, your account ID, the entry/competition it belongs to, and timestamps in our database (Supabase, EU/Frankfurt). You can delete your own comments at any time, which removes them permanently. Anonymous (not-signed-in) users can read comments but cannot post. We do not run AI/content classification on comment text, do not use it for training, and do not share it with third parties.</li>
+      <li><strong>Abuse reports.</strong> You may report a competition entry or a comment you find inappropriate (via a "Report" option). A report records your account ID, what you reported, a reason category (spam / offensive / off-topic / other), an optional short note you write, and a timestamp in our database. Reports are NOT public — only you (the reporter) and the admin can see a report you filed. Reporting does not automatically hide content; the admin reviews reports and decides. Filing a report is the data you provide; we collect nothing else from the act of reporting.</li>
+    </ul>
+    <p>Both comments and reports are cascade-deleted when you delete your account (they are tied to your account ID). No new device data, no new third parties, and no automated decision-making are introduced.</p>
+
+    <p><strong>Addendum (v7.0, app v2.7.0): reporting a profile.</strong> You may now also report another user's <strong>profile</strong>, for example when it pretends to be someone else, and "impersonation" joins the reason list. The report records the same data as above, with the reported profile as its target, and is private in the same way. To decide, the admin sees the reported profile's display name, flag and social handles. If the admin upholds a report on your profile, your display name, avatar and social handles are cleared; your country stays. You then show as "Anonymous" until you set a name again. You may add your handles again too. The avatar stays cleared.</p>
+
+    <h3>7. Admin moderation — NEW in v5.0 (invisible to regular users)</h3>
+    <p>If you are designated as an admin (which only happens by direct request to <a href="mailto:support@pixel-paladin.de">support@pixel-paladin.de</a> and explicit grant by Philipp Buchwald), the app shows you a moderation queue of pending photos uploaded by other users so you can review them before they become publicly visible. Regular users see no part of this surface — the entry point in Settings is gated on a per-account admin flag that defaults to off for everyone.</p>
+    <p>No NEW data categories are collected from regular users by this feature. Admins are merely granted READ access (within the app) to photos that already exist (uploaded under the conditions described in section 6 above).</p>
+
+    <h3>8. Crash diagnostics — still none</h3>
+    <p>The app still does not collect crash reports automatically. If we add crash reporting later, we'll update this policy and disclose it in the in-app About screen and the release notes.</p>
+
+    <h3>9. Google Play Store</h3>
     <p>When you install the app from Google Play, Google collects standard install telemetry under <a href="https://policies.google.com/privacy" target="_blank" rel="noopener">Google's Privacy Policy</a>. We do not control this and we do not see your individual install/uninstall data — only aggregated counts.</p>
 
     <h2>Data we do not collect</h2>
@@ -192,7 +222,7 @@
     <ul>
       <li><strong>Default mode (no sign-in, no telemetry):</strong> entirely on your phone, in app-private storage. Uninstalling the app removes it all.</li>
       <li><strong>Opt-in community stats + in-app feedback:</strong> Supabase Inc. (eu-central-1, Frankfurt, Germany). Standard processor terms; data not linked to anything that identifies you.</li>
-      <li><strong>Account data (signed-in users):</strong> same Supabase project, same region. Tied to your Google/Apple identity. Hard-deletable from Settings → Account → Delete account.</li>
+      <li><strong>Account data (signed-in users):</strong> same Supabase project, same region, including any social handles and country you add. Tied to your Google/Apple identity. Hard-deletable from Settings → Account → Delete account.</li>
       <li><strong>Uploaded photos:</strong> same Supabase project, same region, in dedicated storage buckets for thumbnail and full-size versions. Cascade-deleted with your account.</li>
     </ul>
 
@@ -228,6 +258,10 @@
 
     <h2>Changelog</h2>
     <ul>
+      <li><strong>v7.0 (2026-09-26, effective from app v2.7.0):</strong> Section 4 adds two optional, user-entered <strong>public profile</strong> fields: <strong>social handles</strong> (Instagram, X, Bluesky, TikTok, YouTube; the handle only, never a link) and <strong>country</strong> (an ISO 3166-1 code picked from a list). Both are visible to every app user, signed in or not, next to the user's name on competition surfaces, and both are deleted with the account (section 5). Handles are never verified and we never contact those platforms. A section 6 addendum adds the <strong>profile</strong> as a report target and "impersonation" as a reason; upholding a profile report clears the display name, avatar and social handles, and keeps the country. New collected-data categories: social handles and country, both public and optional. No new device data, no new third parties we share data with, and no automated decision-making.</li>
+      <li><strong>v6.1 (2026-06-29, effective from app v2.5.0):</strong> Added a section 6 addendum — signed-in users can post public, self-deletable text <strong>comments</strong> on competition entries, and file private <strong>abuse reports</strong> against an entry or comment (visible only to the reporter and the admin). New collected-data categories: user-authored comment text and report reason/note, both tied to the account and cascade-deleted on account deletion. No new device data, no new third parties, no automated content classification or decision-making. Anonymous users can read comments but cannot post or report.</li>
+      <li><strong>v6.0 (2026-06-09, effective from app v2.3.0):</strong> Added the section 6 addendum disclosing that user-submitted competition entries become publicly visible (photo + optional commentary). No new collected-data categories — competition entries are already-uploaded photos under section 6's terms PLUS user-provided commentary text. Disclosed the 1-hour signed-link serving model. Withdrawal during the "open" state removes the entry from public view immediately; the underlying photo follows the section 6 retention rules.</li>
+      <li><strong>v5.0 (2026-06-08, effective from app v2.2.0):</strong> Added section 7 (admin moderation) — disclosure that admins (one user, Philipp Buchwald) can review pending photos via an in-app moderation queue. No new data categories collected from regular users; admins gain READ access to photos that already exist under section 6's terms. Renumbered the existing "Crash diagnostics" and "Google Play Store" subsections to 8 and 9.</li>
       <li><strong>v4.0 (2026-06-05, effective from app v2.1.0):</strong> Added section 6 (user-uploaded photos): EXIF strip on-device, two-size WebP storage, per-user limits (5/day + 50 total), moderation default, cascade-delete on account deletion. Explicitly disclaims face recognition, content classification, AI training, third-party sharing. Updated section 5 (account deletion) to include the photo cascade. Updated "Data we do not collect" to clarify how camera + photo-library permissions are used. Updated "Where the data lives" with the new buckets. Updated GDPR access path to cover photos.</li>
       <li><strong>v3.0 (2026-06-03, effective from app v2.0.0):</strong> Added section 4 (account data via Google/Apple sign-in) and section 5 (account deletion). Added the Play Console data-deletion URL.</li>
       <li><strong>v2.0 (2026-05-09, effective from app v1.6.0):</strong> Added section 2 (opt-in community stats) and section 3 (in-app feedback form). Both are opt-in/explicit per submission.</li>

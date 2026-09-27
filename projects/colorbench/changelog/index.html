@@ -91,6 +91,171 @@
     <p class="preamble">The format is based on <a href="https://keepachangelog.com/en/1.1.0/">Keep a Changelog 1.1.0</a>, and this project adheres to <a href="https://semver.org/spec/v2.0.0.html">Semantic Versioning</a>. Newest first.</p>
 
     <section class="release">
+      <h2><span class="ver">v2.6.0</span> <span class="date">2026-09-24</span></h2>
+      <p class="lede">A big quality release. Browsing and managing your collection get faster, the app works much better with TalkBack and large text, and a long list of rough edges is gone.</p>
+
+      <h3>Added</h3>
+      <ul>
+        <li><strong>Sort palettes by what you can already paint.</strong> The filter sheet has a new Sort option: <code>Paintable first</code> puts the palettes your paints cover best at the top. A→Z stays the default.</li>
+        <li><strong>See your active filters at a glance.</strong> Browse now shows a row of chips under the search box, one per active filter. Tap a chip to remove that filter without opening the filter sheet.</li>
+        <li><strong>Search finds more than names.</strong> Browse search now also matches a palette's tags, mood, genre and style, so typing "grimdark" or "xenos" finds every palette that fits.</li>
+        <li><strong>Mark a whole paint range as owned in one tap.</strong> Every brand and range heading on Paints shows how many you own (e.g. <code>3 of 24 owned</code>) and a <strong>Mark all owned</strong> button. One more tap undoes it.</li>
+        <li><strong>Mark a paint as owned from its detail page.</strong> No more going back to the Paints tab to find it again.</li>
+        <li><strong>Remove a palette from a project.</strong> Each saved palette card has a remove button. The palette stays in your library.</li>
+        <li><strong>Create a project straight from the Projects tab.</strong> The empty Projects tab and the empty projects strip on Home both offer <strong>New project</strong>.</li>
+        <li><strong>A visible pager on palette details.</strong> A <code>‹ 3 of 27 ›</code> row at the bottom lets you step through palettes with a tap. Swiping still works, and TalkBack users can now move between palettes too.</li>
+      </ul>
+
+      <h3>Changed</h3>
+      <ul>
+        <li><strong>Your stats and Community stats moved to Home.</strong> They now live in a new Insights section at the bottom of Home, and Settings is one section shorter.</li>
+        <li><strong>Home reads in the right order.</strong> Home now has a screen title like every other tab, and the competition card no longer shouts louder than the Palette of the Day.</li>
+        <li><strong>The filter sheet tells you what Apply will do.</strong> The button reads e.g. <code>Show 27 palettes</code> before you commit, and each filter group can be cleared on its own.</li>
+        <li><strong>Bigger buttons.</strong> 24 buttons and links that were smaller than a fingertip now meet the 44&nbsp;px minimum, including Apply and Reset on the filter sheet. Some rows are a little taller as a result.</li>
+        <li><strong>Large text sizes are handled properly.</strong> Content grows with your phone's font setting, while small labels and controls are capped so they stay inside their boxes.</li>
+        <li><strong>Much better with TalkBack and voice control.</strong> Buttons are now named after the words you see on them, toggles say their new state after a tap, pop-up dialogs announce themselves, and labels no longer tell you to "tap" twice.</li>
+        <li><strong>Search boxes no longer autocorrect or auto-capitalise</strong>, so hobby words like "xenos" stay as you typed them.</li>
+        <li><strong>Every retry button now says "Try again".</strong></li>
+        <li><strong>Fair-use limits in the competition.</strong> You can post up to 10 comments in any 10 minutes and file up to 20 reports an hour. Reporting the same thing twice tells you it's already with the moderators. The photo upload allowance (5 a day, 50 in total) is now enforced by our server, not just the app.</li>
+        <li><strong>A smaller download.</strong> Palette images were re-encoded at a more sensible size, saving about 3.5&nbsp;MB with no visible loss in quality.</li>
+        <li><strong>Groundwork for a German version.</strong> All of the app's text now comes from language files. The app still reads in English; the German translation follows in a later release.</li>
+      </ul>
+
+      <h3>Fixed</h3>
+      <ul>
+        <li><strong>On the first-launch stats screen, a tap just below "Opt in" counted as "No thanks".</strong> The two buttons' touch areas overlapped. They no longer do, and the same kind of overlap is fixed elsewhere, including under Browse's filter chips, where a tap could remove the wrong filter.</li>
+        <li><strong>The title font never actually showed.</strong> Titles meant to use the app's display font had been falling back to the phone's default font since it was introduced. They now look as designed.</li>
+        <li><strong>Opening a shared palette link while another palette was open</strong> could show one palette's name over another palette's colours.</li>
+        <li><strong>Signing in with no signal said you had cancelled.</strong> The app now checks the connection first and says "Network unavailable" instead.</li>
+        <li><strong>Saving while offline now says you're offline</strong> instead of reporting a generic save failure.</li>
+        <li><strong>A failed load no longer pretends there's nothing there.</strong> Unreadable projects no longer show "No projects yet", and the competition screens now tell apart "no competition right now", "can't reach the server" and a real error, instead of showing a blank card.</li>
+        <li><strong>Pull-to-refresh</strong> now keeps its spinner until the new data has arrived, and competition screens no longer load everything twice when they open.</li>
+        <li><strong>"Rate now" opened the wrong Google Play listing.</strong> It now opens the app's own page.</li>
+        <li><strong>The last row on Home could never be scrolled into view.</strong></li>
+        <li><strong>The Report option on comments was shown to signed-out users</strong>, who then got an error after filling it in. It now only appears when you can actually file a report.</li>
+        <li><strong>A commentary made only of spaces</strong> showed an empty gap instead of "No commentary added.", and clearing your commentary didn't actually clear it. Both fixed.</li>
+        <li><strong>The palette help gave the wrong number</strong> for a strong match (87%). It now shows the real threshold, 70%.</li>
+        <li><strong>Large text layout fixes:</strong> a palette card's mood tag no longer overlaps its paint count, paint collection headings are no longer cut short, and palette tags are no longer clipped on palette details.</li>
+        <li><strong>Spacing:</strong> 16 screens lost an empty band under their header, and the palette pager now sits directly on the tab bar.</li>
+        <li><strong>Wording:</strong> "1 paint", "1 brand" and "1 day left" instead of "1 paints", "1 brands" and "1 days left", and the app's own name is spelled consistently in Settings.</li>
+        <li><strong>The anonymous stats switch in Settings</strong> showed up twice for screen readers, once without a name. It is now a single, named control.</li>
+      </ul>
+
+      <h3>Removed</h3>
+      <ul>
+        <li><strong>The app no longer asks for microphone access.</strong> It only ever took still photos, but a photo-picker component had been adding a microphone permission it never used.</li>
+      </ul>
+
+      <h3>Security</h3>
+      <ul>
+        <li><strong>Photos you enter in a competition no longer leave copies on your phone.</strong> The temporary files the app made while preparing your photo are now deleted as soon as they're no longer needed. Your gallery is never touched.</li>
+        <li><strong>Leftover image files from interrupted uploads</strong> are now cleaned up from our storage automatically.</li>
+        <li><strong>Release builds are cleaner.</strong> A developer-only debugging switch and the build computer's network address are no longer included in the app. New build checks keep weak encryption, insecure storage and similar risks from coming back.</li>
+      </ul>
+    </section>
+
+    <section class="release">
+      <h2><span class="ver">v2.5.3</span> <span class="date">2026-06-29</span></h2>
+      <p class="lede">Small polish.</p>
+
+      <h3>Changed</h3>
+      <ul>
+        <li><strong>A light vibration</strong> when you pick a feedback type, send feedback, or switch a Browse filter.</li>
+        <li><strong>Loading and empty screens look the same everywhere</strong>, including Browse, Projects and Community stats.</li>
+      </ul>
+    </section>
+
+    <section class="release">
+      <h2><span class="ver">v2.5.2</span> <span class="date">2026-06-29</span></h2>
+      <p class="lede">Polish on the competition screens.</p>
+
+      <h3>Changed</h3>
+      <ul>
+        <li><strong>A light vibration confirms a successful action</strong> such as submitting an entry, saving your commentary or display name, voting, or posting a comment.</li>
+        <li><strong>Consistent loading, empty and error states</strong> across all competition screens. When something fails to load, you now see an error message instead of a blank screen.</li>
+        <li><strong>No more double titles.</strong> Seven screens repeated their title right below the header; the repeat is gone.</li>
+      </ul>
+    </section>
+
+    <section class="release">
+      <h2><span class="ver">v2.5.1</span> <span class="date">2026-06-29</span></h2>
+      <p class="lede">Visual consistency pass.</p>
+
+      <h3>Changed</h3>
+      <ul>
+        <li><strong>Competition status badges are easier to read</strong> thanks to better colour contrast. Error messages and delete confirmations now look the same throughout the app.</li>
+      </ul>
+    </section>
+
+    <section class="release">
+      <h2><span class="ver">v2.5.0</span> <span class="date">2026-06-29</span></h2>
+      <p class="lede">Talk about the entries.</p>
+
+      <h3>Added</h3>
+      <ul>
+        <li><strong>Comments on competition entries.</strong> Once voting opens, and after a competition ends, signed-in painters can comment on any entry. Everyone can read comments, no account needed. You can delete your own comments at any time.</li>
+        <li><strong>Report an entry or a comment.</strong> Pick a reason (spam, offensive, off-topic or other) and add an optional note. Reports are private; a moderator reviews each one.</li>
+      </ul>
+
+      <h3>Changed</h3>
+      <ul>
+        <li><strong>"Closest across brands" no longer suggests paints you already own.</strong> When none of your paints is a close match, the list now shows alternatives you could buy.</li>
+        <li><strong>Privacy policy updated to v6.1</strong> covering comments and reports.</li>
+      </ul>
+
+      <h3>Fixed</h3>
+      <ul>
+        <li><strong>The keyboard no longer covers the comment box or the report form.</strong></li>
+      </ul>
+    </section>
+
+    <section class="release">
+      <h2><span class="ver">v2.4.0</span> <span class="date">2026-06-10</span></h2>
+      <p class="lede">The competition gets competitive: voting is here.</p>
+
+      <h3>Added</h3>
+      <ul>
+        <li><strong>Vote for your favourite entry.</strong> During the voting window, signed-in painters get one vote per competition. You can move it to another entry, but not to your own.</li>
+        <li><strong>A ranked Top 3.</strong> Past competitions show gold, silver and bronze winners, and the Hall of Fame shows each winner with their vote count.</li>
+        <li><strong>Vote counts on entry cards</strong>, plus a marker on the entry you voted for.</li>
+      </ul>
+    </section>
+
+    <section class="release">
+      <h2><span class="ver">v2.3.0</span> <span class="date">2026-06-09</span></h2>
+      <p class="lede">The monthly palette competition is here. Paint the month's palette, share a photo, and see what everyone else made.</p>
+
+      <h3>Added</h3>
+      <ul>
+        <li><strong>A Competition card on Home</strong> shows this month's palette and where the competition stands: open for entries, voting, or finished.</li>
+        <li><strong>Enter in three steps.</strong> Pick a photo of your painted mini, add optional commentary, and submit. While entries are open, you can edit your commentary or withdraw your entry.</li>
+        <li><strong>Browse this month's entries</strong> and tap any entry to see the photo full size.</li>
+        <li><strong>Hall of Fame.</strong> Past competitions and their entries stay viewable after they end.</li>
+        <li><strong>Choose your display name.</strong> Under Settings → Account → Edit display name you can replace your Google name with one of your own (3–40 characters). It's the name shown on your entries.</li>
+      </ul>
+
+      <h3>Changed</h3>
+      <ul>
+        <li><strong>Privacy policy updated to v6.0.</strong> Competition entries (your photo and optional commentary) are public to all app users.</li>
+      </ul>
+
+      <h3>Fixed</h3>
+      <ul>
+        <li><strong>Photo uploads now work on real phones.</strong> The upload path added in v2.1.0 failed on real devices.</li>
+      </ul>
+    </section>
+
+    <section class="release">
+      <h2><span class="ver">v2.2.0</span> <span class="date">2026-06-08</span></h2>
+      <p class="lede">Behind-the-scenes groundwork for the monthly palette competition. No visible change for regular users.</p>
+
+      <h3>Changed</h3>
+      <ul>
+        <li><strong>Privacy policy updated to v5.0</strong>, disclosing that a moderator can review uploaded photos before they become public.</li>
+      </ul>
+    </section>
+
+    <section class="release">
       <h2><span class="ver">v2.1.1</span> <span class="date">2026-06-07</span></h2>
       <p class="lede">Sign-in polish.</p>
 

@@ -4,6 +4,14 @@ User-facing changes to [pixel-paladin.de](https://pixel-paladin.de). Newest firs
 
 The format is based on [Keep a Changelog 1.1.0](https://keepachangelog.com/en/1.1.0/), and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.4.1] — 2026-09-27
+
+### Changed
+- Updated the Colorbench **privacy policy** to v7.0. It now covers the monthly palette competition (public entries, voting, comments and private reports) and the new optional public profile fields: social handles and country, which every app user can see and which are deleted with your account.
+- The Colorbench **account deletion** page now lists everything that gets deleted, including uploaded photos, competition entries, comments, social handles and country.
+- Synced the public Colorbench changelog with v2.2.0 through v2.6.0, covering the launch of the monthly palette competition, voting, comments, and the v2.6.0 quality release.
+- Refreshed the Colorbench version stamp v2.1.1 → v2.6.0 (homepage project card + landing page metadata).
+
 ## [1.4] — 2026-06-08
 
 ### Added
