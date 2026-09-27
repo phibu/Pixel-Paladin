@@ -90,7 +90,7 @@
         <li><strong>SIEM integration</strong> — RFC 5424 syslog over UDP/TCP, optional email alerts.</li>
         <li><strong>Expiry reminder emails</strong> — daily nudge before a password is about to die.</li>
         <li><strong>Flexible username formats</strong> — SAM, UPN, or mail attribute. Configurable.</li>
-        <li><strong>Respects <code>minPwdAge</code></strong> — no churn-reset gaming the policy.</li>
+        <li><strong>Respects <code translate="no">minPwdAge</code></strong> — no churn-reset gaming the policy.</li>
       </ul>
 
       <h2>Security posture</h2>
@@ -105,17 +105,17 @@
       <ul>
         <li><strong>Runtime:</strong> .NET 10 LTS on Windows Server 2019 / 2022 / 2025</li>
         <li><strong>Web:</strong> ASP.NET Core + React 19 + TypeScript + MUI v6 + Vite</li>
-        <li><strong>AD:</strong> <code>System.DirectoryServices.AccountManagement</code> — domain-joined or explicit LDAP</li>
+        <li><strong>AD:</strong> <code translate="no">System.DirectoryServices.AccountManagement</code> — domain-joined or explicit LDAP</li>
         <li><strong>Email:</strong> MailKit (STARTTLS / SMTPS)</li>
       </ul>
 
       <h2>Install</h2>
-<pre><code>.\Install-PassReset.ps1 -CertThumbprint "YOUR_CERT_THUMBPRINT"</code></pre>
+<pre translate="no"><code translate="no">.\Install-PassReset.ps1 -CertThumbprint "YOUR_CERT_THUMBPRINT"</code></pre>
       <p>Full guide: <a href="https://github.com/phibu/AD-Passreset-Portal/blob/master/docs/IIS-Setup.md" target="_blank" rel="noopener">docs/IIS-Setup.md</a>.</p>
 
       <h2>Screens</h2>
       <figure class="screenshot">
-        <img src="/ds/assets/ad-passreset/change-password.png" alt="AD-Passreset Portal — change password screen with breach-check and complexity meter" loading="lazy" />
+        <img src="/ds/assets/ad-passreset/change-password.png" width="2560" height="1600" alt="AD-Passreset Portal — change password screen with breach-check and complexity meter" loading="lazy" />
         <figcaption>Change password screen — breach-checked against HIBP, complexity meter, rate-limited.</figcaption>
       </figure>
 

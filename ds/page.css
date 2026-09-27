@@ -150,7 +150,7 @@ a { color: inherit; text-decoration: none; }
   gap: 40px;
   align-items: start;
 }
-@media (max-width: 860px) { .layout { grid-template-columns: 1fr; } }
+@media (max-width: 860px) { .layout { grid-template-columns: minmax(0, 1fr); } }
 
 /* Prose */
 .prose { max-width: 70ch; }
