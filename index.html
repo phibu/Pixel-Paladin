@@ -915,7 +915,7 @@
 
     <div class="hero-main">
       <div class="hero-eyebrow">
-        <span class="dot"></span> <span>Online · v1.4.2</span>
+        <span class="dot"></span> <span>Online · v1.5.0</span>
         <span style="color:var(--pp-border-strong)">·</span>
         <span id="tzNow" class="mono"></span>
       </div>
@@ -990,7 +990,7 @@
         </div>
         <div class="stats">
           <div class="stat">
-            <div class="k">Uptime</div>
+            <div class="k">Since launch</div>
             <div class="v" id="stUptime">—</div>
           </div>
           <div class="stat">
@@ -1003,7 +1003,7 @@
           </div>
           <div class="stat">
             <div class="k">Public OSS</div>
-            <div class="v" id="stMit" aria-live="polite">—<small>MIT</small></div>
+            <div class="v" id="stMit" aria-live="polite">—<small>OSI</small></div>
           </div>
         </div>
       </div>
@@ -1204,7 +1204,7 @@
   </main>
   <footer class="foot">
     <div class="mono">© <span id="year">2026</span> · Philipp Buchwald · Pixel-Paladin.de</div>
-    <div class="mono"><a href="/impressum/" style="color:inherit;border-bottom:1px solid var(--pp-border)">Impressum</a> · <a href="/datenschutz/" style="color:inherit;border-bottom:1px solid var(--pp-border)">Datenschutz</a> · Built in the workshop · <span style="color:var(--pp-red-500)">v1.4.2</span></div>
+    <div class="mono"><a href="/impressum/" style="color:inherit;border-bottom:1px solid var(--pp-border)">Impressum</a> · <a href="/datenschutz/" style="color:inherit;border-bottom:1px solid var(--pp-border)">Datenschutz</a> · Built in the workshop · <span style="color:var(--pp-red-500)">v1.5.0</span></div>
   </footer>
 
 </div>
@@ -1372,8 +1372,9 @@
   });
 
   // ---------- Live-ish stats ----------
-  // Uptime: counts from a fixed date (site launch). Format D:HH:MM:SS
-  const EPOCH = new Date('2026-01-14T09:00:00Z').getTime();
+  // Since launch: time since go-live (first commit), not measured availability.
+  // Format D:HH:MM:SS
+  const EPOCH = new Date('2026-04-20T20:29:22Z').getTime();
   function fmtUptime() {
     const now = Date.now();
     let s = Math.max(0, Math.floor((now - EPOCH)/1000));
@@ -1387,10 +1388,8 @@
   }
   setInterval(tickUptime, 1000); tickUptime();
 
-  // Last push: live from this repo's commits API (reliable — events feed
-  // deduplicates and can drop PushEvent entirely in bursty activity)
-  const GH_USER = 'phibu';
-  const GH_REPO = 'Pixel-Paladin';
+  // Last push, Repos, Public OSS: one call to our own /api/stats (Pages
+  // Function, cached, token-authenticated). Each tile falls back to "—" alone.
   function relTime(ts) {
     const diff = Math.max(0, Date.now() - ts);
     const m = Math.floor(diff/60000);
@@ -1400,43 +1399,21 @@
     if (h < 48) return `${h}h ago`;
     return `${Math.floor(h/24)}d ago`;
   }
-  function renderCommit(hash, ts) {
-    document.getElementById('stCommit').innerHTML = `${hash} <small>${relTime(ts)}</small>`;
-  }
   (async () => {
+    let st = {};
     try {
-      const r = await fetch(`https://api.github.com/repos/${GH_USER}/${GH_REPO}/commits?per_page=1`, {
-        headers: { 'Accept': 'application/vnd.github+json' }
-      });
-      if (!r.ok) throw new Error('gh '+r.status);
-      const commits = await r.json();
-      if (commits.length) {
-        const c = commits[0];
-        const sha = (c.sha || '').slice(0, 7) || '—';
-        const ts = new Date(c.commit.author.date).getTime();
-        renderCommit(sha, ts);
-        return;
-      }
-    } catch (e) { /* fall through to dash */ }
-    document.getElementById('stCommit').innerHTML = '— <small>n/a</small>';
-  })();
-
-  // Repos + Public OSS: live from GitHub, fallback to hardcoded
-  (async () => {
-    try {
-      const r = await fetch(`https://api.github.com/users/${GH_USER}/repos?per_page=100&type=owner&sort=updated`, {
-        headers: { 'Accept': 'application/vnd.github+json' }
-      });
-      if (!r.ok) throw new Error('gh '+r.status);
-      const repos = await r.json();
-      const publicRepos = repos.filter(x => !x.fork && !x.private);
-      const mit = publicRepos.filter(x => x.license && x.license.spdx_id === 'MIT');
-      document.getElementById('stRepos').innerHTML = `${publicRepos.length}<small>public</small>`;
-      document.getElementById('stMit').innerHTML = `${mit.length}<small>MIT</small>`;
-    } catch (e) {
-      document.getElementById('stRepos').innerHTML = `—<small>n/a</small>`;
-      document.getElementById('stMit').innerHTML = `—<small>n/a</small>`;
-    }
+      const r = await fetch('/api/stats', { headers: { 'Accept': 'application/json' } });
+      if (!r.ok) throw new Error('stats '+r.status);
+      st = await r.json();
+    } catch (e) { /* every tile falls through to dash */ }
+    const lp = st.lastPush;
+    document.getElementById('stCommit').innerHTML = lp && lp.sha && lp.date
+      ? `${lp.sha.slice(0, 7)} <small>${relTime(new Date(lp.date).getTime())}</small>`
+      : '— <small>n/a</small>';
+    document.getElementById('stRepos').innerHTML = Number.isInteger(st.repos)
+      ? `${st.repos}<small>public</small>` : `—<small>n/a</small>`;
+    document.getElementById('stMit').innerHTML = Number.isInteger(st.oss)
+      ? `${st.oss}<small>OSI</small>` : `—<small>n/a</small>`;
   })();
 
   // TZ clock in eyebrow
