@@ -4,6 +4,18 @@ User-facing changes to [pixel-paladin.de](https://pixel-paladin.de). Newest firs
 
 The format is based on [Keep a Changelog 1.1.0](https://keepachangelog.com/en/1.1.0/), and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.4.2] — 2026-09-27
+
+### Changed
+- The whole site works better with a keyboard and screen readers: a visible focus ring everywhere, a "skip to content" link on every page, labelled controls, and live stats that are read out once they load.
+- Animations are switched off if your device asks for reduced motion, and the browser's own controls follow the dark theme.
+- The Colorbench open-source licence list can be searched and sorted by keyboard, and the screenshot carousel and enlarged view work with screen readers.
+- Every release on the Colorbench changelog now has its own link, so you can share a specific version.
+
+### Fixed
+- The AD-Passreset page no longer jumps while its screenshot loads, and its install command no longer runs off the edge on phones.
+- Headings on the Colorbench page are in the right order for screen readers.
+
 ## [1.4.1] — 2026-09-27
 
 ### Changed
