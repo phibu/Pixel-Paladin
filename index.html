@@ -874,6 +874,7 @@
 </style>
 </head>
 <body class="pp-root pp-dark variant-minimal" data-accent="med">
+<a class="skip-link" href="#main">Skip to content</a>
 
 <div class="page">
 
@@ -881,7 +882,7 @@
   <header class="topbar" data-screen-label="Top bar">
     <a class="brand" href="#top">
       <!-- Logo mark inline (pixel shield) -->
-      <svg class="mark" viewBox="0 0 256 256" shape-rendering="crispEdges" aria-label="PixelPaladin mark">
+      <svg class="mark" aria-hidden="true" focusable="false" viewBox="0 0 256 256" shape-rendering="crispEdges">
         <rect width="256" height="256" rx="24" fill="#111110"/>
         <rect x="48" y="56" width="24" height="144" fill="#e51b10"/>
         <rect x="72" y="56" width="48" height="24" fill="#e51b10"/>
@@ -906,6 +907,7 @@
       <a href="#contact">Contact</a>
     </nav>
   </header>
+  <main id="main" tabindex="-1">
 
   <!-- HERO -->
   <section class="hero" id="top" data-screen-label="Hero">
@@ -1041,7 +1043,7 @@
     <div class="grid">
 
       <a class="card" href="/projects/ad-passreset/">
-        <div class="card-top">
+        <div class="card-top" aria-hidden="true">
           <div class="card-icon red"><i data-lucide="shield-check" style="width:22px;height:22px"></i></div>
         </div>
         <div class="card-body">
@@ -1057,7 +1059,7 @@
       </a>
 
       <article class="card">
-        <div class="card-top forge-scene" aria-label="Dynasty Forge teaser">
+        <div class="card-top forge-scene" aria-hidden="true">
           <div class="forge-stars"></div>
           <div class="forge-anvil">
             <!-- pixel anvil + ember + hammer -->
@@ -1104,7 +1106,7 @@
       </article>
 
       <a class="card" href="/projects/colorbench/">
-        <div class="card-top">
+        <div class="card-top" aria-hidden="true">
           <div class="card-icon gold"><i data-lucide="palette" style="width:22px;height:22px"></i></div>
         </div>
         <div class="card-body">
@@ -1120,7 +1122,7 @@
       </a>
 
       <article class="card">
-        <div class="card-top">
+        <div class="card-top" aria-hidden="true">
           <div class="card-icon"><i data-lucide="paintbrush" style="width:22px;height:22px"></i></div>
         </div>
         <div class="card-body">
@@ -1136,7 +1138,7 @@
       </article>
 
       <article class="card">
-        <div class="card-top">
+        <div class="card-top" aria-hidden="true">
           <div class="card-icon"><i data-lucide="home" style="width:22px;height:22px"></i></div>
         </div>
         <div class="card-body">
@@ -1152,7 +1154,7 @@
       </article>
 
       <article class="card">
-        <div class="card-top">
+        <div class="card-top" aria-hidden="true">
           <div class="card-icon red"><i data-lucide="printer" style="width:22px;height:22px"></i></div>
         </div>
         <div class="card-body">
@@ -1199,6 +1201,7 @@
     </div>
   </section>
 
+  </main>
   <footer class="foot">
     <div class="mono">© <span id="year">2026</span> · Philipp Buchwald · Pixel-Paladin.de</div>
     <div class="mono"><a href="/impressum/" style="color:inherit;border-bottom:1px solid var(--pp-border)">Impressum</a> · <a href="/datenschutz/" style="color:inherit;border-bottom:1px solid var(--pp-border)">Datenschutz</a> · Built in the workshop · <span style="color:var(--pp-red-500)">v1.4.1</span></div>
