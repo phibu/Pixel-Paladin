@@ -47,6 +47,9 @@ a { color: inherit; text-decoration: none; }
   border-bottom: 1px solid var(--pp-border);
   margin-bottom: 36px;
 }
+/* Brand + 3 nav links need ~426px; below that the nav wraps under the brand
+   instead of overflowing the page. */
+@media (max-width: 430px) { .topbar { flex-wrap: wrap; gap: 14px 20px; } }
 .brand { display: flex; align-items: center; gap: 12px; }
 .brand svg.mark { width: 32px; height: 32px; border-radius: 5px; display: block; }
 .brand .name {
@@ -155,7 +158,7 @@ a { color: inherit; text-decoration: none; }
 @media (max-width: 860px) { .layout { grid-template-columns: minmax(0, 1fr); } }
 
 /* Prose */
-.prose { max-width: 70ch; }
+.prose { max-width: 70ch; overflow-wrap: break-word; }  /* long German compounds / URLs must not widen the page */
 .prose h2 {
   font-family: var(--pp-font-display);
   font-weight: 700;
