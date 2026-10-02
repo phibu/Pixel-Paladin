@@ -50,7 +50,6 @@
 <link rel="stylesheet" href="/ds/colors_and_type.css?v=20261002"/>
 <link rel="stylesheet" href="/ds/page.css?v=20261002"/>
 <style>
-  .page { max-width: 1200px; margin: 0 auto; padding: 40px 32px 80px; }
   /* Topbar extends to full 1200px page width; everything below the
      topbar caps at 820px for readable line-length and consistent
      visual rhythm. */
@@ -104,9 +103,17 @@
   .shot {
     display: flex;
     flex-direction: column;
+    justify-content: center;
+    align-items: center;
     gap: 12px;
     min-width: 0;
     margin: 0;
+    aspect-ratio: 4 / 3;
+    border: 1px solid var(--pp-border);
+    border-radius: 6px;
+    background:
+      repeating-linear-gradient(45deg, transparent 0 10px, color-mix(in oklch, var(--pp-fg-subtle) 8%, transparent) 10px 11px),
+      var(--pp-bg-sunken);
   }
   .shot-trigger {
     appearance: none;
@@ -406,7 +413,7 @@
 <body class="pp-root pp-dark">
 <a class="skip-link" href="#main">Skip to content</a>
 
-<div class="page">
+<div class="page page--wide">
   <header class="topbar">
     <a class="brand" href="/">
       <svg class="mark" aria-hidden="true" focusable="false" viewBox="0 0 256 256" shape-rendering="crispEdges">

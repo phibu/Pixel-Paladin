@@ -4,6 +4,11 @@ User-facing changes to [pixel-paladin.de](https://pixel-paladin.de). Newest firs
 
 The format is based on [Keep a Changelog 1.1.0](https://keepachangelog.com/en/1.1.0/), and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.5.1] — 2026-10-02
+
+### Fixed
+- Impressum, Datenschutz and the Colorbench pages (landing, changelog, privacy policy, account deletion) now use more of the screen on phones, so text wraps less and the pages are shorter to scroll.
+
 ## [1.5.0] — 2026-09-27
 
 ### Changed
