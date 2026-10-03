@@ -32,12 +32,14 @@ a { color: inherit; text-decoration: none; }
 .dot.gold { background: var(--pp-gold-500); }
 
 .page {
-  max-width: 1100px;
+  max-width: 1200px;
   margin: 0 auto;
   padding: 40px 32px 80px;
 }
-.page--narrow { max-width: 820px; }   /* legal pages, changelog */
-.page--wide   { max-width: 1200px; }  /* project landing pages */
+/* One frame for every page: header, footer and legal strip always use the full 1200px, so the chrome
+   never moves when you navigate. --narrow only sets the reading width of the content column
+   (the former 820px page = 756px of text) and keeps it centred under the frame. */
+.page--narrow > .crumbs, .page--narrow > main { max-width: 756px; margin-left: auto; margin-right: auto; }
 @media (max-width: 720px) { .page { padding: 20px 16px 60px; } }
 
 /* Top bar */
@@ -160,6 +162,7 @@ a { color: inherit; text-decoration: none; }
 
 /* Prose */
 .prose { max-width: 70ch; overflow-wrap: break-word; }  /* long German compounds / URLs must not widen the page */
+.prose--wide { max-width: none; }   /* data pages: the SBOM table may use the whole frame */
 .prose h2 {
   font-family: var(--pp-font-display);
   font-weight: 700;
