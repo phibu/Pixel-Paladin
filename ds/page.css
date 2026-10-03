@@ -204,7 +204,7 @@ a { color: inherit; text-decoration: none; }
 .prose a:hover { border-bottom-style: solid; }
 .prose hr { border: 0; border-top: 1px solid var(--pp-border); margin: 32px 0; }
 .prose blockquote {
-  border-left: 3px solid var(--pp-red-500);
+  border-left: 3px solid var(--pp-border-strong);
   margin: 14px 0; padding: 4px 14px;
   color: var(--pp-fg-muted);
   font-style: italic;
