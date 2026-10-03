@@ -52,7 +52,7 @@ a { color: inherit; text-decoration: none; }
    instead of overflowing, with no breakpoint to keep in sync. Touch targets get a real hit area. */
 @media (max-width: 720px) { .topnav a { display: inline-flex; align-items: center; min-height: 44px; } }
 .brand { display: flex; align-items: center; gap: 12px; }
-.brand svg.mark { width: 32px; height: 32px; border-radius: 5px; display: block; }
+.brand .mark { width: 32px; height: 32px; flex: none; border-radius: 5px; display: block; }
 .brand .name {
   font-family: var(--pp-font-display);
   font-weight: 800; font-size: 16px; letter-spacing: -0.01em;
