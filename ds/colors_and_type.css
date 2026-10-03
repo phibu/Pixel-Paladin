@@ -196,7 +196,7 @@
 
   --pp-fg:            var(--pp-ink-50);
   --pp-fg-muted:      var(--pp-ink-300);
-  --pp-fg-subtle:     var(--pp-ink-400);
+  --pp-fg-subtle:     #85837c;               /* AA on raised surfaces: 4.98:1 on ink-900 (ink-400 was 4.40:1) */
   --pp-fg-inverse:    var(--pp-ink-900);
   --pp-fg-brand:      var(--pp-red-400);
   --pp-fg-brand-low:  #b33d36;          /* desaturated brand red — accent intensity LOW */
