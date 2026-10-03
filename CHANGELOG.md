@@ -4,6 +4,32 @@ User-facing changes to [pixel-paladin.de](https://pixel-paladin.de). Newest firs
 
 The format is based on [Keep a Changelog 1.1.0](https://keepachangelog.com/en/1.1.0/), and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.6.0] — 2026-10-03
+
+### Added
+- A proper "Not found" page for broken links. Before, a wrong address silently showed the homepage.
+- The homepage now has navigation on phones: Workshop, Projects and Contact are shown on small screens.
+- New link-preview images for the homepage, The Mini Colorbench and AD-Passreset, so shared links show the right name and description. AD-Passreset had no preview before.
+
+### Changed
+- The homepage "Projects & builds" section has a new layout: the two live products lead with real screenshots, and the workshop tracks follow as a calm list. Status labels are consistent (The Mini Colorbench now reads Live in green).
+- A new shield logo in the header on every page, and the name is written "Pixel Paladin" everywhere.
+- The header now stays in exactly the same place on every page. Impressum, Datenschutz, the privacy policy, the changelog and account deletion line up with the logo, and the software bill of materials table uses the full page width.
+- One red for all highlighted text across the site (the homepage used a duller red than the other pages), and the small grey captions are easier to read.
+- Notes and address boxes on the legal pages and the Colorbench download box use a quiet grey instead of a red tint.
+- On the Colorbench page the four feature cards sit in a tidy 2 × 2 grid and the links at the bottom are grouped in two rows.
+- The Colorbench changelog now includes v2.7.0, and the Colorbench page and project card show 109 palettes.
+
+### Fixed
+- On phones the homepage cut off the "/ now" and live-stats panels at the right edge. They now stack in a single column.
+- The clock shows the right time zone (summer time) and the contact card shows the right UTC offset.
+- Keyboard focus is now visible on every contact row.
+- Pages jump around less while the fonts load, and the homepage appears noticeably faster on a phone connection.
+- The Colorbench page downloads about 15 times less data: the screenshots are compressed, and the enlarged view opens instantly and sharpens as the full-size image arrives.
+- The software bill of materials table scrolls sideways on narrow screens instead of cutting off licence names, and its filter box is easier to see.
+- Links inside text on the legal pages and the AD-Passreset sidebar are underlined, so they no longer rely on colour alone.
+- The install command on the AD-Passreset page no longer sits in a box inside a box, and the Impressum and Datenschutz headings no longer split the word into two colours.
+
 ## [1.5.1] — 2026-10-02
 
 ### Changed
