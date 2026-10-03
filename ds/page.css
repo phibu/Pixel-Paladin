@@ -133,7 +133,7 @@ a { color: inherit; text-decoration: none; }
 }
 .badge.live { color: var(--pp-success); border-color: color-mix(in oklch, var(--pp-success) 40%, var(--pp-border)); }
 .badge.wip  { color: var(--pp-gold-500); border-color: color-mix(in oklch, var(--pp-gold-500) 40%, var(--pp-border)); }
-.badge.red  { color: var(--pp-red-500); border-color: color-mix(in oklch, var(--pp-red-500) 40%, var(--pp-border)); }
+.badge.red  { color: var(--pp-fg-brand); border-color: color-mix(in oklch, var(--pp-red-500) 40%, var(--pp-border)); }
 
 /* Buttons */
 .btn {

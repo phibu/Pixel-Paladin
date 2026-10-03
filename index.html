@@ -56,6 +56,7 @@
 }
 </script>
 <link rel="stylesheet" href="ds/colors_and_type.css?v=20261002" />
+<link rel="stylesheet" href="ds/page.css?v=20261002" />
 <style>
   /* ============================================================
      Tweakable knobs (editable via Tweaks panel)
@@ -70,93 +71,16 @@
   /* ============================================================
      Base
      ============================================================ */
-  html, body { margin: 0; padding: 0; }
-  body {
-    font-family: var(--pp-font-body);
-    background: var(--pp-bg);
-    color: var(--pp-fg);
-    -webkit-font-smoothing: antialiased;
-    text-rendering: optimizeLegibility;
-    overflow-x: hidden;
-  }
-  a { color: inherit; text-decoration: none; }
-  *, *::before, *::after { box-sizing: border-box; }
-
   /* Icons: inline sprite (symbols at the top of <body>), same look the Lucide runtime produced */
   .lucide { fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
 
   /* A couple brand helpers */
-  .mono { font-family: var(--pp-font-mono); }
-  .eyebrow {
-    font-family: var(--pp-font-mono);
-    font-weight: 500;
-    font-size: 11px;
-    text-transform: uppercase;
-    letter-spacing: 0.16em;
-    color: var(--pp-fg-muted);
-  }
-  .dot {
-    display: inline-block; width: 6px; height: 6px;
-    background: var(--pp-red-500); border-radius: 1px;
-    vertical-align: 1px;
-  }
-  .dot.gold { background: var(--pp-gold-500); }
-  .dot.green { background: var(--pp-success); }
-
   /* ============================================================
      Page container (the grid layout)
      ============================================================ */
-  .page {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: calc(24px * var(--tw-density)) calc(32px * var(--tw-density));
-  }
-  @media (max-width: 720px) {
-    .page { padding: 20px 16px; }
-  }
-
   /* ============================================================
      Top bar
      ============================================================ */
-  .topbar {
-    display: flex; align-items: center; justify-content: space-between;
-    flex-wrap: wrap; gap: 14px 20px;
-    padding-bottom: calc(28px * var(--tw-density));
-    border-bottom: 1px solid var(--pp-border);
-    margin-bottom: calc(40px * var(--tw-density));
-  }
-  .brand { display: flex; align-items: center; gap: 12px; }
-  .brand .mark { width: 32px; height: 32px; flex: none; display: block; border-radius: var(--pp-radius-md); }
-  .brand .name {
-    font-family: var(--pp-font-display);
-    font-weight: 800;
-    font-size: 18px;
-    letter-spacing: -0.01em;
-    line-height: 1;
-  }
-  .brand .name span { color: var(--pp-fg-brand); }
-  .brand .sub {
-    font-family: var(--pp-font-mono);
-    font-size: 10px;
-    color: var(--pp-fg-muted);
-    letter-spacing: 0.2em;
-    text-transform: uppercase;
-    margin-top: 4px;
-  }
-  .topnav { display: flex; align-items: center; gap: 20px; }
-  .topnav a {
-    font-family: var(--pp-font-mono);
-    font-size: 12px;
-    color: var(--pp-fg-muted);
-    text-transform: uppercase;
-    letter-spacing: 0.14em;
-    transition: color var(--pp-dur-fast) var(--pp-ease-out);
-  }
-  .topnav a:hover { color: var(--pp-fg); }
-  @media (max-width: 720px) {
-    .topnav a { display: inline-flex; align-items: center; min-height: 44px; }
-  }
-
   /* ============================================================
      Hero (two-column, brutalist grid)
      ============================================================ */
@@ -199,7 +123,9 @@
   .hero h1 .accent { color: var(--pp-fg-brand); }
   .hero h1 .muted { color: var(--pp-fg-subtle); }
   .hero-eyebrow .sep { color: var(--pp-border-strong); }
-  @media (max-width: 480px) { .hero-eyebrow .sep { display: none; } }
+  @media (max-width: 480px) {
+    .hero-eyebrow .sep { display: none; }
+  }
   .hero-kicker {
     max-width: 48ch;
     font-size: 17px;
@@ -210,32 +136,6 @@
   .hero-cta {
     display: flex; gap: 12px; flex-wrap: wrap; margin-top: 12px;
   }
-  .btn {
-    display: inline-flex; align-items: center; gap: 8px;
-    padding: 12px 16px;
-    border-radius: var(--pp-radius-md);
-    font-family: var(--pp-font-body);
-    font-weight: 600;
-    font-size: 14px;
-    border: 1px solid transparent;
-    cursor: pointer;
-    transition: transform var(--pp-dur-fast) var(--pp-ease-out),
-                background var(--pp-dur-fast) var(--pp-ease-out),
-                border-color var(--pp-dur-fast) var(--pp-ease-out);
-  }
-  .btn:active { transform: scale(0.98); }
-  .btn-primary {
-    background: var(--pp-red-500);
-    color: #fff;
-    border-color: var(--pp-red-500);
-  }
-  .btn-primary:hover { background: var(--pp-red-600); border-color: var(--pp-red-600); }
-  .btn-ghost {
-    background: transparent;
-    color: var(--pp-fg);
-    border-color: var(--pp-border-strong);
-  }
-  .btn-ghost:hover { background: var(--pp-bg-raised); }
   .btn .k {
     font-family: var(--pp-font-mono);
     font-size: 11px;
@@ -252,19 +152,6 @@
     min-width: 0;
   }
 
-  .panel {
-    border: 1px solid var(--pp-border);
-    background: var(--pp-bg-raised);
-    border-radius: var(--pp-radius-md);
-    box-shadow: var(--pp-shadow-sm);
-    overflow: hidden;
-  }
-  .panel-head {
-    display: flex; align-items: center; justify-content: space-between;
-    padding: 10px 14px;
-    border-bottom: 1px solid var(--pp-border);
-    background: var(--pp-bg-sunken);
-  }
   .panel-head .title {
     font-family: var(--pp-font-mono);
     font-size: 11px;
@@ -291,8 +178,6 @@
     70%  { box-shadow: 0 0 0 6px rgba(34,197,94,0); }
     100% { box-shadow: 0 0 0 0 rgba(34,197,94,0); }
   }
-  .panel-body { padding: 14px; }
-
   /* /now rows */
   .now-row {
     display: grid;
@@ -441,8 +326,12 @@
     grid-template-columns: repeat(3, 1fr);
     gap: 20px;
   }
-  @media (max-width: 960px) { .grid { grid-template-columns: repeat(2, 1fr); } }
-  @media (max-width: 640px) { .grid { grid-template-columns: 1fr; } }
+  @media (max-width: 960px) {
+    .grid { grid-template-columns: repeat(2, 1fr); }
+  }
+  @media (max-width: 640px) {
+    .grid { grid-template-columns: 1fr; }
+  }
 
   .card {
     position: relative;
@@ -600,24 +489,7 @@
     border-top: 1px dashed var(--pp-border);
   }
 
-  .badge {
-    display: inline-flex; align-items: center; gap: 5px;
-    font-family: var(--pp-font-mono);
-    font-size: 10px;
-    font-weight: 500;
-    padding: 3px 7px;
-    border-radius: var(--pp-radius-xs);
-    text-transform: uppercase;
-    letter-spacing: 0.12em;
-    border: 1px solid var(--pp-border);
-    color: var(--pp-fg-muted);
-    background: var(--pp-bg-sunken);
-  }
-  .badge.live { color: var(--pp-success); border-color: color-mix(in oklch, var(--pp-success) 40%, var(--pp-border)); }
-  .badge.wip  { color: var(--pp-gold-500); border-color: color-mix(in oklch, var(--pp-gold-500) 40%, var(--pp-border)); }
   .badge.idle { color: var(--pp-fg-subtle); }
-  .badge.red  { color: var(--pp-fg-brand); border-color: color-mix(in oklch, var(--pp-red-500) 40%, var(--pp-border)); }
-
   /* ============================================================
      Workshop / disciplines strip
      ============================================================ */
@@ -630,8 +502,12 @@
     overflow: hidden;
     background: var(--pp-bg-raised);
   }
-  @media (max-width: 960px) { .strip { grid-template-columns: repeat(3, 1fr); } }
-  @media (max-width: 480px) { .strip { grid-template-columns: repeat(2, 1fr); } }
+  @media (max-width: 960px) {
+    .strip { grid-template-columns: repeat(3, 1fr); }
+  }
+  @media (max-width: 480px) {
+    .strip { grid-template-columns: repeat(2, 1fr); }
+  }
 
   .discipline {
     padding: 18px 16px;
@@ -670,7 +546,9 @@
     gap: 28px;
     align-items: end;
   }
-  @media (max-width: 720px) { .contact { grid-template-columns: 1fr; } }
+  @media (max-width: 720px) {
+    .contact { grid-template-columns: 1fr; }
+  }
 
   .contact h2 {
     font-family: var(--pp-font-display);
@@ -716,21 +594,6 @@
   /* ============================================================
      Footer
      ============================================================ */
-  .foot {
-    padding: 28px 0 12px;
-    display: flex; align-items: center; justify-content: space-between;
-    border-top: 1px solid var(--pp-border);
-    margin-top: 40px;
-    flex-wrap: wrap;
-    gap: 12px;
-  }
-  .foot .mono {
-    font-size: 11px;
-    color: var(--pp-fg-subtle);
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
-  }
-
   /* ============================================================
      Variant 2: Terminal-hero layout override
      Applied when body has .variant-terminal
