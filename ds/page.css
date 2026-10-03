@@ -199,6 +199,7 @@ a { color: inherit; text-decoration: none; }
   overflow-x: auto;
   color: var(--pp-fg);
 }
+.prose pre code { background: none; border: 0; padding: 0; border-radius: 0; font-size: inherit; }
 .prose a { color: var(--pp-fg-brand); border-bottom: 1px dashed color-mix(in oklch, var(--pp-fg-brand) 50%, transparent); }
 .prose a:hover { border-bottom-style: solid; }
 .prose hr { border: 0; border-top: 1px solid var(--pp-border); margin: 32px 0; }
