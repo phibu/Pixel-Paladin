@@ -446,37 +446,37 @@
     <div class="shots-grid" role="region" aria-roledescription="carousel" aria-label="App screenshots">
       <figure class="shot">
         <button class="shot-trigger" type="button" aria-label="Open larger preview: Select colours you own">
-          <img src="/ds/assets/colorbench/03-paints.png" width="1080" height="2280" alt="Select the paints you own across 9 brands so the match engine knows your collection" loading="lazy"/>
+          <img src="/ds/assets/colorbench/03-paints-540.webp" data-full="/ds/assets/colorbench/03-paints-1080.webp" width="540" height="1140" alt="Select the paints you own across 9 brands so the match engine knows your collection" loading="lazy" decoding="async"/>
         </button>
         <figcaption class="cap"><strong>01</strong> Select colours you own</figcaption>
       </figure>
       <figure class="shot">
         <button class="shot-trigger" type="button" aria-label="Open larger preview: Browse the catalogue">
-          <img src="/ds/assets/colorbench/01-browser.png" width="1080" height="2280" alt="Browse 106 curated palettes with mood, warmth and faction filters" loading="lazy"/>
+          <img src="/ds/assets/colorbench/01-browser-540.webp" data-full="/ds/assets/colorbench/01-browser-1080.webp" width="540" height="1140" alt="Browse 106 curated palettes with mood, warmth and faction filters" loading="lazy" decoding="async"/>
         </button>
         <figcaption class="cap"><strong>02</strong> Browse the catalogue</figcaption>
       </figure>
       <figure class="shot">
         <button class="shot-trigger" type="button" aria-label="Open larger preview: Check the details">
-          <img src="/ds/assets/colorbench/02-detail.png" width="1080" height="2280" alt="Check the details of a palette — colours, brand assignments, and reference imagery" loading="lazy"/>
+          <img src="/ds/assets/colorbench/02-detail-540.webp" data-full="/ds/assets/colorbench/02-detail-1080.webp" width="540" height="1140" alt="Check the details of a palette — colours, brand assignments, and reference imagery" loading="lazy" decoding="async"/>
         </button>
         <figcaption class="cap"><strong>03</strong> Check the details</figcaption>
       </figure>
       <figure class="shot">
         <button class="shot-trigger" type="button" aria-label="Open larger preview: Match what you own">
-          <img src="/ds/assets/colorbench/04-match.png" width="1080" height="2280" alt="Match the closest paints from your collection using CIEDE2000 colour distance" loading="lazy"/>
+          <img src="/ds/assets/colorbench/04-match-540.webp" data-full="/ds/assets/colorbench/04-match-1080.webp" width="540" height="1140" alt="Match the closest paints from your collection using CIEDE2000 colour distance" loading="lazy" decoding="async"/>
         </button>
         <figcaption class="cap"><strong>04</strong> Match what you own</figcaption>
       </figure>
       <figure class="shot">
         <button class="shot-trigger" type="button" aria-label="Open larger preview: Save to a project">
-          <img src="/ds/assets/colorbench/05-project.png" width="1080" height="2280" alt="Save palettes and mix recipes to hobby projects so you can find them again later" loading="lazy"/>
+          <img src="/ds/assets/colorbench/05-project-540.webp" data-full="/ds/assets/colorbench/05-project-1080.webp" width="540" height="1140" alt="Save palettes and mix recipes to hobby projects so you can find them again later" loading="lazy" decoding="async"/>
         </button>
         <figcaption class="cap"><strong>05</strong> Save to a project</figcaption>
       </figure>
       <figure class="shot">
         <button class="shot-trigger" type="button" aria-label="Open larger preview: Palette of the Day">
-          <img src="/ds/assets/colorbench/06-random.png" width="1080" height="2280" alt="Palette of the Day surfaces one curated palette per local calendar day" loading="lazy"/>
+          <img src="/ds/assets/colorbench/06-random-540.webp" data-full="/ds/assets/colorbench/06-random-1080.webp" width="540" height="1140" alt="Palette of the Day surfaces one curated palette per local calendar day" loading="lazy" decoding="async"/>
         </button>
         <figcaption class="cap"><strong>06</strong> Palette of the Day</figcaption>
       </figure>
@@ -619,7 +619,7 @@
     btn.addEventListener('click', function () {
       var img = btn.querySelector('img');
       if (!img) return;
-      openLightbox(img.currentSrc || img.src, img.alt);
+      openLightbox(img.getAttribute("data-full") || img.currentSrc || img.src, img.alt);
     });
   });
   if (dlgClose) dlgClose.addEventListener('click', closeLightbox);
