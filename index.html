@@ -120,12 +120,13 @@
      ============================================================ */
   .topbar {
     display: flex; align-items: center; justify-content: space-between;
+    flex-wrap: wrap; gap: 14px 20px;
     padding-bottom: calc(28px * var(--tw-density));
     border-bottom: 1px solid var(--pp-border);
     margin-bottom: calc(40px * var(--tw-density));
   }
   .brand { display: flex; align-items: center; gap: 12px; }
-  .brand svg.mark { border-radius: var(--pp-radius-md); }
+  .brand svg.mark { width: 32px; height: 32px; flex: none; display: block; border-radius: var(--pp-radius-md); }
   .brand .name {
     font-family: var(--pp-font-display);
     font-weight: 800;
@@ -153,7 +154,7 @@
   }
   .topnav a:hover { color: var(--pp-fg); }
   @media (max-width: 720px) {
-    .topnav a:not(.primary) { display: none; }
+    .topnav a { display: inline-flex; align-items: center; min-height: 44px; }
   }
 
   /* ============================================================
@@ -178,7 +179,7 @@
     min-width: 0;
   }
   .hero-eyebrow {
-    display: flex; align-items: center; gap: 10px;
+    display: flex; align-items: center; flex-wrap: wrap; gap: 4px 10px;
     font-family: var(--pp-font-mono);
     font-size: 12px;
     color: var(--pp-fg-muted);
@@ -197,6 +198,8 @@
   }
   .hero h1 .accent { color: var(--pp-fg-brand); }
   .hero h1 .muted { color: var(--pp-fg-subtle); }
+  .hero-eyebrow .sep { color: var(--pp-border-strong); }
+  @media (max-width: 480px) { .hero-eyebrow .sep { display: none; } }
   .hero-kicker {
     max-width: 48ch;
     font-size: 17px;
@@ -735,6 +738,9 @@
   body.variant-terminal .hero {
     grid-template-columns: 1.4fr 1fr;
   }
+  @media (max-width: 960px) {
+    body.variant-terminal .hero { grid-template-columns: 1fr; }
+  }
   body.variant-terminal .hero-main {
     background: var(--pp-bg-sunken);
     border: 1px solid var(--pp-border);
@@ -920,7 +926,7 @@
     <div class="hero-main">
       <div class="hero-eyebrow">
         <span class="dot"></span> <span>Online · v1.5.1</span>
-        <span style="color:var(--pp-border-strong)">·</span>
+        <span class="sep" aria-hidden="true">·</span>
         <span id="tzNow" class="mono"></span>
       </div>
 
