@@ -306,6 +306,7 @@
     font-size: 12px;
     color: var(--pp-fg-brand);
     letter-spacing: 0.1em;
+    white-space: nowrap;
   }
   .section-head h2 {
     font-family: var(--pp-font-display);
@@ -323,46 +324,54 @@
   }
 
   /* ============================================================
-     Project grid
+     Projects: featured pair (shipped) + divided list (in progress)
      ============================================================ */
-  .grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 20px;
+  .featured { display: grid; gap: 16px; margin-bottom: 40px; }
+  @media (min-width: 660px) {
+    .featured { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   }
-  @media (max-width: 960px) {
-    .grid { grid-template-columns: repeat(2, 1fr); }
-  }
-  @media (max-width: 640px) {
-    .grid { grid-template-columns: 1fr; }
+  @media (min-width: 820px) {
+    .featured { gap: 20px; }
   }
 
-  .card {
-    position: relative;
+  .feature {
     display: flex; flex-direction: column;
-    border: 1px solid var(--pp-border);
     background: var(--pp-bg-raised);
+    border: 1px solid var(--pp-border);
     border-radius: var(--pp-radius-md);
     overflow: hidden;
-    transition: transform var(--pp-dur-fast) var(--pp-ease-out),
-                border-color var(--pp-dur-fast) var(--pp-ease-out),
-                box-shadow var(--pp-dur-fast) var(--pp-ease-out);
+    transition: border-color var(--pp-dur-fast) var(--pp-ease-out);
   }
-  .card:hover {
-    border-color: var(--pp-border-strong);
-    box-shadow: var(--pp-shadow-md);
+  @media (hover: hover) {
+    .feature:hover { border-color: var(--pp-border-strong); }
   }
-  .card-top {
-    height: 120px;
+
+  /* media band: fixed ratio, real product crop */
+  .feature-media {
+    position: relative;
+    aspect-ratio: 2 / 1;
+    overflow: hidden;
     background: var(--pp-bg-sunken);
     border-bottom: 1px solid var(--pp-border);
-    position: relative;
-    overflow: hidden;
-    display: flex; align-items: center; justify-content: center;
+    container-type: inline-size;
   }
-  .card-top::before {
-    content: '';
+  @media (min-width: 480px) and (max-width: 659px) {
+    .feature-media { aspect-ratio: 5 / 2; }
+  }
+  @media (min-width: 820px) {
+    .feature-media { aspect-ratio: 11 / 5; }
+  }
+  .feature-media > img {
     position: absolute; inset: 0;
+    display: block; width: 100%; height: 100%;
+    object-fit: cover; object-position: 50% 30%;
+  }
+
+  /* Colorbench: phone screens rise out of the dark. Two on narrow cards, three when there is room.
+     Sizes are % of the band width (the same value cqw would give), so browsers without container
+     units still get a sane strip; only the third phone needs the @container query. */
+  .feature-media--phones::before {
+    content: ''; position: absolute; inset: 0;
     background-image:
       linear-gradient(var(--pp-border) 1px, transparent 1px),
       linear-gradient(90deg, var(--pp-border) 1px, transparent 1px);
@@ -370,21 +379,75 @@
     opacity: 0.5;
     mask-image: radial-gradient(ellipse at center, black 30%, transparent 75%);
   }
-  .card-icon {
-    position: relative;
-    width: 48px; height: 48px;
-    display: flex; align-items: center; justify-content: center;
-    color: var(--pp-fg);
-    background: var(--pp-bg-raised);
-    border: 1px solid var(--pp-border-strong);
-    border-radius: var(--pp-radius-md);
-    box-shadow: var(--pp-shadow-sm);
+  .phones {
+    position: absolute; inset: 0;
+    display: flex; justify-content: center; align-items: flex-start;
+    column-gap: 4%; padding-top: 7%;
+    mask-image: linear-gradient(black 66%, transparent 100%);
   }
-  .card-icon.red { color: var(--pp-red-500); border-color: var(--pp-red-500); }
-  .card-icon.gold { color: var(--pp-gold-500); border-color: var(--pp-gold-500); }
+  .phones img {
+    display: block; flex: none; width: 33%; height: auto;
+    border: 1px solid var(--pp-border-strong); border-bottom: 0;
+    border-radius: var(--pp-radius-md) var(--pp-radius-md) 0 0;
+  }
+  .phones img:nth-child(3) { display: none; }
+  @container (min-width: 440px) {
+    .phones { column-gap: 3%; padding-top: 6%; }
+    .phones img { width: 26%; }
+    .phones img:nth-child(3) { display: block; }
+  }
+
+  .feature-body { display: flex; flex-direction: column; flex: 1; gap: 10px; padding: 16px 16px 18px; }
+  @media (min-width: 820px) {
+    .feature-body { gap: 12px; padding: 20px 22px; }
+  }
+  .feature-top { display: flex; align-items: center; justify-content: space-between; }
+  .go {
+    font-family: var(--pp-font-mono); font-size: 16px; line-height: 1;
+    color: var(--pp-fg-muted);
+    transition: transform var(--pp-dur-fast) var(--pp-ease-out), color var(--pp-dur-fast) var(--pp-ease-out);
+  }
+  @media (hover: hover) {
+    .feature:hover .go { color: var(--pp-fg); transform: translateX(4px); }
+  }
+  .feature h3.proj-title { font-size: clamp(20px, 2.1vw, 24px); }
+  @media (max-width: 340px) {
+    .feature h3.proj-title { font-size: 19px; }
+  }
+  .feature p.proj-desc { margin-bottom: 4px; }
+  @media (min-width: 820px) {
+    .feature p.proj-desc { font-size: 15px; line-height: 1.55; }
+  }
+  .feature p.proj-tags { margin-top: auto; padding-top: 12px; border-top: 1px dashed var(--pp-border); }
 
   /* ============================================================
-     Dynasty Forge pixel teaser (card top)
+     Project text atoms (shared by featured cards and list rows)
+     ============================================================ */
+  h3.proj-title {
+    margin: 0;
+    font-family: var(--pp-font-display); font-weight: 700;
+    letter-spacing: -0.01em; line-height: 1.15;
+    color: var(--pp-fg);
+    text-wrap: balance;
+  }
+  p.proj-desc {
+    margin: 0;
+    font-family: var(--pp-font-body); font-size: 14px; line-height: 1.5;
+    color: var(--pp-fg-muted);
+    text-wrap: pretty;
+  }
+  p.proj-tags {
+    margin: 0;
+    font-family: var(--pp-font-mono); font-size: 11px; line-height: 1.7;
+    letter-spacing: 0.08em; text-transform: uppercase;
+    color: var(--pp-fg-subtle);
+  }
+  .proj-tags span:not(:last-child)::after { content: '·'; content: '·' / ''; margin-left: 0.5em; color: var(--pp-border-strong); }
+  .badge { white-space: nowrap; }
+  .dot.idle { background: var(--pp-fg-subtle); }
+
+  /* ============================================================
+     Dynasty Forge pixel teaser (animated scene, used as the list thumbnail)
      ============================================================ */
   .forge-scene {
     position: relative;
@@ -465,33 +528,76 @@
     100% { transform: translate(calc(var(--dx) * 1.6), calc(var(--dy) * 1.6)); opacity: 0; }
   }
 
-  .card-body { padding: 18px 18px 20px; display: flex; flex-direction: column; gap: 10px; flex: 1; }
-  .card-row { display: flex; align-items: center; justify-content: space-between; gap: 10px; }
-  .card-title {
-    font-family: var(--pp-font-display);
-    font-weight: 700;
-    font-size: 20px;
-    letter-spacing: -0.01em;
-    line-height: 1.15;
-    color: var(--pp-fg);
+  /* ============================================================
+     In progress: divided list (hairlines, no boxes, no hover: none of these has a page to open)
+     ============================================================ */
+  .tracks { list-style: none; margin: 0; padding: 0; border-top: 1px solid var(--pp-border); }
+  .track {
+    display: flex; flex-wrap: wrap; align-items: center;
+    gap: 8px 14px;
+    padding: 16px 0;
+    border-bottom: 1px solid var(--pp-border);
   }
-  .card-desc {
-    font-size: 14px;
-    line-height: 1.5;
-    color: var(--pp-fg-muted);
-    text-wrap: pretty;
+  .track h3.proj-title { order: 1; flex: 1 0 100%; font-size: 17px; }
+  .track p.proj-desc { order: 2; flex: 1 0 100%; }
+  .track .badge { order: 3; }
+  .track p.proj-tags { order: 4; }
+
+  /* Dynasty Forge keeps its animated pixel scene, as a thumbnail on its row */
+  .forge-thumb {
+    order: 0; flex: 0 0 96px; align-self: flex-start;
+    aspect-ratio: 3 / 2;
+    border: 1px solid var(--pp-border);
+    border-radius: var(--pp-radius-md);
+    --s: 0.6;
   }
-  .card-meta {
-    display: flex; align-items: center; gap: 8px;
-    font-family: var(--pp-font-mono);
-    font-size: 11px;
-    color: var(--pp-fg-subtle);
-    text-transform: uppercase;
-    letter-spacing: 0.1em;
-    margin-top: auto;
-    padding-top: 10px;
-    border-top: 1px dashed var(--pp-border);
+  .forge-thumb .forge-anvil { bottom: 4px; transform: translateX(-50%) scale(var(--s)); transform-origin: 50% 100%; }
+  .track--forge h3.proj-title { flex: 1 1 0; min-width: 0; align-self: center; }
+  /* narrowest phones: status and tags never share a line in some rows and not in others */
+  @media (max-width: 339px) {
+    .track p.proj-tags { flex-basis: 100%; }
   }
+
+  /* tablet / small laptop: status in a left rail, text stacked beside it */
+  @media (min-width: 660px) {
+    .track {
+      display: grid;
+      grid-template-columns: 136px minmax(0, 1fr);
+      grid-template-areas: "lead title" "lead desc" "lead tags";
+      align-items: start;
+      gap: 6px 28px;
+      padding: 20px 0;
+    }
+    .track h3.proj-title { grid-area: title; font-size: 18px; }
+    .track p.proj-desc { grid-area: desc; }
+    .track p.proj-tags { grid-area: tags; }
+    .track .badge { grid-area: lead; justify-self: start; }
+    .forge-thumb { grid-area: lead; width: 100%; --s: 0.76; }
+    .track--forge .badge { position: relative; z-index: 1; margin: 6px; }
+    .track--forge h3.proj-title { align-self: start; }
+  }
+  /* wider tablets / small laptops: tags move up beside the title (one line less per row) */
+  @media (min-width: 760px) {
+    .track {
+      grid-template-columns: 136px minmax(0, 1fr) auto;
+      grid-template-rows: auto 1fr;   /* the Forge thumbnail's extra height goes below the text, not between title and copy */
+      grid-template-areas: "lead title tags" "lead desc desc";
+    }
+    .track h3.proj-title, .track p.proj-tags { align-self: baseline; }
+  }
+  /* full desktop: one table-like row, baselines shared */
+  @media (min-width: 1200px) {
+    .track {
+      grid-template-columns: 136px 16rem minmax(0, 1fr) 13rem;
+      grid-template-rows: auto;
+      grid-template-areas: "lead title desc tags";
+      align-items: baseline;
+      column-gap: 24px;
+    }
+    .track h3.proj-title { font-size: 16px; }
+    .forge-thumb { align-self: start; }
+  }
+  .track:last-child { border-bottom: 0; }
 
   .badge.idle { color: var(--pp-fg-subtle); }
   /* ============================================================
@@ -897,7 +1003,7 @@
   </section>
 
   <!-- PROJECTS -->
-  <section class="section" id="projects" data-screen-label="Projects grid">
+  <section class="section" id="projects" data-screen-label="Projects">
     <div class="section-head">
       <div class="left">
         <span class="num">02 /</span>
@@ -906,26 +1012,54 @@
       <div class="note">Six tracks · <span style="color:var(--pp-fg)">always one</span> is pushing</div>
     </div>
 
-    <div class="grid">
+    <!-- Shipped: featured pair (whole card is the link; its name is the project title) -->
+    <div class="featured">
 
-      <a class="card" href="/projects/ad-passreset/">
-        <div class="card-top" aria-hidden="true">
-          <div class="card-icon red"><svg class="lucide lucide-shield-check" width="24" height="24" viewBox="0 0 24 24" style="width:22px;height:22px" aria-hidden="true" focusable="false"><use href="#i-shield-check"/></svg></div>
+      <a class="feature" href="/projects/ad-passreset/" aria-labelledby="pj-adpr" aria-describedby="pj-adpr-d">
+        <div class="feature-media">
+          <img src="/ds/assets/ad-passreset/change-password-540.webp" width="540" height="338" loading="lazy" decoding="async" alt="AD-Passreset change-password form on a dark page: username and password fields above a teal submit button" />
         </div>
-        <div class="card-body">
-          <div class="card-row">
-            <div class="card-title">AD-Passreset Portal</div>
+        <div class="feature-body">
+          <div class="feature-top">
             <span class="badge live"><span class="dot green"></span>Live</span>
+            <span class="go" aria-hidden="true">→</span>
           </div>
-          <div class="card-desc">Self-service Active Directory password change for Windows shops. .NET 10 + React, breach-checked, SIEM-wired, MIT licensed. v2.0 crunching now.</div>
-          <div class="card-meta">
-            <span>.NET 10</span> · <span>React</span> · <span>IIS</span> · <span>OSS</span>
-          </div>
+          <h3 class="proj-title" id="pj-adpr">AD-Passreset Portal</h3>
+          <p class="proj-desc" id="pj-adpr-d">Self-service Active Directory password change for Windows shops. .NET&nbsp;10&nbsp;+&nbsp;React, breach-checked, SIEM-wired, MIT licensed. v2.0 crunching now.</p>
+          <p class="proj-tags"><span>.NET 10</span> <span>React</span> <span>IIS</span> <span>OSS</span></p>
         </div>
       </a>
 
-      <article class="card">
-        <div class="card-top forge-scene" aria-hidden="true">
+      <a class="feature" href="/projects/colorbench/" aria-labelledby="pj-cb" aria-describedby="pj-cb-d">
+        <div class="feature-media feature-media--phones">
+          <div class="phones">
+            <img src="/ds/assets/colorbench/01-browser-540.webp" width="540" height="1140" loading="lazy" decoding="async" alt="Palette browser in the Colorbench app: a grid of illustrated palette cards" />
+            <img src="/ds/assets/colorbench/03-paints-540.webp" width="540" height="1140" loading="lazy" decoding="async" alt="Paint list in the Colorbench app, filtered by brand with owned paints ticked" />
+            <img src="/ds/assets/colorbench/02-detail-540.webp" width="540" height="1140" loading="lazy" decoding="async" alt="Palette detail in the Colorbench app: the Oathbreaker Iron palette with its colour swatches" />
+          </div>
+        </div>
+        <div class="feature-body">
+          <div class="feature-top">
+            <span class="badge live"><span class="dot green"></span>Live</span>
+            <span class="go" aria-hidden="true">→</span>
+          </div>
+          <h3 class="proj-title" id="pj-cb">The Mini Colorbench</h3>
+          <p class="proj-desc" id="pj-cb-d">Companion app for miniature painters. 106&nbsp;curated palettes, 1399&nbsp;paints across 9&nbsp;brands, and a CIEDE2000 match engine that finds the closest paint on your shelf.</p>
+          <p class="proj-tags"><span>Android</span> <span>v2.6.0</span> <span>iOS deferred</span></p>
+        </div>
+      </a>
+
+    </div>
+
+    <!-- In progress: divided list, no link affordance (none of these has a page) -->
+    <ul class="tracks" role="list">
+
+      <li class="track track--forge">
+        <h3 class="proj-title">Dynasty Forge</h3>
+        <span class="badge wip"><span class="dot gold"></span>Pre-MVP</span>
+        <p class="proj-desc">A mobile game in the workshop. GDD is nearly wrapped; next stop is MVP. Blueprint stays under wraps until the anvil cools.</p>
+        <p class="proj-tags"><span>Mobile</span> <span>Pixel-art</span> <span>stealth</span></p>
+        <div class="forge-scene forge-thumb" aria-hidden="true">
           <div class="forge-stars"></div>
           <div class="forge-anvil">
             <!-- pixel anvil + ember + hammer -->
@@ -959,83 +1093,30 @@
             </div>
           </div>
         </div>
-        <div class="card-body">
-          <div class="card-row">
-            <div class="card-title">Dynasty Forge</div>
-            <span class="badge wip" style="white-space:nowrap">Pre-MVP</span>
-          </div>
-          <div class="card-desc">A mobile game in the workshop. GDD is nearly wrapped; next stop is MVP. Blueprint stays under wraps until the anvil cools.</div>
-          <div class="card-meta">
-            <span>Mobile</span> · <span>Pixel-art</span> · <span>stealth</span>
-          </div>
-        </div>
-      </article>
+      </li>
 
-      <a class="card" href="/projects/colorbench/">
-        <div class="card-top" aria-hidden="true">
-          <div class="card-icon gold"><svg class="lucide lucide-palette" width="24" height="24" viewBox="0 0 24 24" style="width:22px;height:22px" aria-hidden="true" focusable="false"><use href="#i-palette"/></svg></div>
-        </div>
-        <div class="card-body">
-          <div class="card-row">
-            <div class="card-title">The Mini Colorbench</div>
-            <span class="badge wip">Live</span>
-          </div>
-          <div class="card-desc">Companion app for miniature painters. 106 curated palettes, 1399 paints across 9 brands, and a CIEDE2000 match engine that finds the closest paint on your shelf.</div>
-          <div class="card-meta">
-            <span>Android</span> · <span>v2.6.0</span> · <span>iOS deferred</span>
-          </div>
-        </div>
-      </a>
+      <li class="track">
+        <h3 class="proj-title">Adeptus Custodes Army</h3>
+        <span class="badge wip"><span class="dot gold"></span>On the bench</span>
+        <p class="proj-desc">Gold trim, patience, and a lot of thinned Retributor. The long project — one squad at a time, nothing rushed.</p>
+        <p class="proj-tags"><span>40K</span> <span>Custodes</span> <span>ongoing</span></p>
+      </li>
 
-      <article class="card">
-        <div class="card-top" aria-hidden="true">
-          <div class="card-icon"><svg class="lucide lucide-paintbrush" width="24" height="24" viewBox="0 0 24 24" style="width:22px;height:22px" aria-hidden="true" focusable="false"><use href="#i-paintbrush"/></svg></div>
-        </div>
-        <div class="card-body">
-          <div class="card-row">
-            <div class="card-title">Adeptus Custodes Army</div>
-            <span class="badge wip">On the bench</span>
-          </div>
-          <div class="card-desc">Gold trim, patience, and a lot of thinned Retributor. The long project — one squad at a time, nothing rushed.</div>
-          <div class="card-meta">
-            <span>40k</span> · <span>Custodes</span> · <span>ongoing</span>
-          </div>
-        </div>
-      </article>
+      <li class="track">
+        <h3 class="proj-title">Home Renovation</h3>
+        <span class="badge wip"><span class="dot gold"></span>Pushing</span>
+        <p class="proj-desc">Ubiquiti rack, Home Assistant everywhere, a homelab that doesn't heat the office. Wires before walls, cable-managed on purpose.</p>
+        <p class="proj-tags"><span>UniFi</span> <span>HA</span> <span>Proxmox</span></p>
+      </li>
 
-      <article class="card">
-        <div class="card-top" aria-hidden="true">
-          <div class="card-icon"><svg class="lucide lucide-home" width="24" height="24" viewBox="0 0 24 24" style="width:22px;height:22px" aria-hidden="true" focusable="false"><use href="#i-home"/></svg></div>
-        </div>
-        <div class="card-body">
-          <div class="card-row">
-            <div class="card-title">Home Renovation</div>
-            <span class="badge wip">Pushing</span>
-          </div>
-          <div class="card-desc">Ubiquiti rack, Home Assistant everywhere, a homelab that doesn't heat the office. Wires before walls, cable-managed on purpose.</div>
-          <div class="card-meta">
-            <span>UniFi</span> · <span>HA</span> · <span>Proxmox</span>
-          </div>
-        </div>
-      </article>
+      <li class="track">
+        <h3 class="proj-title">3D Printing</h3>
+        <span class="badge"><span class="dot idle"></span>Ongoing</span>
+        <p class="proj-desc">Everything and nothing. Dragons in four colours on the P1S, functional parts for the workshop, the occasional spare that saves a weekend.</p>
+        <p class="proj-tags"><span>P1S</span> <span>AMS</span> <span>PETG</span> <span>PLA</span></p>
+      </li>
 
-      <article class="card">
-        <div class="card-top" aria-hidden="true">
-          <div class="card-icon red"><svg class="lucide lucide-printer" width="24" height="24" viewBox="0 0 24 24" style="width:22px;height:22px" aria-hidden="true" focusable="false"><use href="#i-printer"/></svg></div>
-        </div>
-        <div class="card-body">
-          <div class="card-row">
-            <div class="card-title">3D Printing</div>
-            <span class="badge red"><span class="dot"></span>Brand</span>
-          </div>
-          <div class="card-desc">Everything and nothing. Dragons in four colours on the P1S, functional parts for the workshop, the occasional spare that saves a weekend.</div>
-          <div class="card-meta">
-            <span>P1S</span> · <span>AMS</span> · <span>PETG · PLA</span>
-          </div>
-        </div>
-      </article>
-
-    </div>
+    </ul>
   </section>
 
   <!-- CONTACT -->
