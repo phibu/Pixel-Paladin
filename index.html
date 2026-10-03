@@ -184,7 +184,7 @@
   /* /now rows */
   .now-row {
     display: grid;
-    grid-template-columns: 64px 1fr auto;
+    grid-template-columns: 76px 1fr auto;
     gap: 10px;
     padding: 10px 0;
     border-bottom: 1px dashed var(--pp-border);
@@ -577,7 +577,9 @@
     background: var(--pp-bg-raised);
     transition: background var(--pp-dur-fast) var(--pp-ease-out);
   }
-  .contact-link:hover { background: var(--pp-bg-sunken); }
+  a.contact-link:hover { background: var(--pp-bg-sunken); }
+  /* the list clips its children (overflow:hidden): draw the focus ring inside the row */
+  .contact-link:focus-visible { outline-offset: -2px; }
   .contact-link .l {
     display: flex; align-items: center; gap: 12px;
     font-family: var(--pp-font-mono);
@@ -1056,10 +1058,10 @@
           <span class="l"><svg class="lucide lucide-mail icon" width="24" height="24" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><use href="#i-mail"/></svg> hi@pixel-paladin.de</span>
           <span class="r">mail →</span>
         </a>
-        <a class="contact-link" href="#">
+        <div class="contact-link">
           <span class="l"><svg class="lucide lucide-map-pin icon" width="24" height="24" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><use href="#i-map-pin"/></svg> Jülich · Nordrhein-Westfalen</span>
-          <span class="r">DE · UTC+1</span>
-        </a>
+          <span class="r" id="tzOffset">DE · Berlin time</span>
+        </div>
       </div>
     </div>
   </section>
@@ -1146,7 +1148,7 @@
       k: `Direct, practical tools &amp; tinkering from Jülich. 3D prints that actually fit, homelab gear that actually stays up, minis with actually-dry paint. No fluff, no urgency, no tracking.`
     },
     b: {
-      h: `One pixel.<br/>One <span class="accent">shield.</span><br/>Six hobbies running hot.`,
+      h: `One pixel.<br/>One <span class="accent">shield.</span><br/>Six hobbies<br/>running hot.`,
       k: `A workshop-grade personal site. Builds, breakages and lessons from 3D printing, IT security, homelab, minis, vibe-coded apps and the odd reenactment weekend.`
     },
     c: {
@@ -1282,10 +1284,16 @@
   // TZ clock in eyebrow
   function fmtTz() {
     const d = new Date();
-    const t = d.toLocaleTimeString('en-GB', { hour12:false, timeZone:'Europe/Berlin' });
-    return `Jülich · ${t} CET`;
+    const t = d.toLocaleTimeString('en-GB', { hour12:false, timeZone:'Europe/Berlin', timeZoneName:'short' });
+    return `Jülich · ${t}`;
   }
   function tickTz() { document.getElementById('tzNow').textContent = fmtTz(); }
+  // Contact row: current offset of Europe/Berlin (UTC+1 in winter, UTC+2 in summer)
+  try {
+    const off = new Intl.DateTimeFormat('en-GB', { timeZone:'Europe/Berlin', timeZoneName:'shortOffset' })
+      .formatToParts(new Date()).find(p => p.type === 'timeZoneName').value.replace('GMT', 'UTC');
+    document.getElementById('tzOffset').textContent = 'DE · ' + off;
+  } catch (e) { /* keep the neutral default */ }
   setInterval(tickTz, 1000); tickTz();
 
   // Year
