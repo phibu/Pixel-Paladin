@@ -1347,20 +1347,41 @@
 
   // ---------- Live-ish stats ----------
   // Since launch: time since go-live (first commit), not measured availability.
-  // Format D:HH:MM:SS
+  // Format D:HH:MM:SS (D:HH:MM under reduced motion)
   const EPOCH = new Date('2026-04-20T20:29:22Z').getTime();
-  function fmtUptime() {
+  function fmtUptime(calm) {
     const now = Date.now();
     let s = Math.max(0, Math.floor((now - EPOCH)/1000));
     const d = Math.floor(s / 86400); s -= d*86400;
     const h = Math.floor(s / 3600);  s -= h*3600;
     const m = Math.floor(s / 60);    s -= m*60;
-    return `${d}d <small>${String(h).padStart(2,'0')}:${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}</small>`;
+    const pad = n => String(n).padStart(2,'0');
+    return `${d}d <small>${pad(h)}:${pad(m)}${calm ? '' : ':' + pad(s)}</small>`;
   }
-  function tickUptime() {
-    document.getElementById('stUptime').innerHTML = fmtUptime();
+  function tickUptime(calm) {
+    document.getElementById('stUptime').innerHTML = fmtUptime(calm);
   }
-  setInterval(tickUptime, 1000); tickUptime();
+
+  // Both clocks (this one and the Berlin clock below) honour reduced motion
+  // (#28): no seconds, rewritten only when their displayed minute changes
+  // (`minuteAt` = ms past the wall-clock minute where it flips; the uptime's is
+  // :22). A per-second rewrite is constant movement even if WCAG 2.2.2 may not
+  // formally cover a live clock, so no pause button, just the OS setting.
+  const calmQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
+  function runClock(tick, minuteAt) {
+    let timer;
+    function loop() {
+      clearTimeout(timer);
+      const calm = calmQuery.matches;
+      tick(calm);
+      const step = calm ? 60000 : 1000;
+      timer = setTimeout(loop, step - ((Date.now() - (calm ? minuteAt : 0)) % step));
+    }
+    loop();
+    // Guarded: Safari < 14 has no addEventListener on a MediaQueryList.
+    if (calmQuery.addEventListener) calmQuery.addEventListener('change', loop);
+  }
+  runClock(tickUptime, EPOCH % 60000);
 
   // Last push, Repos, Public OSS: one call to our own /api/stats (Pages
   // Function, cached, token-authenticated). Each tile falls back to "—" alone.
@@ -1391,19 +1412,19 @@
   })();
 
   // TZ clock in eyebrow
-  function fmtTz() {
+  function fmtTz(calm) {
     const d = new Date();
-    const t = d.toLocaleTimeString('en-GB', { hour:'2-digit', minute:'2-digit', second:'2-digit', hourCycle:'h23', timeZone:'Europe/Berlin', timeZoneName:'short' });
+    const t = d.toLocaleTimeString('en-GB', { hour:'2-digit', minute:'2-digit', second: calm ? undefined : '2-digit', hourCycle:'h23', timeZone:'Europe/Berlin', timeZoneName:'short' });
     return `Jülich · ${t}`;
   }
-  function tickTz() { document.getElementById('tzNow').textContent = fmtTz(); }
+  function tickTz(calm) { document.getElementById('tzNow').textContent = fmtTz(calm); }
   // Contact row: current offset of Europe/Berlin (UTC+1 in winter, UTC+2 in summer)
   try {
     const off = new Intl.DateTimeFormat('en-GB', { timeZone:'Europe/Berlin', timeZoneName:'shortOffset' })
       .formatToParts(new Date()).find(p => p.type === 'timeZoneName').value.replace('GMT', 'UTC');
     document.getElementById('tzOffset').textContent = 'DE · ' + off;
   } catch (e) { /* keep the neutral default */ }
-  setInterval(tickTz, 1000); tickTz();
+  runClock(tickTz, 0);
 
   // Year
   document.getElementById('year').textContent = new Date().getFullYear();
