@@ -61,7 +61,7 @@
   .hero .eyebrow { margin-bottom: 14px; }
   .hero h1 {
     font-family: var(--pp-font-display);
-    font-size: clamp(40px, 7vw, 72px);
+    font-size: clamp(min(40px, 11.5vw), 7vw, 72px);   /* the floor only shrinks below ~350px so "Colorbench." fits */
     letter-spacing: -0.025em;
     line-height: 1.0;
     margin: 0 0 18px;
@@ -173,7 +173,7 @@
       overflow-x: auto;
       scroll-snap-type: x mandatory;
       scroll-behavior: smooth;
-      padding: 4px 16px 8px;
+      padding: 8px 16px 8px;
       margin: 0 -16px;  /* bleed to the screen edge = the .page gutter */
       scrollbar-width: none;
     }
@@ -302,9 +302,6 @@
     max-width: 820px;
     margin: 40px auto 48px;
   }
-  @media (max-width: 800px) {
-    .feature-grid { grid-template-columns: repeat(2, 1fr); }
-  }
   @media (max-width: 520px) {
     .feature-grid { grid-template-columns: 1fr; }
   }
@@ -396,7 +393,8 @@
     color: var(--pp-fg-muted);
   }
   /* two deliberate rows: app documents, then site and legal links (the strip is wider than the column) */
-  .legal-strip .break { flex-basis: 100%; height: 0; }
+  .legal-strip .break { display: none; }
+  @media (min-width: 640px) { .legal-strip .break { display: block; flex-basis: 100%; height: 0; } }
   .legal-strip a {
     color: var(--pp-fg-muted);
     border-bottom: 1px solid transparent;
@@ -423,7 +421,7 @@
     </nav>
   </header>
 
-  <div class="crumbs"><a href="/">Home</a><span class="sep" aria-hidden="true">/</span><a href="/#projects">Projects</a><span class="sep" aria-hidden="true">/</span>Colorbench</div>
+  <nav class="crumbs" aria-label="Breadcrumb"><a href="/">Home</a><span class="sep" aria-hidden="true">/</span><a href="/#projects">Projects</a><span class="sep" aria-hidden="true">/</span>Colorbench</nav>
   <main id="main" tabindex="-1">
 
   <section class="hero">
@@ -607,14 +605,22 @@
   var dlgDismiss = dlg ? dlg.querySelector('[data-lightbox-dismiss]') : null;
   var triggers = document.querySelectorAll('.shot-trigger');
 
-  function openLightbox(src, alt) {
+  var lbToken = 0;
+  function openLightbox(thumbSrc, fullSrc, alt) {
     if (!dlg || !dlgImg || typeof dlg.showModal !== 'function') return;
-    dlgImg.src = src;
+    var token = ++lbToken;
+    dlgImg.src = thumbSrc;          // already in the page: the dialog is never an empty frame
     dlgImg.alt = alt || '';
     dlg.showModal();
+    if (fullSrc && fullSrc !== thumbSrc) {
+      var big = new Image();
+      big.onload = function () { if (token === lbToken && dlg.open) dlgImg.src = fullSrc; };
+      big.src = fullSrc;
+    }
   }
   function closeLightbox() {
     if (!dlg) return;
+    lbToken++;
     if (dlg.open) dlg.close();
     if (dlgImg) { dlgImg.src = ''; dlgImg.alt = ''; }
   }
@@ -623,7 +629,7 @@
     btn.addEventListener('click', function () {
       var img = btn.querySelector('img');
       if (!img) return;
-      openLightbox(img.getAttribute("data-full") || img.currentSrc || img.src, img.alt);
+      openLightbox(img.currentSrc || img.src, img.getAttribute('data-full'), img.alt);
     });
   });
   if (dlgClose) dlgClose.addEventListener('click', closeLightbox);
