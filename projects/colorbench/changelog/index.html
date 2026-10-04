@@ -87,6 +87,32 @@
     <p class="updated">The Mini Colorbench · plain-language release notes</p>
     <p class="preamble">The format is based on <a href="https://keepachangelog.com/en/1.1.0/">Keep a Changelog 1.1.0</a>, and this project adheres to <a href="https://semver.org/spec/v2.0.0.html">Semantic Versioning</a>. Newest first.</p>
 
+    <section class="release" id="v2-7-0">
+      <h2><span class="ver"><a href="#v2-7-0">v2.7.0</a></span> <span class="date">2026-09-27</span></h2>
+      <p class="lede">Profiles grow up: optional social handles and a country flag, a way to report a Profile, three new Ork palettes, and the opening screen is dark again.</p>
+
+      <h3>Added</h3>
+      <ul>
+        <li><strong>Three new Ork palettes: Rokkit Barrage, Shokk Attack and Mega Armor Boss.</strong> The library grows from 106 to 109 palettes. Hive Brood, Toxic Spore, Chitin Carapace and Thesa’s Thrakener Steppe also get new artwork; their colours are unchanged.</li>
+        <li><strong>Add your Instagram, X, Bluesky, TikTok and YouTube handles to your Profile.</strong> Each is optional. Type the handle or paste a link to your profile and the app keeps just the handle. If a handle isn’t valid for that platform, the reason shows under the field.</li>
+        <li><strong>Pick your country on your Profile.</strong> It shows as a flag next to your name in competitions: on entry cards, comments, the entry page, the Hall of Fame and the Top 3. It is optional, and “None” shows no flag. Choose from a list of every country, with a search box to find yours faster. TalkBack reads out the country’s name, and a Hall of Fame row now also says who won.</li>
+        <li><strong>An entry’s page and a past competition’s Top 3 show the painter’s social handles.</strong> Each one shows the platform’s logo and the handle, like “@alex_paints”; tap it to open that profile. Only the handles a painter has added appear.</li>
+        <li><strong>You can report a painter’s Profile,</strong> for example when it pretends to be someone else. On an entry’s page, “Report profile” sits next to “Report this entry” and opens the same report sheet. The sheet has a new reason, “Impersonation”, which you can also pick for an entry or a comment.</li>
+      </ul>
+
+      <h3>Changed</h3>
+      <ul>
+        <li><strong>When a moderator upholds a report on a Profile, its name, picture and social handles are cleared.</strong> The country stays. The painter shows as “Anonymous” everywhere until they set a name and handles again; the picture stays gone. Dismissing a report leaves the Profile as it was.</li>
+        <li><strong>The privacy policy covers your social handles and country (v7).</strong> It says both are optional, that every app user can see them, and that deleting your account deletes them. It also covers reporting a Profile.</li>
+      </ul>
+
+      <h3>Fixed</h3>
+      <ul>
+        <li><strong>The app’s opening screen is dark again, not white.</strong> Since v1.9.0 the app showed a plain white screen for a moment before the workbench appeared. A cold start now shows the logo on the same near-black as the rest of the app.</li>
+        <li><strong>A filter chip’s number now counts that chip’s own palettes.</strong> With Sour and Historical picked, Grimdark read “(2)” and stayed tappable, although tapping it added nothing. It now reads “(0)” and is greyed out. Selected chips show their own number too; the total is on the Apply button, as before.</li>
+      </ul>
+    </section>
+
     <section class="release" id="v2-6-0">
       <h2><span class="ver"><a href="#v2-6-0">v2.6.0</a></span> <span class="date">2026-09-24</span></h2>
       <p class="lede">A big quality release. Browsing and managing your collection get faster, the app works much better with TalkBack and large text, and a long list of rough edges is gone.</p>
