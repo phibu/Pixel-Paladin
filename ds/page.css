@@ -295,3 +295,15 @@ a { color: inherit; text-decoration: none; }
   letter-spacing: 0.12em;
   text-transform: uppercase;
 }
+/* Footer links: © line left, Impressum · Datenschutz right (see any sub-page). Every page uses this
+   except the Colorbench landing, which has its own two-row .legal-strip. */
+.foot a {
+  color: inherit;
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 3px;
+  transition: color var(--pp-dur-fast) var(--pp-ease-out), text-decoration-color var(--pp-dur-fast) var(--pp-ease-out);
+}
+.foot a:hover { color: var(--pp-fg); text-decoration-color: var(--pp-fg-brand); }
+/* Phones: grow the tap area without changing the footer's height (padding out, margin back in). */
+@media (max-width: 720px) { .foot a { display: inline-block; padding: 8px 0; margin: -8px 0; } }
