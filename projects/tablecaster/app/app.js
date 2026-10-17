@@ -8,6 +8,7 @@ import { loadDevice, saveDevice, mountControls } from './controls.js?v=20261017b
 import { BG_DIR, LOCAL, loadManifest, presetUrl, localStore, readLocalChoice, saveLocalChoice, mountBackgrounds } from './backgrounds.js?v=20261017b';
 import { createProjection } from './projection.js?v=20261017b';
 import { createCalibration } from './calibration.js?v=20261017b';
+import { createController, createReceiver } from './projector.js?v=20261017b';
 import { registerWorker, mountOffline } from './offline.js?v=20261017b';
 
 const DATA_URL = '/projects/tablecaster/data/layouts.json?v=20261017';
@@ -24,8 +25,10 @@ let state = { ...defaultState(), ...loadDevice() };
 let bgList = [];        // backgrounds.json entries in picker order (Presets + owner images)
 let bgUnknown = null;   // a Background ref from the link that the manifest doesn't have
 let localUrl = null;    // blob: URL of the Local background (IndexedDB), or null
+let localBlob = null;   // the Local background itself (the controller sends it to the projector window, #65)
 const bgUrls = new Map(); // ref -> resolved href (Presets resolve asynchronously)
 const dismissed = new Set();
+let link = null;        // projector window sync (#65): controller or receiver, set up below
 
 // ---------- data ----------
 async function loadData() {
@@ -95,12 +98,14 @@ async function setLocal(file) {
   await localStore.put(file);       // if storage is blocked it still shows for this session
   if (localUrl) URL.revokeObjectURL(localUrl);
   localUrl = URL.createObjectURL(file);
+  localBlob = file;
   chooseBackground(LOCAL);
 }
 async function forgetLocal() {
   await localStore.forget();
   if (localUrl) URL.revokeObjectURL(localUrl);
   localUrl = null;
+  localBlob = null;
   if (state.background === LOCAL) update({ background: null }); else update({});
 }
 let syncBackgrounds = null;
@@ -166,6 +171,7 @@ function applyHash() {
   syncControls?.(state);
   syncBackgrounds?.(state, { localUrl });
   projection.sync(state);
+  link?.publish();
 }
 
 // ---------- layers + orientation controls (#60) ----------
@@ -184,6 +190,7 @@ export function update(patch) {
   projection.sync(state);
   document.documentElement.toggleAttribute('data-wall', !!state.wall);
   if ('wall' in patch) { if (state.wall) calibration?.cancel(); calibration?.refresh(); }
+  link?.publish();
 }
 const controlsEl = document.getElementById('controls');
 const syncControls = !projector && controlsEl ? mountControls(controlsEl, update) : null;
@@ -208,7 +215,23 @@ export const calibration = createCalibration({
   stage, svg, panelEl: projector ? null : document.getElementById('calibration'),
   projection, getState: () => state, redraw: () => draw(),
 });
-onDispatch((action) => { if (action === 'calibrate') calibration.start(); });
+// With a projector window open, the wizard runs there (#65); the controller only shows "Calibrating on projector…".
+onDispatch((action) => { if (action === 'calibrate') { if (link?.isOpen?.()) link.calibrate(); else calibration.start(); } });
+
+// ---------- Projector window (#65) ----------
+// The controller (this page) is the source of truth and sends a snapshot on every change; a ?projector receiver
+// applies snapshots and forwards its keys as actions. A Local background travels as a Blob; the receiver makes its
+// own blob: URL (it never reads IndexedDB). Started after the first full state is in place (end of this file).
+function setLocalBlob(blob) {
+  if (localUrl) URL.revokeObjectURL(localUrl);
+  localBlob = blob;
+  localUrl = URL.createObjectURL(blob);
+  if (state.background === LOCAL) draw();
+}
+link = projector
+  ? createReceiver({ stage, update, setLocalBlob, projection, calibration })
+  : createController({ panelEl: document.getElementById('projector'), getState: () => state, getLocalBlob: () => localBlob, LOCAL, projection, calibration });
+if (!projector) calibration.onProfileChanged(() => link.profileChanged());
 
 // ---------- Offline + Reset device data (#64) ----------
 // The worker serves the app, the landing and ?projector from a saved copy. Reset sits in the Calibration actions row.
@@ -241,9 +264,10 @@ new ResizeObserver(() => {
 
 // First paint: the empty grid right away, then the Layout once the data is in.
 draw();
-let localBlob;
-[data, bgList, localBlob] = await Promise.all([loadData(), loadManifest(), localStore.get()]);
-if (localBlob instanceof Blob) localUrl = URL.createObjectURL(localBlob);
+let storedBlob;
+// The projector window gets the Local background from the controller, not from IndexedDB.
+[data, bgList, storedBlob] = await Promise.all([loadData(), loadManifest(), projector ? null : localStore.get()]);
+if (storedBlob instanceof Blob && !localBlob) { localBlob = storedBlob; localUrl = URL.createObjectURL(storedBlob); }
 const bgEl = document.getElementById('backgrounds');
 if (!projector && bgEl) syncBackgrounds = mountBackgrounds(bgEl, bgList, { select: chooseBackground, file: setLocal, forget: forgetLocal });
 if (syncBackgrounds) offline?.watchBackgrounds(bgEl, bgList.filter((e) => e.kind === 'image').map((e) => ({ id: e.id, url: BG_DIR + e.file })));
@@ -253,4 +277,5 @@ applyHash();
 if (!openedWithLink && data) picker?.focus();
 await ensureBackground(state.background);   // ready = the chosen Background is drawn too
 draw();
+link.start();
 document.documentElement.dataset.ready = '1';

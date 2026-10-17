@@ -277,6 +277,21 @@ html[data-view="projection"][data-cal-hint] .tc-cal-prompt:not([hidden]) {
   background: rgb(10 10 9 / .88); border: 1px solid var(--pp-border); border-radius: var(--pp-radius-md);
 }
 
+/* ---- #65: Projector window. Controller panel status; the receiver's one big "Click to go fullscreen" target ---- */
+.tc-projector { margin: 0 0 20px; }
+.tc-pw-status { margin: 0 0 10px; font-size: 14px; color: var(--pp-fg-muted); }
+.tc-pw-status[data-state="open"], .tc-pw-status[data-state="calibrating"] { color: var(--pp-fg); }
+.tc-pw-open { width: 100%; min-height: 44px; justify-content: center; }
+.tc-pw-open[hidden] { display: none; }
+.tc-fs-target { display: none; }
+html.is-projector:not([data-fs="api"]):not([data-calibrating]) .tc-fs-target:not([hidden]) {
+  display: grid; place-items: center; position: absolute; inset: 0; z-index: 1; width: 100%; height: 100%;
+  font: inherit; font-size: clamp(20px, 4vw, 44px); color: var(--pp-fg); cursor: pointer;
+  background: rgb(0 0 0 / .55); border: 0;
+}
+.tc-fs-target:focus-visible { outline: none; box-shadow: inset var(--pp-ring); }
+html[data-view="projection"] .tc-toast[data-show] { z-index: 2; }
+
 /* ---- #64: offline status + Reset device data (offline.js) ---- */
 .tc-offline { margin: 0 0 20px; }
 .tc-off-status { margin: 0; font-size: 14px; color: var(--pp-fg-muted); }

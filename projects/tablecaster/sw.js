@@ -23,6 +23,7 @@ const PRECACHE = [
   '/projects/tablecaster/app/backgrounds.js?v=20261017b',
   '/projects/tablecaster/app/projection.js?v=20261017b',
   '/projects/tablecaster/app/calibration.js?v=20261017b',
+  '/projects/tablecaster/app/projector.js?v=20261017b',
   '/projects/tablecaster/app/offline.js?v=20261017b',
   '/ds/colors_and_type.css?v=20261004',
   '/ds/page.css?v=20261004b',
