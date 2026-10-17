@@ -7,6 +7,7 @@ import { initPicker, renderStamp, titleCase } from './picker.js?v=20261017b';
 import { loadDevice, saveDevice, mountControls } from './controls.js?v=20261017b';
 import { BG_DIR, LOCAL, loadManifest, presetUrl, localStore, readLocalChoice, saveLocalChoice, mountBackgrounds } from './backgrounds.js?v=20261017b';
 import { createProjection } from './projection.js?v=20261017b';
+import { createCalibration } from './calibration.js?v=20261017b';
 
 const DATA_URL = '/projects/tablecaster/data/layouts.json?v=20261017';
 const projector = new URLSearchParams(location.search).has('projector');
@@ -60,6 +61,7 @@ function draw() {
     layout, grid: state.grid, hidden: state.hidden, swap: state.swap, mirror: state.mirror, background: bgHref(state.background),
     pxPerIn: pxPerIn(),
   });
+  calibration?.afterDraw();
   svg.setAttribute('aria-label', layout ? `Battlefield, ${layoutTitle(layout).pairing}, Layout ${layoutTitle(layout).variant}` : 'Battlefield grid, no Layout selected');
   return { layout, result };
 }
@@ -180,6 +182,7 @@ export function update(patch) {
   syncBackgrounds?.(state, { localUrl });
   projection.sync(state);
   document.documentElement.toggleAttribute('data-wall', !!state.wall);
+  if ('wall' in patch) { if (state.wall) calibration?.cancel(); calibration?.refresh(); }
 }
 const controlsEl = document.getElementById('controls');
 const syncControls = !projector && controlsEl ? mountControls(controlsEl, update) : null;
@@ -196,6 +199,15 @@ export const dispatch = projection.dispatch;
 export const setKeyOverride = projection.setKeyOverride;
 export const onDispatch = projection.onDispatch;
 projection.sync(state);
+
+// ---------- Calibration (#63) ----------
+// The warp is the outermost transform (on the svg element); Swap sides and Mirror stay inside the svg.
+// C / the panel button dispatch 'calibrate': Adjust when this screen has a profile, the wizard otherwise. Wall mode skips it.
+export const calibration = createCalibration({
+  stage, svg, panelEl: projector ? null : document.getElementById('calibration'),
+  projection, getState: () => state, redraw: () => draw(),
+});
+onDispatch((action) => { if (action === 'calibrate') calibration.start(); });
 
 notesEl?.addEventListener('click', (e) => {
   const b = e.target.closest('[data-dismiss]');
