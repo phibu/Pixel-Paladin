@@ -13,7 +13,7 @@
 // Hash format (stable once shipped; only non-default parts are written, in this order, joined by '&'):
 //   #<layout id, URL-encoded but '/' kept>@<version>&swap&off=<layer>,<layer>&bg=<ref>
 //   e.g. #take-and-hold%2Bpriority-assets/C@1.3&swap&off=grid,labels&bg=ash
-import { LAYERS } from './engine.js?v=20261017';
+import { LAYERS } from './engine.js?v=20261017b';
 
 export const defaultState = () => ({ layoutId: null, version: null, swap: false, hidden: [], background: null, mirror: false, grid: 'discreet' });
 
