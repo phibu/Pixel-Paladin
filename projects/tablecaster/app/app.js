@@ -11,7 +11,7 @@ import { createCalibration } from './calibration.js?v=20261017c';
 import { createController, createReceiver } from './projector.js?v=20261017c';
 import { registerWorker, mountOffline } from './offline.js?v=20261017b';
 
-const DATA_URL = '/projects/tablecaster/data/layouts.json?v=20261017';
+const DATA_URL = '/projects/tablecaster/data/layouts.json?v=20261017b';
 const projector = new URLSearchParams(location.search).has('projector');
 
 const svg = document.querySelector('svg[data-battlefield]');

@@ -196,7 +196,7 @@
 <!-- Stamp + disclaimer version from the layout data (same URL as the app, so it is in the offline copy). The static text is the no-JS fallback. -->
 <script type="module">
   try {
-    const { source: s } = await (await fetch('/projects/tablecaster/data/layouts.json?v=20261017')).json();
+    const { source: s } = await (await fetch('/projects/tablecaster/data/layouts.json?v=20261017b')).json();
     const m = /^(\d{4})-(\d{2})/.exec(s.date || '');
     const set = (k, v) => { if (v) document.querySelectorAll(`[data-source-${k}]`).forEach((el) => { el.textContent = v; }); };
     set('title', s.title);
