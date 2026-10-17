@@ -6,6 +6,7 @@ import { defaultState, parseHash, formatHash } from './state.js?v=20261017b';
 import { initPicker, renderStamp, titleCase } from './picker.js?v=20261017b';
 import { loadDevice, saveDevice, mountControls } from './controls.js?v=20261017b';
 import { BG_DIR, LOCAL, loadManifest, presetUrl, localStore, readLocalChoice, saveLocalChoice, mountBackgrounds } from './backgrounds.js?v=20261017b';
+import { createProjection } from './projection.js?v=20261017b';
 
 const DATA_URL = '/projects/tablecaster/data/layouts.json?v=20261017';
 const projector = new URLSearchParams(location.search).has('projector');
@@ -161,6 +162,7 @@ function applyHash() {
   updatePanel(layout, ignored, result.skipped);
   syncControls?.(state);
   syncBackgrounds?.(state, { localUrl });
+  projection.sync(state);
 }
 
 // ---------- layers + orientation controls (#60) ----------
@@ -176,12 +178,24 @@ export function update(patch) {
   updatePanel(layout, ignored, result.skipped);
   syncControls?.(state);
   syncBackgrounds?.(state, { localUrl });
+  projection.sync(state);
   document.documentElement.toggleAttribute('data-wall', !!state.wall);
 }
 const controlsEl = document.getElementById('controls');
 const syncControls = !projector && controlsEl ? mountControls(controlsEl, update) : null;
 syncControls?.(state);
 document.documentElement.toggleAttribute('data-wall', !!state.wall);
+
+// ---------- projection view, keys, touch bar, toasts (#62) ----------
+// One action dispatcher for keys, the bar and (#65) the projector window: dispatch('swap'), dispatch('layer', 'grid') …
+const projection = createProjection({
+  stage, panelEl: projector ? null : document.getElementById('projection'),
+  getState: () => state, update, choose: chooseLayout, getData: () => data, standalone: projector,
+});
+export const dispatch = projection.dispatch;
+export const setKeyOverride = projection.setKeyOverride;
+export const onDispatch = projection.onDispatch;
+projection.sync(state);
 
 notesEl?.addEventListener('click', (e) => {
   const b = e.target.closest('[data-dismiss]');
