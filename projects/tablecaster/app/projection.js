@@ -4,7 +4,7 @@
 //
 // Actions:  enter · leave · fullscreen (toggle the Fullscreen API) · swap · mirror · grid · layer <name>
 //           variant <A|B|C> · next · prev (A/B/C of the current Pairing, wrapping) · layers (open the bar's layer row)
-//           calibrate (reserved for #63, does nothing yet)
+//           calibrate (no-op here: app.js hands it to calibration.js via onDispatch, #63)
 // View state on <html>: data-view="projection" while projecting · data-fs="api"|"css" (Fullscreen API or the
 //           CSS full-viewport fallback, e.g. iPhone) · data-idle (cursor and bar hidden after IDLE_MS without pointer input)
 //           · data-bar-layers (layer row open).
@@ -23,6 +23,7 @@ export const KEYS = [
   ['f', 'fullscreen', 'F', 'Fullscreen on/off'],
   ['arrows', null, '← →', 'Layout A/B/C'],
   ['digits', null, '1–8', 'Layers, in panel order'],
+  ['c', 'calibrate', 'C', 'Calibrate (Adjust when calibrated)'],
   ['escape', 'leave', 'Esc', 'Leave the projection'],
 ];
 function keyAction(e) {
@@ -167,7 +168,7 @@ export function createProjection({ stage, panelEl, getState, update, choose, get
     switch (action) {
       case 'enter': enter(); break;
       case 'leave': leave(); break;
-      case 'calibrate': break; // reserved for #63
+      case 'calibrate': break; // handled by calibration.js through onDispatch (#63)
       case 'fullscreen':
         if (!projecting()) { enter(); break; }
         if (document.fullscreenElement) { fsOff(); msg = 'Fullscreen off'; } else { fsOn(); msg = 'Fullscreen on'; }
