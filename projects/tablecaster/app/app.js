@@ -5,6 +5,7 @@ import { render } from './engine.js?v=20261017b';
 import { defaultState, parseHash, formatHash } from './state.js?v=20261017b';
 import { initPicker, renderStamp, titleCase } from './picker.js?v=20261017b';
 import { loadDevice, saveDevice, mountControls } from './controls.js?v=20261017b';
+import { BG_DIR, LOCAL, loadManifest, presetUrl, localStore, readLocalChoice, saveLocalChoice, mountBackgrounds } from './backgrounds.js?v=20261017b';
 
 const DATA_URL = '/projects/tablecaster/data/layouts.json?v=20261017';
 const projector = new URLSearchParams(location.search).has('projector');
@@ -17,6 +18,10 @@ const notesEl = document.getElementById('notes');
 let data = null;        // parsed layouts.json, or null when missing / failed
 let dataError = false;
 let state = { ...defaultState(), ...loadDevice() };
+let bgList = [];        // backgrounds.json entries in picker order (Presets + owner images)
+let bgUnknown = null;   // a Background ref from the link that the manifest doesn't have
+let localUrl = null;    // blob: URL of the Local background (IndexedDB), or null
+const bgUrls = new Map(); // ref -> resolved href (Presets resolve asynchronously)
 const dismissed = new Set();
 
 // ---------- data ----------
@@ -51,12 +56,50 @@ function pxPerIn() {
 function draw() {
   const layout = findLayout(state.layoutId);
   const result = render(svg, {
-    layout, grid: state.grid, hidden: state.hidden, swap: state.swap, mirror: state.mirror, background: null,
+    layout, grid: state.grid, hidden: state.hidden, swap: state.swap, mirror: state.mirror, background: bgHref(state.background),
     pxPerIn: pxPerIn(),
   });
   svg.setAttribute('aria-label', layout ? `Battlefield, ${layoutTitle(layout).pairing}, Layout ${layoutTitle(layout).variant}` : 'Battlefield grid, no Layout selected');
   return { layout, result };
 }
+
+// ---------- Backgrounds (#61) ----------
+// Returns { href } for the render, or null while a Preset is still being drawn (it redraws when ready).
+function bgHref(ref) {
+  if (!ref) return null;
+  if (ref === LOCAL) return localUrl ? { href: localUrl } : null;
+  if (bgUrls.has(ref)) return { href: bgUrls.get(ref) };
+  ensureBackground(ref);
+  return null;
+}
+const pendingBg = new Map();
+function ensureBackground(ref) {
+  const e = bgList.find((x) => x.id === ref);
+  if (!e) return Promise.resolve();
+  if (e.kind === 'image') { bgUrls.set(ref, BG_DIR + e.file); return Promise.resolve(); }
+  if (!pendingBg.has(ref)) pendingBg.set(ref, presetUrl(ref).then((u) => { if (u) bgUrls.set(ref, u); if (state.background === ref) draw(); }));
+  return pendingBg.get(ref);
+}
+// Resolve the link's ref against the manifest: unknown -> none + note; no ref + Local chosen on this device -> Local.
+function resolveBackgroundRef() {
+  bgUnknown = null;
+  if (state.background && state.background !== LOCAL && !bgList.some((e) => e.id === state.background)) { bgUnknown = state.background; state.background = null; }
+  if (!state.background && localUrl && readLocalChoice()) state.background = LOCAL;
+}
+const chooseBackground = (ref) => update({ background: ref, hidden: ref ? state.hidden.filter((l) => l !== 'background') : state.hidden });
+async function setLocal(file) {
+  await localStore.put(file);       // if storage is blocked it still shows for this session
+  if (localUrl) URL.revokeObjectURL(localUrl);
+  localUrl = URL.createObjectURL(file);
+  chooseBackground(LOCAL);
+}
+async function forgetLocal() {
+  await localStore.forget();
+  if (localUrl) URL.revokeObjectURL(localUrl);
+  localUrl = null;
+  if (state.background === LOCAL) update({ background: null }); else update({});
+}
+let syncBackgrounds = null;
 
 // ---------- panel ----------
 function note(id, text, { dismissible = false } = {}) {
@@ -86,6 +129,7 @@ function updatePanel(layout, ignored, skipped) {
     n += note('version', `This link was made for ${escHtml(data.source.title || 'Companion')} v${escHtml(state.version)}; showing v${escHtml(data.source.version)}.`, { dismissible: true });
   if (ignored.length) n += note('ignored', `Parts of the link were ignored: ${ignored.map(escHtml).join(', ')}.`, { dismissible: true });
   if (skipped.length) n += note('skipped', `Some objects in this Layout couldn’t be drawn (${skipped.length}).`);
+  if (bgUnknown) n += note('background', `The link names a Background that isn’t available (${escHtml(bgUnknown)}). Showing none.`, { dismissible: true });
   notesEl.innerHTML = n;
   picker?.sync(data, state, layout);
 }
@@ -107,14 +151,16 @@ function applyHash() {
   state = { ...state, ...parsed.state };
   // A link without a version is read against the current data, so it gets the current version.
   if (!state.version && state.layoutId && data?.source?.version && findLayout(state.layoutId)) state.version = String(data.source.version);
+  resolveBackgroundRef();
   const { layout, result } = draw();
-  if (data && layout) {
+  if ((data && layout) || bgUnknown) {
     // Normalise the link: the current Companion version stays as given until the notice is dismissed.
     const h = formatHash(state);
     if (h !== location.hash) history.replaceState(null, '', location.pathname + location.search + h);
   }
   updatePanel(layout, ignored, result.skipped);
   syncControls?.(state);
+  syncBackgrounds?.(state, { localUrl });
 }
 
 // ---------- layers + orientation controls (#60) ----------
@@ -122,12 +168,14 @@ function applyHash() {
 // localStorage. Layout switches (#59) go through here too, so Swap sides and hidden layers carry over.
 export function update(patch) {
   state = { ...state, ...patch };
+  if ('background' in patch) { saveLocalChoice(state.background === LOCAL); bgUnknown = null; }
   saveDevice(state);
   const h = formatHash(state);
   if (h !== location.hash) history.replaceState(null, '', location.pathname + location.search + (h || ''));
   const { layout, result } = draw();
   updatePanel(layout, ignored, result.skipped);
   syncControls?.(state);
+  syncBackgrounds?.(state, { localUrl });
   document.documentElement.toggleAttribute('data-wall', !!state.wall);
 }
 const controlsEl = document.getElementById('controls');
@@ -159,9 +207,15 @@ new ResizeObserver(() => {
 
 // First paint: the empty grid right away, then the Layout once the data is in.
 draw();
-data = await loadData();
+let localBlob;
+[data, bgList, localBlob] = await Promise.all([loadData(), loadManifest(), localStore.get()]);
+if (localBlob instanceof Blob) localUrl = URL.createObjectURL(localBlob);
+const bgEl = document.getElementById('backgrounds');
+if (!projector && bgEl) syncBackgrounds = mountBackgrounds(bgEl, bgList, { select: chooseBackground, file: setLocal, forget: forgetLocal });
 const openedWithLink = !!location.hash.replace(/^#/, '');
 if (!projector) renderStamp(panel.querySelector('[data-source-stamp]'), data?.source);
 applyHash();
 if (!openedWithLink && data) picker?.focus();
+await ensureBackground(state.background);   // ready = the chosen Background is drawn too
+draw();
 document.documentElement.dataset.ready = '1';

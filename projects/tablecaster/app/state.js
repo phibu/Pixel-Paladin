@@ -5,7 +5,7 @@
 //   version:    Companion version the link was made for ('1.3') | null   game, in the hash
 //   swap:       boolean                            game, in the hash (Swap sides)
 //   hidden:     layer names turned off ([] = all on)  game, in the hash
-//   background: Background ref (e.g. 'ash') | null    game, in the hash
+//   background: Background ref (e.g. 'ash') | 'local' | null   game, in the hash ('local' never is, see backgrounds.js)
 //   mirror:     boolean                            device (localStorage, later ticket)
 //   grid:       'discreet' | 'legible' | 'major'   device (localStorage, later ticket)
 // }
@@ -25,7 +25,7 @@ export function formatHash(state) {
   if (state.swap) parts.push('swap');
   const off = LAYERS.filter((l) => (state.hidden || []).includes(l));
   if (off.length) parts.push('off=' + off.join(','));
-  if (state.background) parts.push('bg=' + encodeURIComponent(state.background));
+  if (state.background && state.background !== 'local') parts.push('bg=' + encodeURIComponent(state.background)); // Local never leaves the device
   return parts.length ? '#' + parts.join('&') : '';
 }
 
@@ -43,7 +43,7 @@ export function parseHash(hash) {
     if (part === 'swap') out.swap = true;
     else if (key === 'off' && eq > 0) {
       for (const l of val.split(',')) LAYERS.includes(l) ? out.hidden.includes(l) || out.hidden.push(l) : l && ignored.push('off=' + l);
-    } else if (key === 'bg' && eq > 0 && dec(val)) out.background = dec(val);
+    } else if (key === 'bg' && eq > 0 && dec(val) && !['local', 'none'].includes(dec(val))) out.background = dec(val);
     else if (i === 0 && eq < 0) {
       const at = part.lastIndexOf('@');
       const id = dec(at < 0 ? part : part.slice(0, at)), ver = at < 0 ? null : dec(part.slice(at + 1));
