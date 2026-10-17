@@ -120,6 +120,8 @@ html.is-projector .topbar,
 html.is-projector .crumbs,
 html.is-projector .foot,
 html.is-projector .tc-panel { display: none; }
+/* Deliberate override of the page shell: this mode is full-bleed. (The CLAUDE.md "don't re-declare .page padding"
+   rule targets inline per-page padding in the normal page layout, not this.) */
 html.is-projector .page { max-width: none; padding: 0; margin: 0; }
 html.is-projector .tc-stage { position: fixed; inset: 0; width: auto; aspect-ratio: auto; }
 
@@ -186,6 +188,7 @@ html[data-view="projection"] .topbar,
 html[data-view="projection"] .crumbs,
 html[data-view="projection"] .foot,
 html[data-view="projection"] .tc-panel { display: none; }
+/* Deliberate full-bleed override of the page shell, as for ?projector above. */
 html[data-view="projection"] .page { max-width: none; padding: 0; margin: 0; }
 html[data-view="projection"] .tc-stage {
   position: fixed; inset: 0; z-index: 10; width: auto; height: 100dvh; aspect-ratio: auto; box-sizing: border-box;
