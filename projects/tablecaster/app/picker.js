@@ -2,7 +2,7 @@
 // the mirror Pairing), an A/B/C control with thumbnails drawn live by the engine, and Random.
 // Also the attribution stamp from the data's `source`. The picker never touches the state itself:
 // it calls `choose(layoutId)` and app.js commits (state, hash, render, panel).
-import { render } from './engine.js?v=20261017b';
+import { render } from './engine.js?v=20261017c';
 
 // Force Disposition labels are stored as printed (all caps); show them in title case.
 const SMALL = new Set(['and', 'the', 'of', 'a', 'an', 'in', 'on', 'to']);

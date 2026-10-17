@@ -5,7 +5,7 @@
 //   tablecaster.mirror  '1' | absent                     Mirror
 //   tablecaster.grid    'discreet' | 'legible' | 'major' grid style (absent = discreet)
 //   tablecaster.wall    '1' | absent                     Wall mode (no Calibration, fit to the screen)
-import { LAYERS, GRID_STYLES } from './engine.js?v=20261017b';
+import { LAYERS, GRID_STYLES } from './engine.js?v=20261017c';
 
 export const STORAGE_KEYS = { mirror: 'tablecaster.mirror', grid: 'tablecaster.grid', wall: 'tablecaster.wall' };
 

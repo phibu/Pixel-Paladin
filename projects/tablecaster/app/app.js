@@ -1,14 +1,14 @@
 // Tablecaster tool page: loads the layout data, keeps one state object in sync with the URL hash,
 // and hands it to the engine. Runs on /projects/tablecaster/app/ (setup view) and with ?projector
 // (chrome-less full-viewport render; the projector window ticket adds the sync).
-import { render } from './engine.js?v=20261017b';
-import { defaultState, parseHash, formatHash } from './state.js?v=20261017b';
-import { initPicker, renderStamp, titleCase } from './picker.js?v=20261017b';
-import { loadDevice, saveDevice, mountControls } from './controls.js?v=20261017b';
+import { render } from './engine.js?v=20261017c';
+import { defaultState, parseHash, formatHash } from './state.js?v=20261017c';
+import { initPicker, renderStamp, titleCase } from './picker.js?v=20261017c';
+import { loadDevice, saveDevice, mountControls } from './controls.js?v=20261017c';
 import { BG_DIR, LOCAL, loadManifest, presetUrl, localStore, readLocalChoice, saveLocalChoice, mountBackgrounds } from './backgrounds.js?v=20261017b';
-import { createProjection } from './projection.js?v=20261017b';
-import { createCalibration } from './calibration.js?v=20261017b';
-import { createController, createReceiver } from './projector.js?v=20261017b';
+import { createProjection } from './projection.js?v=20261017c';
+import { createCalibration } from './calibration.js?v=20261017c';
+import { createController, createReceiver } from './projector.js?v=20261017c';
 import { registerWorker, mountOffline } from './offline.js?v=20261017b';
 
 const DATA_URL = '/projects/tablecaster/data/layouts.json?v=20261017';
