@@ -291,3 +291,13 @@ html.is-projector:not([data-fs="api"]):not([data-calibrating]) .tc-fs-target:not
 }
 .tc-fs-target:focus-visible { outline: none; box-shadow: inset var(--pp-ring); }
 html[data-view="projection"] .tc-toast[data-show] { z-index: 2; }
+
+/* ---- #64: offline status + Reset device data (offline.js) ---- */
+.tc-offline { margin: 0 0 20px; }
+.tc-off-status { margin: 0; font-size: 14px; color: var(--pp-fg-muted); }
+.tc-off-status[data-state="ready"], .tc-off-status[data-state="offline"] { color: var(--pp-fg); }
+.tc-reset[data-confirm] { border-color: var(--pp-fg); }
+/* Owner background with no saved copy while offline: dimmed thumbnail, hint, not selectable. */
+.tc-bg-tile[data-offline-missing] { cursor: not-allowed; }
+.tc-bg-tile[data-offline-missing] .tc-bg-thumb { opacity: .3; filter: grayscale(1); }
+.tc-bg-offline { font-size: 11px; line-height: 1.3; color: var(--pp-fg-muted); }
