@@ -117,7 +117,8 @@ export function createCalibration({ stage, svg, panelEl, projection, getState, r
   // Called by app.js after every render: verify bars and corner marks in inch space, outside Swap/Mirror.
   function afterDraw() {
     if (!cal || cal.step === 'place') return;
-    const g = 'var(--pp-warning, #f5a524)';
+    // Resolved here: var() inside SVG presentation attributes isn't portable (Safari).
+    const g = getComputedStyle(svg).getPropertyValue('--pp-warning').trim() || '#f5a524';
     let s = `<g data-cal-marks>`;
     for (const [x, y] of [[0, 0], [W, 0], [W, H], [0, H]]) s += `<path d="M${x} ${y}h${x ? -2 : 2}M${x} ${y}v${y ? -2 : 2}" stroke="${g}" stroke-width="4" fill="none" ${NS}/>`;
     if (cal.step === 'verify') {
