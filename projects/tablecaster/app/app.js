@@ -4,6 +4,7 @@
 import { render } from './engine.js?v=20261017b';
 import { defaultState, parseHash, formatHash } from './state.js?v=20261017b';
 import { initPicker, renderStamp, titleCase } from './picker.js?v=20261017b';
+import { loadDevice, saveDevice, mountControls } from './controls.js?v=20261017b';
 
 const DATA_URL = '/projects/tablecaster/data/layouts.json?v=20261017';
 const projector = new URLSearchParams(location.search).has('projector');
@@ -15,7 +16,7 @@ const notesEl = document.getElementById('notes');
 
 let data = null;        // parsed layouts.json, or null when missing / failed
 let dataError = false;
-let state = defaultState();
+let state = { ...defaultState(), ...loadDevice() };
 const dismissed = new Set();
 
 // ---------- data ----------
@@ -91,14 +92,11 @@ function updatePanel(layout, ignored, skipped) {
 
 // ---------- picker + attribution (#59) ----------
 // The picker calls chooseLayout(id); a fresh pick is made against the current data, so it takes the current version.
+// It goes through update() (#60), so Swap sides and hidden layers carry over between Layouts.
 const pickerEl = panel?.querySelector('[data-picker]');
 const picker = pickerEl && !projector ? initPicker(pickerEl, { choose: chooseLayout }) : null;
 function chooseLayout(id) {
-  state.layoutId = id;
-  state.version = data?.source?.version ? String(data.source.version) : null;
-  const { layout, result } = draw();
-  history.replaceState(null, '', location.pathname + location.search + formatHash(state));
-  updatePanel(layout, ignored, result.skipped);
+  update({ layoutId: id, version: data?.source?.version ? String(data.source.version) : null });
 }
 
 // ---------- state <-> hash ----------
@@ -116,7 +114,26 @@ function applyHash() {
     if (h !== location.hash) history.replaceState(null, '', location.pathname + location.search + h);
   }
   updatePanel(layout, ignored, result.skipped);
+  syncControls?.(state);
 }
+
+// ---------- layers + orientation controls (#60) ----------
+// One entry point for every in-app state change: game parts go to the hash (replaceState), device parts to
+// localStorage. Layout switches (#59) go through here too, so Swap sides and hidden layers carry over.
+export function update(patch) {
+  state = { ...state, ...patch };
+  saveDevice(state);
+  const h = formatHash(state);
+  if (h !== location.hash) history.replaceState(null, '', location.pathname + location.search + (h || ''));
+  const { layout, result } = draw();
+  updatePanel(layout, ignored, result.skipped);
+  syncControls?.(state);
+  document.documentElement.toggleAttribute('data-wall', !!state.wall);
+}
+const controlsEl = document.getElementById('controls');
+const syncControls = !projector && controlsEl ? mountControls(controlsEl, update) : null;
+syncControls?.(state);
+document.documentElement.toggleAttribute('data-wall', !!state.wall);
 
 notesEl?.addEventListener('click', (e) => {
   const b = e.target.closest('[data-dismiss]');
