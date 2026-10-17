@@ -1,0 +1,195 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<meta name="color-scheme" content="dark" />
+<meta name="theme-color" content="#0a0a09" />
+<title>Tablecaster · Pixel Paladin</title>
+<meta name="description" content="Projects tournament battlefield layouts true-to-scale onto a 60″ × 44″ table. Four-corner calibration, offline at venues, any phone or laptop."/>
+<link rel="canonical" href="https://pixel-paladin.de/projects/tablecaster/"/>
+<meta property="og:type" content="website"/>
+<meta property="og:site_name" content="Pixel Paladin"/>
+<meta property="og:title" content="Tablecaster · Pixel Paladin"/>
+<meta property="og:description" content="Projects tournament battlefield layouts true-to-scale onto a 60″ × 44″ table. Four-corner calibration, offline at venues, any phone or laptop."/>
+<meta property="og:url" content="https://pixel-paladin.de/projects/tablecaster/"/>
+<meta property="og:locale" content="en_US"/>
+<meta property="og:image" content="https://pixel-paladin.de/ds/assets/tablecaster-og.png"/>
+<meta property="og:image:width" content="1200"/>
+<meta property="og:image:height" content="630"/>
+<meta property="og:image:alt" content="Tablecaster: a battlefield layout with deployment zones, terrain and objectives on a one-inch grid, projected true to scale"/>
+<meta name="twitter:card" content="summary_large_image"/>
+<link rel="icon" href="/ds/assets/pixelpaladin-favicon.svg" type="image/svg+xml"/>
+<link rel="preload" href="/ds/fonts/Unbounded-Regular.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="/ds/colors_and_type.css?v=20261004"/>
+<link rel="stylesheet" href="/ds/page.css?v=20261004b"/>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "Tablecaster",
+  "url": "https://pixel-paladin.de/projects/tablecaster/",
+  "description": "Projects tournament battlefield layouts true-to-scale onto a 60″ × 44″ table. Four-corner calibration, offline at venues, any phone or laptop.",
+  "image": "https://pixel-paladin.de/ds/assets/tablecaster-og.png",
+  "applicationCategory": "GameApplication",
+  "operatingSystem": "Any",
+  "browserRequirements": "Requires JavaScript and a current browser (Chrome, Edge, Firefox or Safari). A projector or a phone with screen mirroring for the table.",
+  "isAccessibleForFree": true,
+  "inLanguage": "en",
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "EUR"
+  },
+  "publisher": {
+    "@type": "Person",
+    "name": "Philipp Buchwald",
+    "url": "https://pixel-paladin.de/",
+    "email": "mailto:hi@pixel-paladin.de"
+  }
+}
+</script>
+<style>
+  .lede .actions { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 22px; }
+  .lede .actions .btn { min-height: 44px; }
+
+  figure.projection { margin: 0 0 8px; padding: 0; }
+  figure.projection img {
+    display: block; width: 100%; height: auto;
+    border: 1px solid var(--pp-border);
+    border-radius: 6px;
+    background: var(--pp-bg-sunken);
+  }
+  figure.projection figcaption {
+    font-family: var(--pp-font-mono);
+    font-size: 12px;
+    color: var(--pp-fg-muted);
+    letter-spacing: 0.04em;
+    margin-top: 10px;
+  }
+
+  /* Trademark notice: its own block, last thing in <main>. */
+  .disclaimer {
+    margin-top: 48px;
+    padding: 18px 20px;
+    border: 1px solid var(--pp-border);
+    border-left: 3px solid var(--pp-border-strong);
+    border-radius: 6px;
+    background: var(--pp-bg-sunken);
+    max-width: 82ch;
+  }
+  .disclaimer h2 {
+    margin: 0 0 10px;
+    font-family: var(--pp-font-mono); font-weight: 500;
+    font-size: 11px; letter-spacing: 0.16em; text-transform: uppercase;
+    color: var(--pp-fg-muted);
+  }
+  .disclaimer p { margin: 0; font-size: 14px; line-height: 1.6; color: var(--pp-fg-muted); overflow-wrap: break-word; }
+  .disclaimer p + p { margin-top: 10px; }
+  .disclaimer a {
+    display: inline-block; min-height: 44px; line-height: 44px;
+    margin: -12px 0;
+    color: var(--pp-fg);
+    text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 3px;
+  }
+  .disclaimer a:hover { color: var(--pp-fg-brand); }
+</style>
+</head>
+<body class="pp-root pp-dark">
+<a class="skip-link" href="#main">Skip to content</a>
+
+<div class="page">
+  <header class="topbar">
+    <a class="brand" href="/">
+      <img class="mark" src="/ds/assets/pixelpaladin-favicon.svg" width="32" height="32" alt="">
+      <div><div class="name">Pixel <span>Paladin</span></div><div class="sub">Workshop · Jülich, DE</div></div>
+    </a>
+    <nav class="topnav">
+      <a href="/#workshop">Workshop</a>
+      <a href="/#projects" class="active">Projects</a>
+      <a href="/#contact">Contact</a>
+    </nav>
+  </header>
+
+  <nav class="crumbs" aria-label="Breadcrumb"><a href="/">Home</a><span class="sep" aria-hidden="true">/</span><a href="/#projects">Projects</a><span class="sep" aria-hidden="true">/</span>Tablecaster</nav>
+  <main id="main" tabindex="-1">
+
+  <div class="lede">
+    <div class="eyebrow"><span class="dot green"></span> Live · Free · In the browser</div>
+    <h1>Table<span class="accent">caster.</span></h1>
+    <p class="kicker">Projects tournament battlefield layouts true-to-scale onto a 60″&nbsp;×&nbsp;44″ table. Pick the layout, point a projector at the mat, tap the four corners once, and every terrain area, deployment zone and objective lands where it belongs. No tape measure.</p>
+    <div class="meta">
+      <span>Web</span><span>·</span>
+      <span>Projector</span><span>·</span>
+      <span>Offline</span><span>·</span>
+      <span>Free</span>
+    </div>
+    <div class="actions">
+      <a class="btn btn-primary" href="/projects/tablecaster/app/">Open Tablecaster</a>
+      <a class="btn btn-ghost" href="#disclaimer">Unofficial fan tool</a>
+    </div>
+  </div>
+
+  <div class="layout">
+    <article class="prose">
+
+      <figure class="projection">
+        <img src="/ds/assets/tablecaster/projection-720.webp" srcset="/ds/assets/tablecaster/projection-720.webp 720w, /ds/assets/tablecaster/projection-1440.webp 1440w" sizes="(min-width: 1200px) 812px, (min-width: 861px) 64vw, 92vw" width="720" height="528" decoding="async" alt="A battlefield layout as Tablecaster projects it: red and blue deployment zones on opposite edges, terrain areas with labelled features, objective markers and a one-inch grid over a dark textured background" />
+        <figcaption>Rendered by the tool itself: one layout, a drawn background, the 1″ grid.</figcaption>
+      </figure>
+
+      <h2>What it does</h2>
+      <p>Setting up a tournament table means measuring every terrain area, deployment zone and objective from a diagram, for every layout, on every table. Tablecaster draws the layout for you, at 1:1 scale, straight onto the battlefield. Put your terrain on the projected footprints, place the objectives on their markers, and play.</p>
+
+      <h2>How it works at the table</h2>
+      <ul>
+        <li><strong>Pick a layout.</strong> Choose your force disposition and your opponent's, in either order, then layout A, B or C. Small thumbnails show each one; Random lets chance decide.</li>
+        <li><strong>Calibrate once.</strong> In fullscreen, tap the four corners of the mat and check three 10″ bars with a ruler. After that one projected inch is one real inch, and the result is saved for that screen.</li>
+        <li><strong>Project only what you need.</strong> Eight layers (grid, zones, territory line, terrain areas, terrain features, objectives, edge labels, background) switch on and off. Hide the zones once deployment is done.</li>
+        <li><strong>Swap sides or mirror.</strong> Turn the layout 180° without moving seats, or mirror it for rear and ceiling projection. Neither breaks the calibration.</li>
+        <li><strong>Share the game.</strong> The link carries the layout, sides, layers and background. Calibration and mirror stay on each device.</li>
+      </ul>
+
+      <h2>What you need</h2>
+      <ul>
+        <li>A projector above the table, or on a wall for display.</li>
+        <li>A phone with screen mirroring, or a laptop. On a laptop with two displays, a separate projector window keeps the controls on your screen and only the battlefield on the table.</li>
+        <li>One earlier visit on game day. After that the tool, every layout and the drawn backgrounds work without a signal.</li>
+      </ul>
+
+      <h2>Backgrounds</h2>
+      <p>Pick none, a drawn texture, or an image from your own device. Your own image stays on your device: it is never uploaded and never put in a shared link.</p>
+      <p>All backgrounds are original: drawn in code or photographed by me, made without generative AI.</p>
+
+    </article>
+
+    <aside class="side">
+      <div class="panel">
+        <div class="panel-head"><span>Project</span><span class="mono" style="color:var(--pp-success)">● live</span></div>
+        <div class="panel-body">
+          <div class="kv">
+            <span class="k">Status</span><span class="v">Live</span>
+            <span class="k">Price</span><span class="v">Free, no ads</span>
+            <span class="k">Runs in</span><span class="v">Any current browser</span>
+            <span class="k">Table</span><span class="v">60″ × 44″</span>
+            <span class="k">Layouts</span><span class="v" data-source-stamp>Companion v1.3 · Sep 2026 · <a href="https://www.warhammer-community.com/en-gb/downloads/warhammer-40000/" target="_blank" rel="noopener noreferrer" style="color:var(--pp-fg-brand)">official PDF ↗</a></span>
+            <span class="k">Account</span><span class="v">None, nothing sent</span>
+          </div>
+        </div>
+      </div>
+    </aside>
+  </div>
+
+  <section class="disclaimer" id="disclaimer" aria-labelledby="disclaimer-h">
+    <h2 id="disclaimer-h">Notice</h2>
+    <p>Unofficial fan tool. Not affiliated with or endorsed by Games Workshop. Warhammer, Warhammer 40,000 and Event Companion are trademarks of Games Workshop Ltd. Layout positions are taken from the Warhammer Event Companion v1.3; get the <a href="https://www.warhammer-community.com/en-gb/downloads/warhammer-40000/" target="_blank" rel="noopener noreferrer">free official PDF from Games Workshop</a>.</p>
+  </section>
+
+  </main>
+  <footer class="foot">
+    <div class="mono">© 2026 · Philipp Buchwald</div>
+    <div class="mono"><a href="/impressum/" lang="de">Impressum</a> · <a href="/datenschutz/" lang="de">Datenschutz</a></div>
+  </footer>
+</div>
+</body>
+</html>
