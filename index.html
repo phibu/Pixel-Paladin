@@ -419,6 +419,19 @@
   }
   .feature p.proj-tags { margin-top: auto; padding-top: 12px; border-top: 1px dashed var(--pp-border); }
 
+  /* Tablecaster: third card spans both columns. The 60:44 battlefield is shown whole (no crop);
+     from 660px the media sits left of the text. */
+  .feature--wide { grid-column: 1 / -1; }
+  .feature--wide .feature-media { aspect-ratio: 60 / 44; }
+  .feature--wide .feature-media > img { object-position: 50% 50%; }
+  @media (min-width: 660px) {
+    .feature--wide { flex-direction: row; }
+    .feature--wide .feature-media {
+      flex: 0 0 55%; align-self: flex-start;
+      border-bottom: 0; border-right: 1px solid var(--pp-border);
+    }
+  }
+
   /* ============================================================
      Project text atoms (shared by featured cards and list rows)
      ============================================================ */
@@ -1008,10 +1021,10 @@
         <span class="num">02 /</span>
         <h2>Projects &amp; builds</h2>
       </div>
-      <div class="note">Six tracks · <span style="color:var(--pp-fg)">always one</span> is pushing</div>
+      <div class="note">Seven tracks · <span style="color:var(--pp-fg)">always one</span> is pushing</div>
     </div>
 
-    <!-- Shipped: featured pair (whole card is the link; its name is the project title) -->
+    <!-- Shipped: featured cards, the third spans both columns (whole card is the link; its name is the project title) -->
     <div class="featured">
 
       <a class="feature" href="/projects/ad-passreset/" aria-labelledby="pj-adpr" aria-describedby="pj-adpr-d">
@@ -1045,6 +1058,21 @@
           <h3 class="proj-title" id="pj-cb">The Mini Colorbench</h3>
           <p class="proj-desc" id="pj-cb-d">Companion app for miniature painters. 109&nbsp;curated palettes, 1399&nbsp;paints across 9&nbsp;brands, and a CIEDE2000 match engine that finds the closest paint on your shelf.</p>
           <p class="proj-tags"><span>Android</span> <span>v2.7.0</span> <span>iOS deferred</span></p>
+        </div>
+      </a>
+
+      <a class="feature feature--wide" href="/projects/tablecaster/" aria-labelledby="pj-tc" aria-describedby="pj-tc-d">
+        <div class="feature-media">
+          <img src="/ds/assets/tablecaster/projection-720.webp" srcset="/ds/assets/tablecaster/projection-720.webp 720w, /ds/assets/tablecaster/projection-1440.webp 1440w" sizes="(min-width: 1200px) 634px, (min-width: 660px) 53vw, 92vw" width="720" height="528" loading="lazy" decoding="async" alt="A battlefield layout as Tablecaster projects it: red and blue deployment zones, terrain areas with labelled features, objective markers and a one-inch grid over a dark textured background" />
+        </div>
+        <div class="feature-body">
+          <div class="feature-top">
+            <span class="badge live"><span class="dot green"></span>Live</span>
+            <span class="go" aria-hidden="true">→</span>
+          </div>
+          <h3 class="proj-title" id="pj-tc">Tablecaster</h3>
+          <p class="proj-desc" id="pj-tc-d">Projects tournament battlefield layouts true-to-scale onto a 60″&nbsp;×&nbsp;44″ table. Four-corner calibration, offline at venues, any phone or laptop.</p>
+          <p class="proj-tags"><span>Web</span> <span>Projector</span> <span>Offline</span> <span>Free</span></p>
         </div>
       </a>
 
