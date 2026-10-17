@@ -47,7 +47,7 @@ const esc = (s) => String(s).replace(/[&<>"']/g, (c) => `&#${c.charCodeAt(0)};`)
 export function createProjection({ stage, panelEl, getState, update, choose, getData, standalone = false }) {
   const html = document.documentElement;
   const listeners = new Set();
-  let keyOverride = null, wakeLock = null, idleTimer = 0, toastTimer = 0, fsByUs = false;
+  let keyOverride = null, enterGuard = null, wakeLock = null, idleTimer = 0, toastTimer = 0, fsByUs = false;
 
   // ---------- DOM: bar, toast, rotate hint (inside the stage, so they are part of the fullscreen element) ----------
   stage.insertAdjacentHTML('beforeend', `
@@ -113,7 +113,7 @@ export function createProjection({ stage, panelEl, getState, update, choose, get
 
   // ---------- enter / leave ----------
   async function enter() {
-    if (projecting()) return;
+    if (projecting() || enterGuard?.()) return;
     html.dataset.view = 'projection';
     idle();
     await fsOn();
@@ -241,5 +241,13 @@ export function createProjection({ stage, panelEl, getState, update, choose, get
     setKeyOverride(fn) { keyOverride = fn || null; },
     // #65: fn(action, arg) after every dispatched action, e.g. to forward it to the projector window.
     onDispatch(fn) { listeners.add(fn); return () => listeners.delete(fn); },
+    // #65: fn() -> true blocks entering the projection view here (a projector window is open). null to clear.
+    setEnterGuard(fn) { enterGuard = fn || null; },
+    // #65: relabel the panel's Project button ("Close projector window" + its own action); no args restores it.
+    setProjectButton(label = 'Project', action = 'enter') {
+      const b = panelEl?.querySelector('.tc-project');
+      if (b) { b.textContent = label; b.dataset.action = action; }
+    },
+    toast,
   };
 }
