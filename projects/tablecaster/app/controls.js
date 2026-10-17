@@ -9,11 +9,11 @@ import { LAYERS, GRID_STYLES } from './engine.js?v=20261017b';
 
 export const STORAGE_KEYS = { mirror: 'tablecaster.mirror', grid: 'tablecaster.grid', wall: 'tablecaster.wall' };
 
-const LAYER_LABELS = {
+export const LAYER_LABELS = {
   grid: 'Grid', zones: 'Zones', territory: 'Territory line', areas: 'Terrain areas',
   features: 'Terrain features', objectives: 'Objectives', labels: 'Edge labels', background: 'Background',
 };
-const GRID_LABELS = { discreet: 'Discreet', legible: 'Legible', major: 'Major only' };
+export const GRID_LABELS = { discreet: 'Discreet', legible: 'Legible', major: 'Major only' };
 
 // Storage can throw (private mode, blocked site data): every access is guarded and falls back to the defaults.
 const read = (k) => { try { return localStorage.getItem(k); } catch { return null; } };
