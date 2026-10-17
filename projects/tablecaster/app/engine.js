@@ -49,9 +49,18 @@ export const FEATURE_SIZES = {
 
 export const OBJECTIVE_RADIUS = 0.787; // 40 mm marker
 
-const C = {
-  base: '#1a1917', ink: '#ebeae7', area: '#b0aea7', muted: '#7c7a73',
-  attacker: '#e51b10', defender: '#3b82f6', gold: '#f5a524',
+// Palette: one source, the `--tc-*` custom properties in app.css (DS tokens). Read from the svg's computed style on
+// every render, so the svg must be in a document that loads app.css (setup view, projector window, thumbnails).
+const PALETTE = ['base', 'ink', 'line', 'area', 'muted', 'shade', 'deep', 'attacker', 'defender', 'gold'];
+let C = {};
+const palette = (svg) => {
+  const cs = getComputedStyle(svg);
+  return Object.fromEntries(PALETTE.map((k) => [k, cs.getPropertyValue('--tc-' + k).trim()]));
+};
+// A palette colour (#rrggbb, as the DS tokens are written) at alpha a; any other colour syntax is returned as is.
+const alpha = (c, a) => {
+  const m = /^#([0-9a-f]{2})([0-9a-f]{2})([0-9a-f]{2})$/i.exec(c);
+  return m ? `rgba(${m.slice(1).map((h) => parseInt(h, 16)).join(',')},${a})` : c;
 };
 const GRID = {
   discreet: { minor: 0.12, major: 0.30, majorW: 1.5, nums: 0.40, halves: false },
@@ -68,6 +77,7 @@ const clamp = (v, lo, hi) => Math.min(hi, Math.max(lo, v));
 
 export function render(svg, scene = {}) {
   const { layout = null, grid = 'discreet', hidden = [], swap = false, mirror = false, background = null } = scene;
+  C = palette(svg);
   const ppi = scene.pxPerIn > 0 ? scene.pxPerIn : 14;
   const off = new Set(hidden);
   const skipped = [];
@@ -103,15 +113,15 @@ function gridLayer(g, fz) {
   for (let x = 1; x < W; x++) x % 5 ? (g.minor && (minor += `M${x} 0V${H}`)) : (major += `M${x} 0V${H}`);
   for (let y = 1; y < H; y++) y % 5 ? (g.minor && (minor += `M0 ${y}H${W}`)) : (major += `M0 ${y}H${W}`);
   let s = '';
-  if (minor) s += `<path d="${minor}" fill="none" stroke="rgba(255,255,255,${g.minor})" stroke-width="1" ${NS}/>`;
-  s += `<path d="${major}" fill="none" stroke="rgba(255,255,255,${g.major})" stroke-width="${g.majorW}" ${NS}/>`;
-  if (g.halves) s += `<path d="M30 0V44M0 22H60" fill="none" stroke="rgba(245,165,36,.55)" stroke-width="2" stroke-dasharray="8 6" ${NS}/>`;
+  if (minor) s += `<path d="${minor}" fill="none" stroke="${alpha(C.line, g.minor)}" stroke-width="1" ${NS}/>`;
+  s += `<path d="${major}" fill="none" stroke="${alpha(C.line, g.major)}" stroke-width="${g.majorW}" ${NS}/>`;
+  if (g.halves) s += `<path d="M30 0V44M0 22H60" fill="none" stroke="${alpha(C.gold, .55)}" stroke-width="2" stroke-dasharray="8 6" ${NS}/>`;
   // Centre marks: a cross at the centre plus a tick at the middle of each edge.
   s += `<path d="M29 22H31M30 21V23M0 22H1M59 22H60M30 0V1M30 43V44" fill="none" stroke="${C.gold}" stroke-width="3" ${NS}/>`;
   let t = '';
   for (let x = 5; x < W; x += 5) t += `<text x="${x}" y="${fz * 1.05}" text-anchor="middle">${x}</text><text x="${x}" y="${H - fz * 0.3}" text-anchor="middle">${x}</text>`;
   for (let y = 5; y < H; y += 5) t += `<text x="${fz * 0.3}" y="${y + fz * 0.35}">${y}</text><text x="${W - fz * 0.3}" y="${y + fz * 0.35}" text-anchor="end">${y}</text>`;
-  return s + `<g fill="rgba(255,255,255,${g.nums})" font-size="${fz.toFixed(3)}" ${FONT}>${t}</g>`;
+  return s + `<g fill="${alpha(C.line, g.nums)}" font-size="${fz.toFixed(3)}" ${FONT}>${t}</g>`;
 }
 
 function zones(L, skipped) {
@@ -128,7 +138,7 @@ function zones(L, skipped) {
 function territory(L, skipped) {
   const t = L.territoryLine;
   if (!Array.isArray(t) || t.length !== 2 || !t.every(isPt)) { if (t !== undefined) skipped.push('territoryLine'); return ''; }
-  return `<line data-obj="territory" x1="${t[0][0]}" y1="${t[0][1]}" x2="${t[1][0]}" y2="${t[1][1]}" stroke="rgba(255,255,255,.75)" stroke-width="2" stroke-dasharray="12 8" ${NS}/>`;
+  return `<line data-obj="territory" x1="${t[0][0]}" y1="${t[0][1]}" x2="${t[1][0]}" y2="${t[1][1]}" stroke="${alpha(C.line, .75)}" stroke-width="2" stroke-dasharray="12 8" ${NS}/>`;
 }
 
 const place = (o) => `translate(${o.center[0]} ${o.center[1]}) rotate(${Number(o.rotation) || 0})`;
@@ -138,7 +148,7 @@ function areas(L, skipped) {
   for (const a of L.areas || []) {
     const shape = AREA_SHAPES[a.size];
     if (!shape || !isPt(a.center)) { skipped.push(`area:${a.size}`); continue; }
-    s += `<polygon data-obj="area" data-size="${esc(a.size)}" transform="${place(a)}${a.mirrored ? ' scale(1 -1)' : ''}" points="${pts(shape)}" fill="rgba(17,17,16,.55)" stroke="${C.area}" stroke-width="2" stroke-linejoin="round" ${NS}/>`;
+    s += `<polygon data-obj="area" data-size="${esc(a.size)}" transform="${place(a)}${a.mirrored ? ' scale(1 -1)' : ''}" points="${pts(shape)}" fill="${alpha(C.shade, .55)}" stroke="${C.area}" stroke-width="2" stroke-linejoin="round" ${NS}/>`;
   }
   return s;
 }
@@ -157,7 +167,7 @@ function features(L, skipped, swap) {
     if (f.letters) {
       // Letter badge, kept upright for a reader at the bottom edge (turned with Swap sides like the rest).
       const txt = esc(f.letters), bw = 0.5 + 0.62 * String(f.letters).length;
-      badges += `<g data-obj="badge" transform="translate(${f.center[0]} ${f.center[1]})"><rect x="${-bw / 2}" y="-.5" width="${bw}" height="1" rx=".5" fill="#111110" stroke="${C.ink}" stroke-width="1" ${NS}/>`
+      badges += `<g data-obj="badge" transform="translate(${f.center[0]} ${f.center[1]})"><rect x="${-bw / 2}" y="-.5" width="${bw}" height="1" rx=".5" fill="${C.shade}" stroke="${C.ink}" stroke-width="1" ${NS}/>`
         + `<text y=".02" text-anchor="middle" dominant-baseline="central" font-size=".72" font-weight="700" fill="${C.ink}" ${FONT}>${txt}</text></g>`;
     }
   }
@@ -175,17 +185,17 @@ function objectives(L, skipped) {
       case 'home-attacker':
       case 'home-defender': { // solid ring + filled core in the side colour
         const c = o.type === 'home-attacker' ? C.attacker : C.defender;
-        mark = `<circle data-obj="objective" data-type="${o.type}" cx="${x}" cy="${y}" r="${R}" fill="rgba(10,10,9,.7)" stroke="${c}" stroke-width="3" ${NS}/><circle cx="${x}" cy="${y}" r=".3" fill="${c}"/>`;
+        mark = `<circle data-obj="objective" data-type="${o.type}" cx="${x}" cy="${y}" r="${R}" fill="${alpha(C.deep, .7)}" stroke="${c}" stroke-width="3" ${NS}/><circle cx="${x}" cy="${y}" r=".3" fill="${c}"/>`;
         break;
       }
       case 'central': // gold double ring + cross
-        mark = `<circle data-obj="objective" data-type="central" cx="${x}" cy="${y}" r="${R}" fill="rgba(10,10,9,.7)" stroke="${C.gold}" stroke-width="3" ${NS}/><circle cx="${x}" cy="${y}" r="${R * 0.55}" fill="none" stroke="${C.gold}" stroke-width="1.5" ${NS}/><path d="M${x - 0.25} ${y}H${x + 0.25}M${x} ${y - 0.25}V${y + 0.25}" stroke="${C.gold}" stroke-width="2" ${NS}/>`;
+        mark = `<circle data-obj="objective" data-type="central" cx="${x}" cy="${y}" r="${R}" fill="${alpha(C.deep, .7)}" stroke="${C.gold}" stroke-width="3" ${NS}/><circle cx="${x}" cy="${y}" r="${R * 0.55}" fill="none" stroke="${C.gold}" stroke-width="1.5" ${NS}/><path d="M${x - 0.25} ${y}H${x + 0.25}M${x} ${y - 0.25}V${y + 0.25}" stroke="${C.gold}" stroke-width="2" ${NS}/>`;
         break;
       case 'expansion': // dashed white ring + small core
-        mark = `<circle data-obj="objective" data-type="expansion" cx="${x}" cy="${y}" r="${R}" fill="rgba(10,10,9,.7)" stroke="${C.ink}" stroke-width="2.5" stroke-dasharray="4 3" ${NS}/><circle cx="${x}" cy="${y}" r=".15" fill="${C.ink}"/>`;
+        mark = `<circle data-obj="objective" data-type="expansion" cx="${x}" cy="${y}" r="${R}" fill="${alpha(C.deep, .7)}" stroke="${C.ink}" stroke-width="2.5" stroke-dasharray="4 3" ${NS}/><circle cx="${x}" cy="${y}" r=".15" fill="${C.ink}"/>`;
         break;
       default: // unknown type (user data): neutral ring
-        mark = `<circle data-obj="objective" data-type="other" cx="${x}" cy="${y}" r="${R}" fill="rgba(10,10,9,.7)" stroke="${C.muted}" stroke-width="2" ${NS}/>`;
+        mark = `<circle data-obj="objective" data-type="other" cx="${x}" cy="${y}" r="${R}" fill="${alpha(C.deep, .7)}" stroke="${C.muted}" stroke-width="2" ${NS}/>`;
     }
     s += mark;
   }

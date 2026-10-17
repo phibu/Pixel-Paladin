@@ -11,13 +11,13 @@
 //
 // Wizard: place (TL, TR, BR, BL with crosshair lines) -> refine (drag handles, nudge pad) -> verify (three 10″ bars;
 // Yes saves, No goes back to refine). Adjust starts at refine. Esc cancels and keeps the stored profile.
-// Wall mode (state.wall): no warp, no wizard, no prompt; the stored profile stays.
+// Wall mode (state.wall): no warp, no wizard; the stored profile stays.
+// The calibration status is shown in the setup panel only, never on the projection (spec story 53).
 
 export const W = 60, H = 44;
 export const PREFIX = 'tablecaster.calibration.';
 export const CORNER_NAMES = ['top-left', 'top-right', 'bottom-right', 'bottom-left'];
 const STEPS = [1, 10, 0.25];
-export const HINT_MS = 6000;
 
 // ---------- math ----------
 // 3×3 homography mapping 4 src points onto 4 dst points (h22 = 1), Gaussian elimination with partial pivoting.
@@ -82,15 +82,11 @@ export function createCalibration({ stage, svg, panelEl, projection, getState, r
     <div class="tc-cal" data-cal hidden>
       <svg class="tc-cal-ov" data-cal-overlay xmlns="http://www.w3.org/2000/svg" aria-hidden="true"></svg>
       <div class="tc-cal-hud" data-cal-hud role="dialog" aria-label="Calibration"></div>
-    </div>
-    <div class="tc-cal-prompt" data-cal-prompt role="status">
-      <span>Not calibrated for this screen.</span>
-      <button type="button" data-cal-action="start">Calibrate <kbd>C</kbd></button>
     </div>`);
+  // No calibration status on the projection surface (spec story 53): it lives in the setup panel only.
   const root = stage.querySelector('[data-cal]');
   const ov = root.querySelector('[data-cal-overlay]');
   const hud = root.querySelector('[data-cal-hud]');
-  const promptEl = stage.querySelector('[data-cal-prompt]');
 
   // ---------- panel: status + Calibrate button (room for Reset device data in .tc-cal-actions) ----------
   if (panelEl) {
@@ -141,7 +137,6 @@ export function createCalibration({ stage, svg, panelEl, projection, getState, r
     const calibrated = !!(profile || sessionQuad);
     html.toggleAttribute('data-calibrated', calibrated);
     if (cal) html.dataset.calibrating = cal.step; else delete html.dataset.calibrating;
-    promptEl.hidden = calibrated || !!cal || !!s.wall || !projection.isProjecting();
     if (panelEl) {
       const st = panelEl.querySelector('[data-cal-status]');
       const btn = panelEl.querySelector('[data-action=calibrate]');
@@ -302,7 +297,6 @@ export function createCalibration({ stage, svg, panelEl, projection, getState, r
     else if (a === 'no') setStep('refine');
     else if (a === 'yes') finish();
   });
-  promptEl.addEventListener('click', (e) => { if (e.target.closest('[data-cal-action=start]')) projection.dispatch('calibrate'); });
 
   // ---------- pointer: tap to place (place), drag handles (refine) ----------
   let drag = null;
@@ -330,16 +324,8 @@ export function createCalibration({ stage, svg, panelEl, projection, getState, r
   ov.addEventListener('pointercancel', endDrag);
 
   // Leaving the projection view (browser Esc, Exit) cancels the wizard; entering re-applies the warp.
-  // The "not calibrated" prompt also shows for HINT_MS after entering (the bar is hidden on entry).
-  let wasProjecting = false, hintTimer = 0;
   function onView() {
     const now = projection.isProjecting();
-    if (now && !wasProjecting) {
-      html.dataset.calHint = '';
-      clearTimeout(hintTimer);
-      hintTimer = setTimeout(() => delete html.dataset.calHint, HINT_MS);
-    } else if (!now) { clearTimeout(hintTimer); delete html.dataset.calHint; }
-    wasProjecting = now;
     if (cal && !now) cancel(); else if (cal) show(); else refresh();
   }
   new MutationObserver(onView).observe(html, { attributes: true, attributeFilter: ['data-view'] });

@@ -41,7 +41,7 @@ jobs:
             echo "Already tracked in #$existing"
           else
             gh issue create --title "$title" --label ready-for-human --body \
-              "Quarterly check: the Tablecaster layout data is stamped **Event Companion $version**. If a newer Event Companion has been published, follow the local runbook \`.ds-cache/extractor/RUNBOOK.md\` (replace the PDF, extract, normalize, review the changed and overridden layouts). If nothing changed, close this issue."
+              "Quarterly check: the Tablecaster layout data is stamped **Event Companion $version**. If a newer Event Companion has been published, follow the local runbook \`.ds-cache/extractor/RUNBOOK.md\` (replace the PDF, extract, normalize, review the changed and overridden layouts). With new data, also check the no-JS fallback version/date in \`projects/tablecaster/index.html\` (stamp and disclaimer), bump \`layouts.json?v=\` in \`app/app.js\`, and update that URL in the precache list of \`projects/tablecaster/sw.js\` (PRECACHE + SHELL). If nothing changed, close this issue."
           fi
 
   # GitHub disables scheduled workflows in public repos after 60 days without

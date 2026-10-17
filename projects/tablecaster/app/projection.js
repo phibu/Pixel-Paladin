@@ -8,9 +8,9 @@
 // View state on <html>: data-view="projection" while projecting · data-fs="api"|"css" (Fullscreen API or the
 //           CSS full-viewport fallback, e.g. iPhone) · data-idle (cursor and bar hidden after IDLE_MS without pointer input)
 //           · data-bar-layers (layer row open).
-import { LAYERS } from './engine.js?v=20261017b';
-import { nextGrid, LAYER_LABELS, GRID_LABELS } from './controls.js?v=20261017b';
-import { layoutsFor } from './picker.js?v=20261017b';
+import { LAYERS } from './engine.js?v=20261017c';
+import { nextGrid, LAYER_LABELS, GRID_LABELS } from './controls.js?v=20261017c';
+import { layoutsFor } from './picker.js?v=20261017c';
 
 export const IDLE_MS = 2500;
 export const TOAST_MS = 2000;
