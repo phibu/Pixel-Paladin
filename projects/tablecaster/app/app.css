@@ -219,7 +219,7 @@ html[data-view="projection"] .tc-toast[data-show] {
   }
 }
 
-/* ---- #63: Calibration (calibration.js): panel status, not-calibrated prompt, wizard overlay + HUD ----
+/* ---- #63: Calibration (calibration.js): panel status, wizard overlay + HUD (no status on the projection) ----
    The warp itself is an inline style on the svg (position:absolute + matrix3d), set only in the projection view. */
 .tc-calibration { margin: 0 0 20px; }
 .tc-cal-status { margin: 0 0 10px; font-size: 14px; color: var(--pp-fg-muted); }
@@ -227,7 +227,7 @@ html[data-view="projection"] .tc-toast[data-show] {
 .tc-cal-actions { display: flex; flex-wrap: wrap; gap: 8px; }
 .tc-cal-actions .btn { min-height: 44px; flex: 1 1 auto; justify-content: center; }
 
-.tc-cal[hidden], .tc-cal-prompt[hidden] { display: none; }
+.tc-cal[hidden] { display: none; }
 .tc-cal { position: absolute; inset: 0; z-index: 3; }
 .tc-cal-ov { position: absolute; inset: 0; width: 100%; height: 100%; touch-action: none; }
 html[data-calibrating="place"] .tc-cal-ov { cursor: crosshair; }
@@ -258,24 +258,15 @@ html[data-view="projection"][data-idle][data-calibrating] .tc-stage { cursor: au
 .tc-cal-pad { display: grid; grid-template-columns: repeat(4, 44px); gap: 6px; }
 .tc-cal-corners { display: flex; gap: 6px; margin-right: 6px; }
 @media (max-height: 520px) { .tc-cal-steps { display: none; } .tc-cal-hud { gap: 6px; padding: 8px 10px; } }
-.tc-cal-hud button, .tc-cal-prompt button {
+.tc-cal-hud button {
   min-width: 44px; min-height: 44px; padding: 0 10px; font: inherit; font-size: 14px; color: var(--pp-fg);
   background: var(--pp-bg); border: 1px solid var(--pp-border); border-radius: var(--pp-radius-sm); cursor: pointer;
 }
 .tc-cal-hud button[aria-pressed="true"], .tc-cal-hud button.is-primary { border-color: var(--pp-fg); box-shadow: inset 0 0 0 1px var(--pp-fg); }
 .tc-cal-hud button:disabled { opacity: .4; cursor: default; }
-.tc-cal-hud button:focus-visible, .tc-cal-prompt button:focus-visible { outline: none; box-shadow: var(--pp-ring); }
-.tc-cal-hud kbd, .tc-cal-prompt kbd { font: 11px var(--pp-font-mono); color: var(--pp-fg-muted); }
-@media (pointer: coarse) { .tc-cal-hud kbd, .tc-cal-prompt kbd { display: none; } }
-
-/* Not calibrated: shown with the bar (pointer activity) and for a few seconds after entering the projection view. */
-.tc-cal-prompt { display: none; }
-html[data-view="projection"]:not([data-idle]) .tc-cal-prompt:not([hidden]),
-html[data-view="projection"][data-cal-hint] .tc-cal-prompt:not([hidden]) {
-  display: flex; align-items: center; gap: 10px; position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%);
-  width: max-content; max-width: calc(100% - 32px); padding: 8px 8px 8px 14px; font-size: 15px; color: var(--pp-fg);
-  background: rgb(10 10 9 / .88); border: 1px solid var(--pp-border); border-radius: var(--pp-radius-md);
-}
+.tc-cal-hud button:focus-visible { outline: none; box-shadow: var(--pp-ring); }
+.tc-cal-hud kbd { font: 11px var(--pp-font-mono); color: var(--pp-fg-muted); }
+@media (pointer: coarse) { .tc-cal-hud kbd { display: none; } }
 
 /* ---- #65: Projector window. Controller panel status; the receiver's one big "Click to go fullscreen" target ---- */
 .tc-projector { margin: 0 0 20px; }
