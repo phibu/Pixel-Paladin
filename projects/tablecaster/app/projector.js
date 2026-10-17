@@ -62,19 +62,33 @@ export function createController({ panelEl, getState, getLocalBlob, LOCAL, proje
   // While a projector window is open, the laptop can't enter its own projection view.
   projection.setEnterGuard(() => open);
 
-  // Window Management API: open plainly first (keeps the click's user activation), then move it to a non-primary screen
-  // if the API is there and the permission is (or gets) granted. Otherwise the user drags it over.
+  // Window Management API. Permission already granted: ask for the screens first (no prompt) and open the window
+  // directly on a non-primary screen. Otherwise open plainly on the click (a permission prompt first would use up the
+  // click's user activation), then try to move it over as a best effort (may prompt; on denial it stays put).
+  const otherScreen = (d) => d.screens.find((x) => x !== d.currentScreen && !x.isPrimary) || d.screens.find((x) => x !== d.currentScreen);
+  async function granted() {
+    try { return (await navigator.permissions.query({ name: 'window-management' })).state === 'granted'; } catch { return false; }
+  }
   async function openWindow() {
     if (open) return;
     const url = location.pathname + '?projector' + location.hash;
+    const hasApi = 'getScreenDetails' in window;
+    if (hasApi && navigator.permissions && await granted()) {
+      try {
+        const o = otherScreen(await window.getScreenDetails());
+        if (o) {
+          win = window.open(url, 'tablecaster-projector', `popup,left=${o.availLeft},top=${o.availTop},width=${o.availWidth},height=${o.availHeight}`);
+          return;
+        }
+      } catch { /* fall through to the plain open */ }
+    }
     win = window.open(url, 'tablecaster-projector', 'popup,width=960,height=704');
-    if (!win || !('getScreenDetails' in window)) return;
+    if (!win || !hasApi) return;
     try {
-      const d = await window.getScreenDetails();
-      const other = d.screens.find((x) => x !== d.currentScreen && !x.isPrimary) || d.screens.find((x) => x !== d.currentScreen);
-      if (!other) return;
-      win.moveTo(other.availLeft, other.availTop);
-      win.resizeTo(other.availWidth, other.availHeight);
+      const o = otherScreen(await window.getScreenDetails());
+      if (!o) return;
+      win.moveTo(o.availLeft, o.availTop);
+      win.resizeTo(o.availWidth, o.availHeight);
     } catch { /* denied or unsupported: the window stays where it opened */ }
   }
   function closeWindow() {
