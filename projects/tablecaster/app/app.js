@@ -8,6 +8,7 @@ import { loadDevice, saveDevice, mountControls } from './controls.js?v=20261017b
 import { BG_DIR, LOCAL, loadManifest, presetUrl, localStore, readLocalChoice, saveLocalChoice, mountBackgrounds } from './backgrounds.js?v=20261017b';
 import { createProjection } from './projection.js?v=20261017b';
 import { createCalibration } from './calibration.js?v=20261017b';
+import { registerWorker, mountOffline } from './offline.js?v=20261017b';
 
 const DATA_URL = '/projects/tablecaster/data/layouts.json?v=20261017';
 const projector = new URLSearchParams(location.search).has('projector');
@@ -72,8 +73,8 @@ function bgHref(ref) {
   if (!ref) return null;
   if (ref === LOCAL) return localUrl ? { href: localUrl } : null;
   if (bgUrls.has(ref)) return { href: bgUrls.get(ref) };
-  ensureBackground(ref);
-  return null;
+  ensureBackground(ref);   // owner images resolve at once; Presets redraw when their blob is ready
+  return bgUrls.has(ref) ? { href: bgUrls.get(ref) } : null;
 }
 const pendingBg = new Map();
 function ensureBackground(ref) {
@@ -209,6 +210,13 @@ export const calibration = createCalibration({
 });
 onDispatch((action) => { if (action === 'calibrate') calibration.start(); });
 
+// ---------- Offline + Reset device data (#64) ----------
+// The worker serves the app, the landing and ?projector from a saved copy. Reset sits in the Calibration actions row.
+registerWorker();
+const offlineEl = document.getElementById('offline');
+const offline = !projector && offlineEl
+  ? mountOffline(offlineEl, { actions: document.querySelector('#calibration [data-cal-actions]') }) : null;
+
 notesEl?.addEventListener('click', (e) => {
   const b = e.target.closest('[data-dismiss]');
   if (!b) return;
@@ -238,6 +246,7 @@ let localBlob;
 if (localBlob instanceof Blob) localUrl = URL.createObjectURL(localBlob);
 const bgEl = document.getElementById('backgrounds');
 if (!projector && bgEl) syncBackgrounds = mountBackgrounds(bgEl, bgList, { select: chooseBackground, file: setLocal, forget: forgetLocal });
+if (syncBackgrounds) offline?.watchBackgrounds(bgEl, bgList.filter((e) => e.kind === 'image').map((e) => ({ id: e.id, url: BG_DIR + e.file })));
 const openedWithLink = !!location.hash.replace(/^#/, '');
 if (!projector) renderStamp(panel.querySelector('[data-source-stamp]'), data?.source);
 applyHash();

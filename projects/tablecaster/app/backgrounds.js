@@ -111,7 +111,8 @@ function idb(mode, fn) {
   return new Promise((ok) => {
     let req;
     try { req = indexedDB.open(IDB.name, 1); } catch { return ok(null); }
-    req.onupgradeneeded = () => req.result.createObjectStore(IDB.store);
+    // Reading never creates the database (so a visit, or the visit after Reset device data, leaves none behind).
+    req.onupgradeneeded = () => { if (mode === 'readonly') req.transaction.abort(); else req.result.createObjectStore(IDB.store); };
     req.onerror = () => ok(null);
     req.onsuccess = () => {
       const db = req.result;
