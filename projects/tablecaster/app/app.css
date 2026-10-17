@@ -134,3 +134,70 @@ html.is-projector .tc-stage { position: fixed; inset: 0; width: auto; aspect-rat
 .tc-cycle-hint { flex: none; font-size: 13px; color: var(--pp-fg-muted); }
 .tc-hint { margin: 8px 0 0; font-size: 13px; line-height: 1.5; color: var(--pp-fg-muted); }
 @media (prefers-reduced-motion: reduce) { .tc-switch::after { transition: none; } }
+
+/* ---- #62: projection view (html[data-view=projection]), touch bar, toast, rotate hint, phone landscape sheet ----
+   The same full-viewport view serves the Fullscreen API (the stage is the fullscreen element) and the CSS fallback
+   (iPhone: no element fullscreen): fixed, 100dvh, inside the safe-area insets. */
+.tc-projection { margin: 0 0 20px; }
+.tc-project { width: 100%; min-height: 44px; justify-content: center; }
+.tc-keys { display: grid; gap: 6px; margin: 10px 0 0; font-size: 13px; color: var(--pp-fg-muted); }
+.tc-keys div { display: grid; grid-template-columns: 56px minmax(0, 1fr); align-items: baseline; gap: 10px; }
+.tc-keys dt, .tc-keys dd { margin: 0; }
+.tc-keys dd { overflow-wrap: anywhere; }
+
+html[data-view="projection"], html[data-view="projection"] body { height: 100%; background: #000; overflow: hidden; }
+html[data-view="projection"] .skip-link,
+html[data-view="projection"] .topbar,
+html[data-view="projection"] .crumbs,
+html[data-view="projection"] .foot,
+html[data-view="projection"] .tc-panel { display: none; }
+html[data-view="projection"] .page { max-width: none; padding: 0; margin: 0; }
+html[data-view="projection"] .tc-stage {
+  position: fixed; inset: 0; z-index: 10; width: auto; height: 100dvh; aspect-ratio: auto; box-sizing: border-box;
+  padding: env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);
+}
+.tc-stage:fullscreen { width: 100%; height: 100%; background: #000; }
+.tc-stage::backdrop { background: #000; }
+html[data-view="projection"][data-idle] .tc-stage { cursor: none; }
+
+.tc-stage { position: relative; }
+.tc-bar, .tc-toast, .tc-rotate { display: none; }
+html[data-view="projection"]:not([data-idle]) .tc-bar {
+  display: grid; gap: 6px; position: absolute; left: 50%; transform: translateX(-50%);
+  bottom: calc(12px + env(safe-area-inset-bottom)); width: max-content; max-width: calc(100% - 24px);
+  padding: 6px; background: rgb(10 10 9 / .88); border: 1px solid var(--pp-border); border-radius: var(--pp-radius-md);
+}
+.tc-bar-row, .tc-bar-layers, .tc-bar-variants { display: flex; flex-wrap: wrap; justify-content: center; gap: 6px; }
+.tc-bar-layers { display: none; }
+html[data-bar-layers] .tc-bar-layers { display: flex; }
+.tc-bar button {
+  min-width: 44px; min-height: 44px; padding: 0 12px;
+  font: inherit; font-size: 14px; color: var(--pp-fg);
+  background: var(--pp-bg); border: 1px solid var(--pp-border); border-radius: var(--pp-radius-sm); cursor: pointer;
+}
+.tc-bar button[aria-pressed="true"] { border-color: var(--pp-fg); box-shadow: inset 0 0 0 1px var(--pp-fg); }
+.tc-bar button:disabled { opacity: .4; cursor: default; }
+.tc-bar button:focus-visible { outline: none; box-shadow: var(--pp-ring); }
+html[data-view="projection"] .tc-toast[data-show] {
+  display: block; position: absolute; left: 50%; transform: translateX(-50%); top: calc(16px + env(safe-area-inset-top));
+  width: max-content; max-width: calc(100% - 32px); padding: 8px 14px; font-size: 15px; color: var(--pp-fg);
+  background: rgb(10 10 9 / .88); border: 1px solid var(--pp-border); border-radius: var(--pp-radius-pill); pointer-events: none;
+}
+@media (orientation: portrait) and (pointer: coarse) {
+  html[data-view="projection"] .tc-rotate {
+    display: block; position: absolute; left: 50%; transform: translateX(-50%); top: calc(64px + env(safe-area-inset-top));
+    width: max-content; max-width: calc(100% - 32px); padding: 8px 14px; font-size: 14px; color: var(--pp-fg-muted);
+    background: rgb(10 10 9 / .88); border: 1px solid var(--pp-border); border-radius: var(--pp-radius-pill); pointer-events: none;
+  }
+}
+
+/* Setup view on a phone in landscape: the panel becomes a bottom sheet under a height-fitted Battlefield. */
+@media (orientation: landscape) and (max-height: 520px) and (max-width: 1024px) {
+  html:not([data-view="projection"]):not(.is-projector) .tc-setup { grid-template-columns: minmax(0, 1fr); padding-bottom: 48dvh; }
+  html:not([data-view="projection"]):not(.is-projector) .tc-stage { width: auto; height: 50dvh; margin: 0 auto; }
+  html:not([data-view="projection"]):not(.is-projector) .tc-panel {
+    position: fixed; left: 0; right: 0; bottom: 0; z-index: 5; max-height: 46dvh; overflow-y: auto; overscroll-behavior: contain;
+    border-radius: var(--pp-radius-md) var(--pp-radius-md) 0 0; border-bottom: 0;
+    padding: 16px max(16px, env(safe-area-inset-right)) calc(16px + env(safe-area-inset-bottom)) max(16px, env(safe-area-inset-left));
+  }
+}
