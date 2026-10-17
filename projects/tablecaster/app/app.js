@@ -1,10 +1,11 @@
 // Tablecaster tool page: loads the layout data, keeps one state object in sync with the URL hash,
 // and hands it to the engine. Runs on /projects/tablecaster/app/ (setup view) and with ?projector
 // (chrome-less full-viewport render; the projector window ticket adds the sync).
-import { render } from './engine.js?v=20261017';
-import { defaultState, parseHash, formatHash } from './state.js?v=20261017';
-import { loadDevice, saveDevice, mountControls } from './controls.js?v=20261017';
-import { BG_DIR, LOCAL, loadManifest, presetUrl, localStore, readLocalChoice, saveLocalChoice, mountBackgrounds } from './backgrounds.js?v=20261017';
+import { render } from './engine.js?v=20261017b';
+import { defaultState, parseHash, formatHash } from './state.js?v=20261017b';
+import { initPicker, renderStamp, titleCase } from './picker.js?v=20261017b';
+import { loadDevice, saveDevice, mountControls } from './controls.js?v=20261017b';
+import { BG_DIR, LOCAL, loadManifest, presetUrl, localStore, readLocalChoice, saveLocalChoice, mountBackgrounds } from './backgrounds.js?v=20261017b';
 
 const DATA_URL = '/projects/tablecaster/data/layouts.json?v=20261017';
 const projector = new URLSearchParams(location.search).has('projector');
@@ -39,9 +40,6 @@ async function loadData() {
 
 const findLayout = (id) => (data && id ? data.layouts.find((l) => l && l.id === id) || null : null);
 
-// Force Disposition labels are stored as printed (all caps); show them in title case.
-const SMALL = new Set(['and', 'the', 'of', 'a', 'an', 'in', 'on', 'to']);
-const titleCase = (s) => String(s).toLowerCase().replace(/\S+/g, (w, i) => (i > 0 && SMALL.has(w) ? w : w[0].toUpperCase() + w.slice(1)));
 function layoutTitle(L) {
   const labels = new Map((data?.forceDispositions || []).map((f) => [f.slug, f.label]));
   const [pair = '', variant = L.variant || ''] = String(L.id).split('/');
@@ -128,11 +126,21 @@ function updatePanel(layout, ignored, skipped) {
   if (dataError) n += note('data', 'Layout data couldn’t be loaded. The grid still works; reload the page to try again.');
   else if (state.layoutId && !layout) n += note('unknown', `The link names a Layout this data doesn’t have (${escHtml(state.layoutId)}). Showing the empty grid.`);
   if (layout && data?.source?.version && state.version && state.version !== String(data.source.version))
-    n += note('version', `This link was made for Companion v${escHtml(state.version)}. Showing the Layout from the current data, v${escHtml(data.source.version)}.`, { dismissible: true });
+    n += note('version', `This link was made for ${escHtml(data.source.title || 'Companion')} v${escHtml(state.version)}; showing v${escHtml(data.source.version)}.`, { dismissible: true });
   if (ignored.length) n += note('ignored', `Parts of the link were ignored: ${ignored.map(escHtml).join(', ')}.`, { dismissible: true });
   if (skipped.length) n += note('skipped', `Some objects in this Layout couldn’t be drawn (${skipped.length}).`);
   if (bgUnknown) n += note('background', `The link names a Background that isn’t available (${escHtml(bgUnknown)}). Showing none.`, { dismissible: true });
   notesEl.innerHTML = n;
+  picker?.sync(data, state, layout);
+}
+
+// ---------- picker + attribution (#59) ----------
+// The picker calls chooseLayout(id); a fresh pick is made against the current data, so it takes the current version.
+// It goes through update() (#60), so Swap sides and hidden layers carry over between Layouts.
+const pickerEl = panel?.querySelector('[data-picker]');
+const picker = pickerEl && !projector ? initPicker(pickerEl, { choose: chooseLayout }) : null;
+function chooseLayout(id) {
+  update({ layoutId: id, version: data?.source?.version ? String(data.source.version) : null });
 }
 
 // ---------- state <-> hash ----------
@@ -141,6 +149,8 @@ function applyHash() {
   const parsed = parseHash(location.hash);
   ignored = parsed.ignored;
   state = { ...state, ...parsed.state };
+  // A link without a version is read against the current data, so it gets the current version.
+  if (!state.version && state.layoutId && data?.source?.version && findLayout(state.layoutId)) state.version = String(data.source.version);
   resolveBackgroundRef();
   const { layout, result } = draw();
   if ((data && layout) || bgUnknown) {
@@ -202,7 +212,10 @@ let localBlob;
 if (localBlob instanceof Blob) localUrl = URL.createObjectURL(localBlob);
 const bgEl = document.getElementById('backgrounds');
 if (!projector && bgEl) syncBackgrounds = mountBackgrounds(bgEl, bgList, { select: chooseBackground, file: setLocal, forget: forgetLocal });
+const openedWithLink = !!location.hash.replace(/^#/, '');
+if (!projector) renderStamp(panel.querySelector('[data-source-stamp]'), data?.source);
 applyHash();
+if (!openedWithLink && data) picker?.focus();
 await ensureBackground(state.background);   // ready = the chosen Background is drawn too
 draw();
 document.documentElement.dataset.ready = '1';
