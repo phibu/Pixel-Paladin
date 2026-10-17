@@ -1,0 +1,56 @@
+# Quarterly nudge: is the Event Companion version in Tablecaster's layout data
+# still current? CI can't detect a new release, so this only opens (once) a
+# ready-for-human issue. The update itself is a local, manual procedure.
+name: Tablecaster layout data check
+
+on:
+  schedule:
+    - cron: "23 6 1 1,4,7,10 *" # the check
+    - cron: "41 5 15 * *" # keepalive only (see below)
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  issues: write
+  actions: write # keepalive: re-enable this workflow
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    if: github.event_name == 'workflow_dispatch' || github.event.schedule == '23 6 1 1,4,7,10 *'
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Open reminder issue
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          data=projects/tablecaster/data/layouts.json
+          if [ ! -f "$data" ]; then
+            echo "No $data yet, nothing to check."; exit 0
+          fi
+
+          version=$(jq -r '.source.version // empty' "$data")
+          [ -n "$version" ] || { echo "::error::No source.version in $data"; exit 1; }
+          version="v${version#v}"
+
+          title="Layout data check: Event Companion still $version?"
+          existing=$(gh issue list --state open --search "\"$title\" in:title" --json number -q '.[0].number')
+          if [ -n "$existing" ]; then
+            echo "Already tracked in #$existing"
+          else
+            gh issue create --title "$title" --label ready-for-human --body \
+              "Quarterly check: the Tablecaster layout data is stamped **Event Companion $version**. If a newer Event Companion has been published, follow the local runbook \`.ds-cache/extractor/RUNBOOK.md\` (replace the PDF, extract, normalize, review the changed and overridden layouts). If nothing changed, close this issue."
+          fi
+
+  # GitHub disables scheduled workflows in public repos after 60 days without
+  # repo activity. Re-enabling via the API resets that timer, without commits.
+  # Quarterly runs are ~90 days apart, hence the extra monthly schedule.
+  keepalive:
+    runs-on: ubuntu-latest
+    if: github.event_name == 'schedule'
+    steps:
+      - env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh api -X PUT "repos/${{ github.repository }}/actions/workflows/tablecaster-layout-check.yml/enable"
