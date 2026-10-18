@@ -39,11 +39,11 @@
 
   <article class="prose prose--legal">
     <h1>Datenschutz<span class="accent">.</span></h1>
-    <p class="updated">Stand 2026-09-27 · Version 1.1 · pixel-paladin.de</p>
+    <p class="updated">Stand 2026-10-17 · Version 1.2 · pixel-paladin.de</p>
 
     <div class="tldr">
       <div class="eyebrow"><span class="dot"></span> Kurzfassung</div>
-      <p><strong>Keine Cookies, keine Analyse, keine Werbung, kein Tracking.</strong> Diese Seite ist statisch, speichert nichts über Sie in Ihrem Browser und setzt kein Drittanbieter-Tracking ein. Server-seitig wird Ihre IP-Adresse kurzzeitig vom Hoster (Cloudflare) zur Auslieferung der Seite verarbeitet.</p>
+      <p><strong>Keine Cookies, keine Analyse, keine Werbung, kein Tracking.</strong> Diese Seite ist statisch und setzt kein Drittanbieter-Tracking ein. Nur das Werkzeug Tablecaster legt Einstellungen lokal in Ihrem Browser ab, ohne personenbezogene Daten und ohne Übertragung an den Server (Abschnitt 6). Server-seitig wird Ihre IP-Adresse kurzzeitig vom Hoster (Cloudflare) zur Auslieferung der Seite verarbeitet.</p>
     </div>
 
     <h2>1. Verantwortlicher</h2>
@@ -57,7 +57,7 @@
     </p>
 
     <h2>2. Allgemeines zur Datenverarbeitung</h2>
-    <p>pixel-paladin.de ist ein rein informatives Angebot. Es gibt keine Nutzerkonten, keine Formulare, keine Kommentarfunktion und keine eingebetteten sozialen Medien. Daten werden nur im technisch unvermeidbaren Mindestumfang verarbeitet.</p>
+    <p>pixel-paladin.de ist ein informatives Angebot mit einzelnen Werkzeugen, die vollständig in Ihrem Browser laufen. Es gibt keine Nutzerkonten, keine Formulare, keine Kommentarfunktion und keine eingebetteten sozialen Medien. Daten werden nur im technisch unvermeidbaren Mindestumfang verarbeitet. Das Werkzeug Tablecaster speichert Einstellungen ausschließlich lokal in Ihrem Browser; Einzelheiten dazu in Abschnitt 6.</p>
     <p>Rechtsgrundlagen sind, soweit nicht anders angegeben, Art. 6 Abs. 1 lit. f DSGVO (berechtigtes Interesse am technischen Betrieb) sowie § 25 Abs. 2 Nr. 2 TDDDG für unbedingt erforderliche technische Vorgänge.</p>
 
     <h2>3. Server-Log-Dateien (Cloudflare Pages)</h2>
@@ -73,20 +73,32 @@
     <p>Details und die Datenschutzerklärung von Cloudflare: <a href="https://www.cloudflare.com/privacypolicy/" target="_blank" rel="noopener">cloudflare.com/privacypolicy/</a></p>
 
     <h2>4. Cookies</h2>
-    <p>Diese Website setzt <strong>keine Cookies</strong> und nutzt keinen vergleichbaren lokalen Speicher für identifizierende Zwecke. Es ist daher keine Einwilligung nach § 25 TDDDG erforderlich und kein Cookie-Banner vorhanden.</p>
+    <p>Diese Website setzt <strong>keine Cookies</strong> und nutzt lokalen Speicher nicht für identifizierende Zwecke oder zur Wiedererkennung. Lediglich Tablecaster speichert Einstellungen lokal in Ihrem Browser, soweit dies für die von Ihnen gewünschte Funktion unbedingt erforderlich ist (§ 25 Abs. 2 Nr. 2 TDDDG, siehe Abschnitt 6). Eine Einwilligung nach § 25 Abs. 1 TDDDG ist daher nicht erforderlich, und es ist kein Cookie-Banner vorhanden.</p>
 
     <h2>5. GitHub-Statistiken auf der Startseite</h2>
     <p>Die Kacheln „Last push“, „Repos“ und „Public OSS“ auf der Startseite zeigen öffentliche Kennzahlen aus meinem GitHub-Konto. Ihr Browser fragt diese Werte ausschließlich bei <code>pixel-paladin.de/api/stats</code> ab, also beim selben Server, der auch die Seite ausliefert (Cloudflare, siehe Abschnitt 3).</p>
     <p>Die Daten selbst holt der Server bei <strong>GitHub</strong> (GitHub, Inc., 88 Colin P. Kelly Jr. Street, San Francisco, CA 94107, USA) ab und hält sie einige Minuten zwischengespeichert. Dabei werden <strong>keine Daten über Sie</strong> an GitHub übermittelt, weder Ihre IP-Adresse noch Ihr User-Agent. Ihr Browser baut keine Verbindung zu <code>api.github.com</code> auf.</p>
     <p>Rechtsgrundlage für die Verarbeitung Ihrer IP-Adresse beim Abruf von <code>/api/stats</code> ist wie bei jedem Seitenaufruf Art. 6 Abs. 1 lit. f DSGVO. Das berechtigte Interesse besteht darin, einen aktuellen Tätigkeitsstand darzustellen.</p>
 
-    <h2>6. Keine externen Fonts, Skripte oder Analyse-Dienste</h2>
+    <h2>6. Tablecaster: Speicherung auf Ihrem Gerät</h2>
+    <p>Das Werkzeug <a href="/projects/tablecaster/">Tablecaster</a> (<code>/projects/tablecaster/</code>) speichert einige Daten <strong>lokal in Ihrem Browser</strong>, damit es beim nächsten Aufruf und ohne Internetverbindung so funktioniert, wie Sie es eingerichtet haben:</p>
+    <ul>
+      <li><strong>localStorage:</strong> Ihre Kalibrierung (je Bildschirm ein Profil), die Einstellungen „Mirror“ (Spiegelung), „Wall mode“ (Projektion an die Wand) und der Rasterstil sowie die Information, ob Sie Ihren lokalen Hintergrund ausgewählt haben.</li>
+      <li><strong>IndexedDB:</strong> ein von Ihnen gewählter lokaler Hintergrund. Die Bilddatei bleibt auf Ihrem Gerät und wird nie übertragen.</li>
+      <li><strong>Cache Storage</strong> (über einen Service Worker): die Dateien der Seite, die Layouts und die von mir bereitgestellten Hintergründe, damit Tablecaster auch offline startet.</li>
+      <li><strong>BroadcastChannel:</strong> Laptop- und Projektorfenster tauschen darüber den aktuellen Zustand aus. Diese Kommunikation bleibt innerhalb Ihres Browsers.</li>
+    </ul>
+    <p>Dabei werden <strong>keine personenbezogenen Daten</strong> gespeichert, und nichts davon wird an den Server oder an Dritte gesendet.</p>
+    <p>Rechtsgrundlage ist § 25 Abs. 2 Nr. 2 TDDDG: Die Speicherung ist unbedingt erforderlich, um die von Ihnen ausdrücklich gewünschte Funktion bereitzustellen. Eine Einwilligung ist daher nicht erforderlich, und es gibt kein Banner.</p>
+    <p>Die Daten bleiben gespeichert, bis Sie sie löschen. Safari kann lokal gespeicherte Daten einer Website automatisch entfernen, wenn Sie diese 7 Tage lang nicht aufgerufen haben. Löschen können Sie die Daten jederzeit über die Websitedaten-Einstellungen Ihres Browsers oder mit der Schaltfläche „Reset device data“ in Tablecaster.</p>
+
+    <h2>7. Keine externen Fonts, Skripte oder Analyse-Dienste</h2>
     <p>Diese Website lädt <strong>keine</strong> externen Schriftarten (z.&nbsp;B. Google Fonts), keine Analyse- oder Tracking-Dienste (z.&nbsp;B. Google Analytics, Matomo, Plausible), keine Werbung und keine Social-Media-Plugins. Alle verwendeten Icon-Bibliotheken und Stylesheets werden vom eigenen Server bzw. CDN (Cloudflare) ausgeliefert.</p>
 
-    <h2>7. Externe Links</h2>
+    <h2>8. Externe Links</h2>
     <p>Die Website enthält Links zu externen Seiten wie GitHub, LinkedIn und verwandten Projekten. Beim Anklicken eines solchen Links verlassen Sie pixel-paladin.de; die dortigen Anbieter verarbeiten Ihre Daten nach deren eigenen Datenschutzrichtlinien. Auf diese Verarbeitung habe ich keinen Einfluss.</p>
 
-    <h2>8. Ihre Rechte nach DSGVO</h2>
+    <h2>9. Ihre Rechte nach DSGVO</h2>
     <p>Sie haben das Recht:</p>
     <ul>
       <li>auf <strong>Auskunft</strong> über die von Ihnen gespeicherten personenbezogenen Daten (Art. 15 DSGVO)</li>
@@ -100,10 +112,10 @@
     <p>Zuständige Aufsichtsbehörde für Nordrhein-Westfalen ist die <a href="https://www.ldi.nrw.de" target="_blank" rel="noopener">Landesbeauftragte für Datenschutz und Informationsfreiheit Nordrhein-Westfalen (LDI NRW)</a>, Kavalleriestr. 2–4, 40213 Düsseldorf.</p>
     <p>Zur Ausübung Ihrer Rechte genügt eine formlose E-Mail an <a href="mailto:hi@pixel-paladin.de">hi@pixel-paladin.de</a>. In der Praxis werden keine personenbezogenen Daten über den Server-Log-Zeitraum hinaus gespeichert — eine Auskunftsanfrage führt daher in aller Regel zu der Antwort „keine Daten vorhanden“.</p>
 
-    <h2>9. Speicherdauer</h2>
-    <p>Server-Logs bei Cloudflare werden entsprechend der Cloudflare-Richtlinien nach kurzer Zeit (in der Regel wenige Tage bis zu einem Monat) automatisch gelöscht. Eine aktive Speicherung durch den Verantwortlichen findet nicht statt.</p>
+    <h2>10. Speicherdauer</h2>
+    <p>Server-Logs bei Cloudflare werden entsprechend der Cloudflare-Richtlinien nach kurzer Zeit (in der Regel wenige Tage bis zu einem Monat) automatisch gelöscht. Eine aktive Speicherung durch den Verantwortlichen findet nicht statt. Zur Speicherdauer der lokal in Ihrem Browser abgelegten Tablecaster-Daten siehe Abschnitt 6.</p>
 
-    <h2>10. Änderungen dieser Datenschutzerklärung</h2>
+    <h2>11. Änderungen dieser Datenschutzerklärung</h2>
     <p>Diese Erklärung wird bei Bedarf angepasst, z.&nbsp;B. bei Änderungen der Rechtslage oder wenn neue Dienste eingebunden werden. Das Datum am Seitenanfang gibt den letzten Stand an.</p>
   </article>
   </main>

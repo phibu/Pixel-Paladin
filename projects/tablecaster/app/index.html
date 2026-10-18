@@ -1,0 +1,106 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"/>
+<meta name="color-scheme" content="dark" />
+<meta name="theme-color" content="#0a0a09" />
+<title>Tablecaster · Pixel Paladin</title>
+<meta name="description" content="Projects tournament battlefield layouts true-to-scale onto a 60″ × 44″ table."/>
+<link rel="icon" href="/ds/assets/pixelpaladin-favicon.svg" type="image/svg+xml"/>
+<link rel="preload" href="/ds/fonts/Unbounded-Regular.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="/ds/colors_and_type.css?v=20261004"/>
+<link rel="stylesheet" href="/ds/page.css?v=20261004b"/>
+<link rel="stylesheet" href="/projects/tablecaster/app/app.css?v=20261018f"/>
+<script>if (new URLSearchParams(location.search).has('projector')) document.documentElement.classList.add('is-projector');</script>
+<script type="module" src="/projects/tablecaster/app/app.js?v=20261018f"></script>
+<script type="module" src="/projects/tablecaster/app/sheet.js?v=20261018f"></script>
+</head>
+<body class="pp-root pp-dark">
+<a class="skip-link" href="#main">Skip to content</a>
+
+<div class="page">
+  <header class="topbar">
+    <a class="brand" href="/">
+      <img class="mark" src="/ds/assets/pixelpaladin-favicon.svg" width="32" height="32" alt="">
+      <div><div class="name">Pixel <span>Paladin</span></div><div class="sub">Workshop · Jülich, DE</div></div>
+    </a>
+    <nav class="topnav">
+      <a href="/#workshop">Workshop</a>
+      <a href="/#projects" class="active">Projects</a>
+      <a href="/#contact">Contact</a>
+    </nav>
+  </header>
+
+  <nav class="crumbs" aria-label="Breadcrumb"><a href="/">Home</a><span class="sep" aria-hidden="true">/</span><a href="/#projects">Projects</a><span class="sep" aria-hidden="true">/</span><a href="/projects/tablecaster/">Tablecaster</a><span class="sep" aria-hidden="true">/</span>App</nav>
+  <main id="main" tabindex="-1">
+    <h1 class="visually-hidden">Tablecaster</h1>
+    <div class="tc-setup">
+      <div class="tc-side">
+        <div class="tc-stage-box">
+          <div class="tc-stage">
+            <svg data-battlefield viewBox="0 0 60 44" role="img" aria-label="Battlefield grid, no Layout selected" xmlns="http://www.w3.org/2000/svg"></svg>
+          </div>
+        </div>
+        <div class="tc-legend-block" data-legend="side">
+          <p class="eyebrow">Legend</p>
+          <ul class="tc-legend">
+            <li><span class="sw sw-attacker" aria-hidden="true"></span>Attacker zone</li>
+            <li><span class="sw sw-defender" aria-hidden="true"></span>Defender zone</li>
+            <li><span class="sw sw-area" aria-hidden="true"></span>Terrain area</li>
+            <li><span class="sw sw-dense" aria-hidden="true"></span>Dense terrain feature</li>
+            <li><span class="sw sw-light" aria-hidden="true"></span>Light terrain feature</li>
+            <li><span class="sw sw-obj sw-home" aria-hidden="true"></span>Home objective</li>
+            <li><span class="sw sw-obj sw-central" aria-hidden="true"></span>Central objective</li>
+            <li><span class="sw sw-obj sw-expansion" aria-hidden="true"></span>Expansion objective</li>
+          </ul>
+        </div>
+      </div>
+      <aside id="panel" class="tc-panel" aria-label="Setup">
+        <section class="tc-picker" data-picker aria-labelledby="tc-pick-h">
+          <!-- #73: sheet handle, shown only in the phone-landscape bottom sheet (app.css, sheet.js) -->
+          <button type="button" class="tc-sheet-toggle" data-sheet-toggle aria-expanded="false"><span class="tc-sheet-grip" aria-hidden="true"></span><span class="visually-hidden">All setup controls</span></button>
+          <p class="eyebrow" id="tc-pick-h">Pick a Layout</p>
+          <label class="tc-label" for="tc-fd1">Force Disposition 1</label>
+          <select id="tc-fd1" class="tc-select" data-fd="1" disabled><option value="">Loading Layouts…</option></select>
+          <label class="tc-label" for="tc-fd2">Force Disposition 2</label>
+          <select id="tc-fd2" class="tc-select" data-fd="2" disabled><option value="">Loading Layouts…</option></select>
+          <div class="tc-variants" data-variants role="group" aria-label="Layout A, B or C"></div>
+          <button type="button" class="btn btn-ghost tc-random" data-random disabled>Random A/B/C</button>
+        </section>
+        <p class="eyebrow">Layout</p>
+        <h2 class="tc-title" data-layout-title>No Layout selected</h2>
+        <p class="tc-sub" data-layout-sub>Showing the empty 60″ × 44″ grid.</p>
+        <div id="notes" class="tc-notes" aria-live="polite"></div>
+        <!-- #72: game-day order: pick, project (here or in the Projector window), then fine-tune, then device settings -->
+        <!-- #62: Project button + key list, filled by projection.js -->
+        <section id="projection" class="tc-projection" aria-labelledby="tc-proj-h"></section>
+        <!-- #65: Projector window (status + Open button), filled by projector.js -->
+        <section id="projector" class="tc-projector" aria-labelledby="tc-pw-h"></section>
+        <!-- #60: layers + orientation controls (Orientation, Layers, then Grid style + Display), filled by controls.js -->
+        <section id="controls" class="tc-controls" aria-label="Layers and orientation"></section>
+        <!-- #61: Background picker, filled by backgrounds.js -->
+        <section id="backgrounds" class="tc-backgrounds" aria-label="Background"></section>
+        <!-- #63: Calibration status + Calibrate button, filled by calibration.js (Reset device data goes in .tc-cal-actions) -->
+        <section id="calibration" class="tc-calibration" aria-labelledby="tc-cal-h"></section>
+        <!-- #64: offline status + help, filled by offline.js (its Reset device data button goes in #calibration [data-cal-actions]) -->
+        <section id="offline" class="tc-offline" aria-labelledby="tc-off-h"></section>
+        <!-- #71: Legend shown here at <=720px and in the phone-landscape sheet, filled by app.js with a copy of the list
+             under the Battlefield ([data-legend=side], the one source); that one is shown otherwise (app.css). -->
+        <div class="tc-legend-block" data-legend="panel"></div>
+        <section class="tc-source" aria-label="Source">
+          <p class="tc-stamp" data-source-stamp hidden></p>
+          <p class="tc-disclaimer"><a data-disclaimer href="/projects/tablecaster/#disclaimer">Unofficial fan tool, not endorsed by Games Workshop</a></p>
+        </section>
+      </aside>
+    </div>
+  </main>
+
+  <footer class="foot">
+    <div class="mono">© 2026 · Philipp Buchwald</div>
+    <div class="mono"><a href="/impressum/" lang="de">Impressum</a> · <a href="/datenschutz/" lang="de">Datenschutz</a></div>
+  </footer>
+</div>
+
+</body>
+</html>

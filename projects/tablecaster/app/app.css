@@ -1,0 +1,394 @@
+/* Tablecaster tool page. Loads after /ds/page.css. Bump ?v= on the <link> when this changes.
+   Setup view: Battlefield + Legend left (sticky, #71), panel right; Battlefield over panel at <=720px (phone portrait).
+   ?projector (html.is-projector): no chrome, no panel, the Battlefield fitted to the window on black.
+   Queries: (max-width: 720px) is phone portrait. Within >=721px, the setup query (min-width: 721px) and
+   (min-height: 521px), (min-width: 1025px) [sticky column + compact panel] is the complement of the phone-landscape
+   sheet query (orientation: landscape) and (max-height: 520px) and (max-width: 1024px). Keep the two in step. */
+
+/* Projection palette: the one source for the legend below and the Battlefield (engine.js reads these custom
+   properties from the svg's computed style). DS tokens only; pure black has no token, so it is named here.
+   Zone colours: Attacker red and Defender blue are the projection-only exception (see engine.js). */
+:root {
+  --tc-black: black;                 /* projection background */
+  --tc-base: var(--pp-ink-800);      /* Battlefield fill */
+  --tc-ink: var(--pp-ink-100);       /* frame, features, labels */
+  --tc-line: var(--pp-ink-0);        /* grid lines + numbers, territory line (drawn with opacity) */
+  --tc-area: var(--pp-ink-300);      /* terrain area outline */
+  --tc-muted: var(--pp-ink-400);     /* unknown objective type */
+  --tc-shade: var(--pp-ink-900);     /* terrain area fill, letter badges */
+  --tc-deep: var(--pp-ink-950);      /* objective marker fill, overlays */
+  --tc-attacker: var(--pp-red-500);
+  --tc-defender: var(--pp-info);
+  --tc-gold: var(--pp-gold-500);     /* central objectives, centre marks, half lines */
+  --tc-overlay: color-mix(in srgb, var(--tc-deep) 88%, transparent); /* touch bar, toast, rotate hint */
+}
+
+.visually-hidden {
+  position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px;
+  overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0;
+}
+
+.tc-setup {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(240px, 300px);
+  gap: 24px;
+  align-items: start;
+}
+@media (max-width: 720px) { .tc-setup { grid-template-columns: minmax(0, 1fr); gap: 20px; } }
+
+/* The svg fits its box (preserveAspectRatio meet): fitted to height or to width, whichever is tighter. */
+.tc-stage { aspect-ratio: 60 / 44; width: 100%; background: var(--tc-black); }
+.tc-stage svg { display: block; width: 100%; height: 100%; }
+
+/* The Legend under the Battlefield is shown only by the >=721px setup query (#71, after the controls below). */
+.tc-legend-block[data-legend="side"] { display: none; }
+
+.tc-panel {
+  background: var(--pp-bg-raised);
+  border: 1px solid var(--pp-border);
+  border-radius: var(--pp-radius-md);
+  padding: 20px;
+  min-width: 0;
+}
+.tc-panel .eyebrow { margin: 0 0 8px; }
+.tc-panel .tc-title {
+  font-family: var(--pp-font-display);
+  font-weight: 800; font-size: 20px; line-height: 1.2; letter-spacing: -0.01em;
+  margin: 0; overflow-wrap: anywhere;
+}
+.tc-sub { margin: 6px 0 20px; font-size: 14px; color: var(--pp-fg-muted); }
+
+.tc-notes:empty { display: none; }
+.tc-notes { display: grid; gap: 8px; margin: 0 0 20px; }
+.tc-note {
+  display: flex; align-items: flex-start; gap: 8px;
+  border: 1px solid color-mix(in oklch, var(--pp-gold-500) 45%, var(--pp-border));
+  border-radius: var(--pp-radius-sm);
+  padding: 10px 12px; background: var(--pp-bg);
+}
+.tc-note p { margin: 0; flex: 1; font-size: 14px; line-height: 1.5; color: var(--pp-fg); overflow-wrap: anywhere; }
+.tc-note-x {
+  flex: none; width: 44px; height: 44px; margin: -10px -12px -10px 0;
+  font: inherit; font-size: 20px; line-height: 1; color: var(--pp-fg-muted);
+  background: none; border: 0; border-radius: var(--pp-radius-sm); cursor: pointer;
+}
+.tc-note-x:hover { color: var(--pp-fg); }
+.tc-note-x:focus-visible { outline: none; box-shadow: var(--pp-ring); }
+
+.tc-legend { list-style: none; margin: 0; padding: 0; display: grid; gap: 8px; font-size: 14px; color: var(--pp-fg); }
+.tc-legend li { display: flex; align-items: center; gap: 10px; }
+.sw { width: 18px; height: 14px; flex: none; border: 2px solid; }
+/* Zone colours: the projection-only exception (see engine.js); the legend mirrors the projection. */
+.sw-attacker { border-color: var(--tc-attacker); background: color-mix(in srgb, var(--tc-attacker) 20%, transparent); }
+.sw-defender { border-color: var(--tc-defender); background: color-mix(in srgb, var(--tc-defender) 20%, transparent); }
+.sw-area { border-color: var(--tc-area); background: color-mix(in srgb, var(--tc-shade) 55%, transparent); }
+.sw-dense { border-color: var(--tc-ink); background: color-mix(in srgb, var(--tc-ink) 28%, transparent); }
+.sw-light { border-color: var(--tc-ink); border-style: dashed; border-width: 1.5px; }
+.sw-obj { width: 16px; height: 16px; border-radius: 50%; border-width: 3px; margin: 0 1px; }
+.sw-home { border-color: var(--tc-attacker); border-right-color: var(--tc-defender); border-bottom-color: var(--tc-defender); }
+.sw-central { border-color: var(--tc-gold); }
+.sw-expansion { border-color: var(--tc-ink); border-style: dashed; border-width: 2px; }
+
+/* ---- picker (#59): Force Disposition selects, A/B/C thumbnails, Random ---- */
+.tc-picker { display: grid; gap: 8px; margin: 0 0 24px; padding: 0 0 20px; border-bottom: 1px solid var(--pp-border); }
+.tc-picker .eyebrow { margin: 0; }
+.tc-label { font-size: 13px; color: var(--pp-fg-muted); margin-top: 4px; }
+.tc-select {
+  width: 100%; min-height: 44px; padding: 0 12px;
+  font: inherit; font-size: 15px; color: var(--pp-fg);
+  background: var(--pp-bg); border: 1px solid var(--pp-border-strong); border-radius: var(--pp-radius-sm);
+}
+.tc-select:focus-visible { outline: none; box-shadow: var(--pp-ring); }
+.tc-select:disabled { opacity: .6; }
+.tc-variants { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; margin-top: 8px; }
+.tc-variants:empty { display: none; }
+.tc-variants button {
+  display: grid; gap: 4px; justify-items: center; min-width: 0; min-height: 44px; padding: 6px;
+  font: inherit; font-family: var(--pp-font-mono); font-size: 13px; color: var(--pp-fg-muted);
+  background: var(--pp-bg); border: 1px solid var(--pp-border); border-radius: var(--pp-radius-sm); cursor: pointer;
+}
+.tc-variants button svg { display: block; width: 100%; height: auto; aspect-ratio: 60 / 44; background: var(--tc-black); }
+.tc-variants button:hover { border-color: var(--pp-border-strong); color: var(--pp-fg); }
+.tc-variants button[aria-pressed="true"] { border-color: var(--pp-fg); box-shadow: inset 0 0 0 1px var(--pp-fg); color: var(--pp-fg); }
+.tc-variants button:focus-visible { outline: none; box-shadow: var(--pp-ring); }
+.tc-random { width: 100%; min-height: 44px; justify-content: center; margin-top: 4px; }
+.tc-random:disabled { opacity: .5; cursor: default; }
+
+/* ---- attribution stamp + disclaimer (#59): bottom of the panel, never on the projection ---- */
+.tc-source { margin: 24px 0 0; padding: 16px 0 0; border-top: 1px solid var(--pp-border); font-size: 13px; line-height: 1.5; color: var(--pp-fg-muted); }
+.tc-source p { margin: 0; overflow-wrap: anywhere; }
+.tc-source a { display: inline-flex; align-items: center; min-height: 44px; color: var(--pp-fg); }
+
+/* ---- projector: full-viewport render, nothing else ---- */
+html.is-projector, html.is-projector body { height: 100%; background: var(--tc-black); overflow: hidden; }
+html.is-projector .skip-link,
+html.is-projector .topbar,
+html.is-projector .crumbs,
+html.is-projector .foot,
+html.is-projector .tc-panel { display: none; }
+/* Deliberate override of the page shell: this mode is full-bleed. (The CLAUDE.md "don't re-declare .page padding"
+   rule targets inline per-page padding in the normal page layout, not this.) */
+html.is-projector .page { max-width: none; padding: 0; margin: 0; }
+html.is-projector .tc-stage { position: fixed; inset: 0; width: auto; aspect-ratio: auto; }
+
+/* ---- #60: layers + orientation controls (controls.js) ---- */
+.tc-controls { margin: 0 0 20px; }
+.tc-controls .eyebrow { margin-top: 16px; }
+.tc-controls .eyebrow:first-child { margin-top: 0; }
+.tc-controls-group { display: grid; gap: 6px; }
+.tc-layers { grid-template-columns: repeat(auto-fill, minmax(min(100%, 150px), 1fr)); }
+.tc-toggle, .tc-cycle {
+  display: flex; align-items: center; justify-content: space-between; gap: 10px;
+  width: 100%; min-height: 44px; padding: 8px 12px;
+  font: inherit; font-size: 14px; line-height: 1.3; text-align: left; color: var(--pp-fg);
+  background: var(--pp-bg); border: 1px solid var(--pp-border); border-radius: var(--pp-radius-sm); cursor: pointer;
+}
+.tc-toggle:hover, .tc-cycle:hover { border-color: var(--pp-border-strong); }
+.tc-toggle:focus-visible, .tc-cycle:focus-visible { outline: none; box-shadow: var(--pp-ring); }
+.tc-toggle-label { min-width: 0; overflow-wrap: anywhere; }
+.tc-switch {
+  flex: none; position: relative; width: 30px; height: 18px;
+  border: 1.5px solid var(--pp-fg-muted); border-radius: var(--pp-radius-pill);
+}
+.tc-switch::after {
+  content: ""; position: absolute; top: 2px; left: 2px; width: 11px; height: 11px;
+  border-radius: 50%; background: var(--pp-fg-muted);
+  transition: transform var(--pp-dur-fast) var(--pp-ease-out);
+}
+.tc-toggle[aria-pressed="true"] .tc-switch { background: var(--pp-fg); border-color: var(--pp-fg); }
+.tc-toggle[aria-pressed="true"] .tc-switch::after { background: var(--pp-bg); transform: translateX(12px); }
+.tc-cycle-hint { flex: none; font-size: 13px; color: var(--pp-fg-muted); }
+.tc-hint { margin: 8px 0 0; font-size: 13px; line-height: 1.5; color: var(--pp-fg-muted); }
+@media (prefers-reduced-motion: reduce) { .tc-switch::after { transition: none; } }
+/* Grid style + Display (controls.js): stacked below 721px, two headed columns above. */
+.tc-controls-pair { display: grid; gap: 16px; margin-top: 16px; }
+
+/* Setup view at >=721px, the complement of the phone-landscape sheet query (see the header). One block for both:
+   #71: the left column (.tc-side: Battlefield, then Legend) sticks 16px from the top while the panel scrolls, and is
+   never taller than the viewport. .tc-stage-box is the space the Battlefield may use (column width x 44/60, shrunk by
+   the flex column when the window is short); the stage fits it at 60:44. Scoped to the setup view: container-type
+   (layout containment) would trap the fixed projection stage.
+   #72: the panel is tightened so Project sits in the first viewport, and the controls go two columns. Compact
+   controls: 38px visual height; a ::before adds 3px above and below the border box (44px hit area), half the 6px row
+   gap, so neighbouring hit areas meet but never overlap. Its inset counts from the padding box, inside the 1px
+   border: -4px vertical = 3px beyond the border box, -1px horizontal = flush with it. Placed after the base rules. */
+@media (min-width: 721px) and (min-height: 521px), (min-width: 1025px) {
+  html:not([data-view="projection"]):not(.is-projector) .tc-side {
+    position: sticky; top: 16px; display: flex; flex-direction: column; gap: 16px;
+    max-height: calc(100dvh - 32px); container-type: inline-size;
+  }
+  html:not([data-view="projection"]):not(.is-projector) .tc-stage-box {
+    flex: 0 1 auto; min-height: 0; height: calc(100cqw * 44 / 60); container-type: size;
+  }
+  html:not([data-view="projection"]):not(.is-projector) .tc-stage {
+    width: min(100cqw, 100cqh * 60 / 44);   /* left-aligned: shares its left edge with the Legend and the page frame */
+  }
+  /* Legend: the list under the Battlefield replaces the panel's copy. Columns keep it short. */
+  html:not([data-view="projection"]):not(.is-projector) .tc-legend-block[data-legend="side"] { display: block; flex: none; }
+  html:not([data-view="projection"]):not(.is-projector) .tc-legend-block[data-legend="panel"] { display: none; }
+  .tc-legend-block[data-legend="side"] .eyebrow { margin: 0 0 8px; }
+  .tc-legend-block[data-legend="side"] .tc-legend { grid-template-columns: repeat(auto-fill, minmax(min(100%, 190px), 1fr)); column-gap: 16px; }
+
+  .tc-picker { gap: 6px; margin-bottom: 16px; padding-bottom: 16px; }
+  .tc-label { margin-top: 2px; }
+  .tc-variants { margin-top: 4px; }
+  .tc-random { margin-top: 0; }
+  .tc-sub { margin-bottom: 16px; }
+
+  .tc-controls .eyebrow { margin-top: 12px; }
+  .tc-controls .eyebrow:first-child { margin-top: 0; }
+  .tc-orient, .tc-layers, .tc-controls-pair { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 6px; }
+  .tc-controls-pair { margin-top: 12px; }
+  .tc-controls .tc-toggle, .tc-controls .tc-cycle {
+    position: relative; min-height: 38px; padding: 2px 8px; gap: 6px; font-size: 13px; line-height: 1.25;
+  }
+  .tc-controls .tc-toggle::before, .tc-controls .tc-cycle::before { content: ""; position: absolute; inset: -4px -1px; }
+  .tc-controls .tc-toggle-label { overflow-wrap: normal; hyphens: manual; }
+}
+
+/* ---- #61: Background picker (backgrounds.js) ---- */
+.tc-backgrounds { margin: 0 0 20px; }
+.tc-bg-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 84px), 1fr)); gap: 6px; }
+.tc-bg-tile {
+  display: flex; flex-direction: column; gap: 6px; min-width: 0; min-height: 44px; padding: 6px;
+  font: inherit; font-size: 13px; line-height: 1.3; text-align: left; color: var(--pp-fg);
+  background: var(--pp-bg); border: 1px solid var(--pp-border); border-radius: var(--pp-radius-sm); cursor: pointer;
+}
+.tc-bg-tile:hover { border-color: var(--pp-border-strong); }
+.tc-bg-tile:focus-visible { outline: none; box-shadow: var(--pp-ring); }
+.tc-bg-tile[aria-pressed="true"] { border-color: var(--pp-fg); box-shadow: inset 0 0 0 1px var(--pp-fg); }
+.tc-bg-thumb { display: block; width: 100%; height: auto; aspect-ratio: 320 / 235; border-radius: 2px; background: var(--tc-black); object-fit: cover; }
+.tc-bg-thumb[hidden], .tc-bg-local [hidden] { display: none; }
+.tc-bg-none { background: repeating-linear-gradient(135deg, transparent 0 6px, var(--pp-border) 6px 7px), var(--tc-black); }
+.tc-bg-add { display: grid; place-items: center; font-size: 22px; color: var(--pp-fg-muted); background: var(--pp-bg-sunken); }
+.tc-bg-name { overflow-wrap: anywhere; }
+.tc-bg-local { display: grid; gap: 6px; margin-top: 6px; }
+.tc-bg-local:not(:has(> :not([hidden]))) { display: none; }   /* no stored image: nothing in it shows, so no empty gap */
+/* ---- #62: projection view (html[data-view=projection]), touch bar, toast, rotate hint, phone landscape sheet ----
+   The same full-viewport view serves the Fullscreen API (the stage is the fullscreen element) and the CSS fallback
+   (iPhone: no element fullscreen): fixed, 100dvh, inside the safe-area insets. */
+.tc-projection { margin: 0 0 20px; }
+.tc-project { width: 100%; min-height: 44px; justify-content: center; }
+.tc-keys { display: grid; gap: 6px; margin: 10px 0 0; font-size: 13px; color: var(--pp-fg-muted); }
+.tc-keys div { display: grid; grid-template-columns: 56px minmax(0, 1fr); align-items: baseline; gap: 10px; }
+.tc-keys dt, .tc-keys dd { margin: 0; }
+.tc-keys dd { overflow-wrap: anywhere; }
+
+html[data-view="projection"], html[data-view="projection"] body { height: 100%; background: var(--tc-black); overflow: hidden; }
+html[data-view="projection"] .skip-link,
+html[data-view="projection"] .topbar,
+html[data-view="projection"] .crumbs,
+html[data-view="projection"] .foot,
+html[data-view="projection"] .tc-panel { display: none; }
+/* Deliberate full-bleed override of the page shell, as for ?projector above. */
+html[data-view="projection"] .page { max-width: none; padding: 0; margin: 0; }
+html[data-view="projection"] .tc-stage {
+  position: fixed; inset: 0; z-index: 10; width: auto; height: 100dvh; aspect-ratio: auto; box-sizing: border-box;
+  padding: env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);
+}
+.tc-stage:fullscreen { width: 100%; height: 100%; background: var(--tc-black); }
+.tc-stage::backdrop { background: var(--tc-black, black); }
+html[data-view="projection"][data-idle] .tc-stage { cursor: none; }
+
+.tc-stage { position: relative; }
+.tc-bar, .tc-toast, .tc-rotate { display: none; }
+html[data-view="projection"]:not([data-idle]) .tc-bar {
+  display: grid; gap: 6px; position: absolute; left: 50%; transform: translateX(-50%);
+  bottom: calc(12px + env(safe-area-inset-bottom)); width: max-content; max-width: calc(100% - 24px);
+  padding: 6px; background: var(--tc-overlay); border: 1px solid var(--pp-border); border-radius: var(--pp-radius-md);
+}
+.tc-bar-row, .tc-bar-layers, .tc-bar-variants { display: flex; flex-wrap: wrap; justify-content: center; gap: 6px; }
+.tc-bar-layers { display: none; }
+html[data-bar-layers] .tc-bar-layers { display: flex; }
+.tc-bar button {
+  min-width: 44px; min-height: 44px; padding: 0 12px;
+  font: inherit; font-size: 14px; color: var(--pp-fg);
+  background: var(--pp-bg); border: 1px solid var(--pp-border); border-radius: var(--pp-radius-sm); cursor: pointer;
+}
+.tc-bar button[aria-pressed="true"] { border-color: var(--pp-fg); box-shadow: inset 0 0 0 1px var(--pp-fg); }
+.tc-bar button:disabled { opacity: .4; cursor: default; }
+.tc-bar button:focus-visible { outline: none; box-shadow: var(--pp-ring); }
+html[data-view="projection"] .tc-toast[data-show] {
+  display: block; position: absolute; left: 50%; transform: translateX(-50%); top: calc(16px + env(safe-area-inset-top));
+  width: max-content; max-width: calc(100% - 32px); padding: 8px 14px; font-size: 15px; color: var(--pp-fg);
+  background: var(--tc-overlay); border: 1px solid var(--pp-border); border-radius: var(--pp-radius-pill); pointer-events: none;
+}
+@media (orientation: portrait) and (pointer: coarse) {
+  html[data-view="projection"] .tc-rotate {
+    display: block; position: absolute; left: 50%; transform: translateX(-50%); top: calc(64px + env(safe-area-inset-top));
+    width: max-content; max-width: calc(100% - 32px); padding: 8px 14px; font-size: 14px; color: var(--pp-fg-muted);
+    background: var(--tc-overlay); border: 1px solid var(--pp-border); border-radius: var(--pp-radius-pill); pointer-events: none;
+  }
+}
+
+/* Setup view on a phone in landscape (#73): the panel becomes a bottom sheet under a height-fitted Battlefield.
+   The sheet is always --tc-sheet tall and slides down (transform) to a --tc-peek showing the handle and the
+   "Pick a Layout" header; the handle (sheet.js) sets [data-sheet-open]. The stage gets the height above the peek.
+   Topbar + breadcrumbs are hidden here: the documented Tablecaster-app exception in CLAUDE.md (app only, not the
+   landing). The footer stays in the page flow; the bottom padding lets it scroll clear of the collapsed sheet. */
+.tc-sheet-toggle { display: none; }
+@media (orientation: landscape) and (max-height: 520px) and (max-width: 1024px) {
+  html:not([data-view="projection"]):not(.is-projector) { --tc-peek: 25dvh; --tc-sheet: 70dvh; --tc-gap: 12px; }
+  html:not([data-view="projection"]):not(.is-projector) .topbar,
+  html:not([data-view="projection"]):not(.is-projector) .crumbs { display: none; }
+  html:not([data-view="projection"]):not(.is-projector) .page {
+    padding-top: calc(var(--tc-gap) + env(safe-area-inset-top));
+    padding-bottom: calc(var(--tc-peek) + var(--tc-gap) + env(safe-area-inset-bottom));
+  }
+  html:not([data-view="projection"]):not(.is-projector) .tc-setup { grid-template-columns: minmax(0, 1fr); }
+  html:not([data-view="projection"]):not(.is-projector) .tc-stage {
+    width: auto; margin: 0 auto;
+    height: calc(100dvh - var(--tc-peek) - 2 * var(--tc-gap) - env(safe-area-inset-top));
+  }
+  html:not([data-view="projection"]):not(.is-projector) .tc-panel {
+    position: fixed; left: 0; right: 0; bottom: 0; z-index: 5; height: var(--tc-sheet); box-sizing: border-box;
+    overflow: hidden; overscroll-behavior: contain;
+    transform: translateY(calc(var(--tc-sheet) - var(--tc-peek))); transition: transform var(--pp-dur-fast) var(--pp-ease-out);
+    border-radius: var(--pp-radius-md) var(--pp-radius-md) 0 0; border-bottom: 0;
+    padding: 0 max(16px, env(safe-area-inset-right)) calc(16px + env(safe-area-inset-bottom)) max(16px, env(safe-area-inset-left));
+  }
+  html:not([data-view="projection"]):not(.is-projector) .tc-panel[data-sheet-open] { transform: none; overflow-y: auto; }
+  html:not([data-view="projection"]):not(.is-projector) .tc-sheet-toggle {
+    display: flex; align-items: center; justify-content: center; width: 100%; min-height: 44px; padding: 0; margin: 0 0 4px;
+    position: sticky; top: 0; z-index: 1; background: var(--pp-bg-raised); border: 0; cursor: pointer; color: inherit; -webkit-tap-highlight-color: transparent;
+  }
+  .tc-sheet-toggle:focus-visible { outline: none; box-shadow: var(--pp-ring); }
+  .tc-sheet-grip { width: 40px; height: 4px; border-radius: 2px; background: var(--pp-border-strong); }
+}
+@media (orientation: landscape) and (max-height: 520px) and (max-width: 1024px) and (prefers-reduced-motion: reduce) {
+  html:not([data-view="projection"]):not(.is-projector) .tc-panel { transition: none; }
+}
+
+/* ---- #63: Calibration (calibration.js): panel status, wizard overlay + HUD (no status on the projection) ----
+   The warp itself is an inline style on the svg (position:absolute + matrix3d), set only in the projection view. */
+.tc-calibration { margin: 0 0 20px; }
+.tc-cal-status { margin: 0 0 10px; font-size: 14px; color: var(--pp-fg-muted); }
+.tc-cal-status[data-state="calibrated"] { color: var(--pp-fg); }
+.tc-cal-actions { display: flex; flex-wrap: wrap; gap: 8px; }
+.tc-cal-actions .btn { min-height: 44px; flex: 1 1 auto; justify-content: center; }
+
+.tc-cal[hidden] { display: none; }
+.tc-cal { position: absolute; inset: 0; z-index: 3; }
+.tc-cal-ov { position: absolute; inset: 0; width: 100%; height: 100%; touch-action: none; }
+html[data-calibrating="place"] .tc-cal-ov { cursor: crosshair; }
+html[data-calibrating="place"] .tc-stage svg[data-battlefield] { visibility: hidden; }
+html[data-calibrating] .tc-bar { display: none !important; }
+html[data-view="projection"][data-idle][data-calibrating] .tc-stage { cursor: auto; }
+.tc-cal-line { fill: none; stroke: var(--pp-warning); stroke-width: 1; }
+.tc-cal-ring { fill: none; stroke: var(--pp-warning); stroke-width: 2; }
+.tc-cal-dot { fill: var(--pp-warning); }
+.tc-cal-txt { fill: var(--pp-warning); font: 12px var(--pp-font-mono); }
+.tc-cal-h { cursor: grab; color: var(--pp-fg); }
+.tc-cal-h circle { fill: color-mix(in srgb, var(--tc-deep) 35%, transparent); stroke: currentColor; stroke-width: 1.5; }
+.tc-cal-h path { stroke: currentColor; stroke-width: 1; }
+.tc-cal-h text { fill: currentColor; font: 12px var(--pp-font-mono); }
+.tc-cal-h.is-sel { color: var(--pp-warning); }
+.tc-cal-h.is-sel circle { stroke-width: 3; }
+
+.tc-cal-hud {
+  position: absolute; left: 50%; top: 56%; transform: translateX(-50%);
+  display: grid; gap: 8px; width: max-content; max-width: min(560px, calc(100% - 24px)); max-height: calc(44% - 8px); overflow-y: auto;
+  padding: 10px 12px; font-size: 14px; color: var(--pp-fg);
+  background: color-mix(in srgb, var(--tc-deep) 90%, transparent); border: 1px solid var(--pp-border); border-radius: var(--pp-radius-md);
+}
+.tc-cal-hud p { margin: 0; }
+.tc-cal-steps { display: flex; gap: 10px; margin: 0; padding: 0; list-style: none; font: 12px var(--pp-font-mono); color: var(--pp-fg-muted); }
+.tc-cal-steps [aria-current] { color: var(--pp-warning); }
+.tc-cal-row { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; }
+.tc-cal-pad { display: grid; grid-template-columns: repeat(4, 44px); gap: 6px; }
+.tc-cal-corners { display: flex; gap: 6px; margin-right: 6px; }
+@media (max-height: 520px) { .tc-cal-steps { display: none; } .tc-cal-hud { gap: 6px; padding: 8px 10px; } }
+.tc-cal-hud button {
+  min-width: 44px; min-height: 44px; padding: 0 10px; font: inherit; font-size: 14px; color: var(--pp-fg);
+  background: var(--pp-bg); border: 1px solid var(--pp-border); border-radius: var(--pp-radius-sm); cursor: pointer;
+}
+.tc-cal-hud button[aria-pressed="true"], .tc-cal-hud button.is-primary { border-color: var(--pp-fg); box-shadow: inset 0 0 0 1px var(--pp-fg); }
+.tc-cal-hud button:disabled { opacity: .4; cursor: default; }
+.tc-cal-hud button:focus-visible { outline: none; box-shadow: var(--pp-ring); }
+.tc-cal-hud kbd { font: 11px var(--pp-font-mono); color: var(--pp-fg-muted); }
+@media (pointer: coarse) { .tc-cal-hud kbd { display: none; } }
+
+/* ---- #65: Projector window. Controller panel status; the receiver's one big "Click to go fullscreen" target ---- */
+.tc-projector { margin: 0 0 20px; }
+.tc-pw-status { margin: 0 0 10px; font-size: 14px; color: var(--pp-fg-muted); }
+.tc-pw-status[data-state="open"], .tc-pw-status[data-state="calibrating"] { color: var(--pp-fg); }
+.tc-pw-open { width: 100%; min-height: 44px; justify-content: center; }
+.tc-pw-open[hidden] { display: none; }
+.tc-fs-target { display: none; }
+html.is-projector:not([data-fs="api"]):not([data-calibrating]) .tc-fs-target:not([hidden]) {
+  display: grid; place-items: center; position: absolute; inset: 0; z-index: 1; width: 100%; height: 100%;
+  font: inherit; font-size: clamp(20px, 4vw, 44px); color: var(--pp-fg); cursor: pointer;
+  background: color-mix(in srgb, var(--tc-black) 55%, transparent); border: 0;
+}
+.tc-fs-target:focus-visible { outline: none; box-shadow: inset var(--pp-ring); }
+html[data-view="projection"] .tc-toast[data-show] { z-index: 2; }
+
+/* ---- #64: offline status + Reset device data (offline.js) ---- */
+.tc-offline { margin: 0 0 20px; }
+.tc-off-status { margin: 0; font-size: 14px; color: var(--pp-fg-muted); }
+.tc-off-status[data-state="ready"], .tc-off-status[data-state="offline"] { color: var(--pp-fg); }
+.tc-reset[data-confirm] { border-color: var(--pp-fg); }
+/* Owner background with no saved copy while offline: dimmed thumbnail, hint, not selectable. */
+.tc-bg-tile[data-offline-missing] { cursor: not-allowed; }
+.tc-bg-tile[data-offline-missing] .tc-bg-thumb { opacity: .3; filter: grayscale(1); }
+.tc-bg-offline { font-size: 11px; line-height: 1.3; color: var(--pp-fg-muted); }
