@@ -72,14 +72,28 @@
     max-width: 620px;
     margin: 0 0 28px;
   }
+  /* Each item carries its "·" in front, inside the 18px gaps on either side.
+     The list is pulled left by one separator width and the row clips it, so
+     the dot in front of whichever item starts a line is cut off: a separator
+     never starts or ends a line. */
   .meta-row {
-    display: flex; flex-wrap: wrap; gap: 10px 18px;
+    --sep: calc(36px + 1ch + 0.12em);
+    overflow: hidden;
     font-family: var(--pp-font-mono);
     font-size: 12px;
     color: var(--pp-fg-muted);
     text-transform: uppercase;
     letter-spacing: 0.12em;
     margin-bottom: 32px;
+  }
+  .meta-row ul {
+    display: flex; flex-wrap: wrap; row-gap: 10px;
+    list-style: none; padding: 0;
+    margin: 0 0 0 calc(-1 * var(--sep));
+  }
+  .meta-row li::before {
+    content: "·"; content: "·" / "";
+    display: inline-block; width: var(--sep); text-align: center;
   }
   .meta-row em {
     font-style: normal;
@@ -432,10 +446,12 @@
     <h1>The Mini <span class="accent">Colorbench.</span></h1>
     <p class="kicker">Curated palettes for miniature painters. Match what's on your shelf with a CIEDE2000 colour-distance engine.</p>
     <div class="meta-row">
-      <span>109 palettes</span><span>·</span>
-      <span>1399 paints</span><span>·</span>
-      <span>9 brands</span><span>·</span>
-      <span>Works offline</span>
+      <ul role="list">
+        <li>109 palettes</li>
+        <li>1399 paints</li>
+        <li>9 brands</li>
+        <li>Works offline</li>
+      </ul>
     </div>
     <div class="tester-grid">
       <div class="tester-box accent">

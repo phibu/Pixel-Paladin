@@ -171,10 +171,18 @@
     70%  { box-shadow: 0 0 0 6px rgba(34,197,94,0); }
     100% { box-shadow: 0 0 0 0 rgba(34,197,94,0); }
   }
-  /* /now rows */
+  /* /now rows: the rows are subgrids of .now-list, so every row shares one
+     label column and one meta column (without subgrid, each row sizes its own) */
+  .now-list {
+    display: grid;
+    grid-template-columns: minmax(76px, max-content) minmax(0, 1fr) auto;
+    column-gap: 10px;
+  }
   .now-row {
     display: grid;
     grid-template-columns: minmax(76px, max-content) minmax(0, 1fr) auto;
+    grid-template-columns: subgrid;
+    grid-column: 1 / -1;
     gap: 10px;
     padding: 10px 0;
     border-bottom: 1px dashed var(--pp-border);
@@ -196,6 +204,7 @@
     line-height: 1.35;
   }
   .now-row .meta {
+    justify-self: end;
     font-family: var(--pp-font-mono);
     font-size: 11px;
     color: var(--pp-fg-muted);
@@ -227,6 +236,12 @@
     color: var(--pp-fg);
     margin-top: 4px;
     font-variant-numeric: tabular-nums;
+  }
+  /* narrowest phones: keep "181d 12:34:56" on one line (it needs 129px at
+     22px, 119px at 19px); all tiles, so the values stay one size */
+  @media (max-width: 355px) {
+    .stat { padding-inline: 10px; }
+    .stat .v { font-size: 19px; }
   }
   .stat .v small {
     font-family: var(--pp-font-mono);
@@ -630,6 +645,20 @@
     min-height: 120px;
     transition: background var(--pp-dur-fast) var(--pp-ease-out);
   }
+  /* The strip draws the outer frame, cells only the inner lines: no right
+     border on the last column, no bottom border on the last row (6 cells). */
+  @media (width > 960px) {
+    .discipline:nth-child(6n) { border-right: 0; }
+    .discipline:nth-last-child(-n+6) { border-bottom: 0; }
+  }
+  @media (480px < width <= 960px) {
+    .discipline:nth-child(3n) { border-right: 0; }
+    .discipline:nth-last-child(-n+3) { border-bottom: 0; }
+  }
+  @media (width <= 480px) {
+    .discipline:nth-child(2n) { border-right: 0; }
+    .discipline:nth-last-child(-n+2) { border-bottom: 0; }
+  }
   .discipline:hover { background: var(--pp-bg-sunken); }
   .discipline .i {
     width: 28px; height: 28px;
@@ -809,7 +838,7 @@
           <span class="title">/ now</span>
           <span class="status"><span class="pulse"></span>live</span>
         </div>
-        <div class="panel-body">
+        <div class="panel-body now-list">
           <div class="now-row">
             <span class="tag">Printing</span>
             <span class="what">Multicolor dragons on the P1S</span>
