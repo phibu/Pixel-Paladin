@@ -106,7 +106,7 @@ a { color: inherit; text-decoration: none; }
 }
 .lede h1 .accent { color: var(--pp-fg-brand); }
 .lede p.kicker {
-  max-width: 60ch;
+  max-width: calc(60 * var(--pp-ch-body));
   font-size: 17px;
   line-height: 1.5;
   color: var(--pp-fg-muted);
@@ -162,7 +162,7 @@ a { color: inherit; text-decoration: none; }
 @media (max-width: 860px) { .layout { grid-template-columns: minmax(0, 1fr); } }
 
 /* Prose */
-.prose { max-width: 70ch; overflow-wrap: break-word; }  /* long German compounds / URLs must not widen the page */
+.prose { max-width: calc(70 * var(--pp-ch-body)); overflow-wrap: break-word; }  /* long German compounds / URLs must not widen the page */
 .prose--wide { max-width: none; }   /* data pages: the SBOM table may use the whole frame */
 .prose h2 {
   font-family: var(--pp-font-display);

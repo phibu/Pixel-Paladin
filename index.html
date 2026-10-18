@@ -59,8 +59,8 @@
 <link rel="preload" href="/ds/fonts/Unbounded-Regular.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="/ds/fonts/JetBrainsMono-Regular.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="/ds/fonts/Manrope-Regular.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="stylesheet" href="ds/colors_and_type.css?v=20261004" />
-<link rel="stylesheet" href="ds/page.css?v=20261018" />
+<link rel="stylesheet" href="ds/colors_and_type.css?v=20261018" />
+<link rel="stylesheet" href="ds/page.css?v=20261018b" />
 <style>
   /* ============================================================
      Base
@@ -120,7 +120,7 @@
     .hero-eyebrow .sep { display: none; }
   }
   .hero-kicker {
-    max-width: 48ch;
+    max-width: 48ch;  /* ch, not --pp-ch-body: .variant-terminal sets this in mono */
     font-size: 17px;
     line-height: 1.5;
     color: var(--pp-fg-muted);
@@ -702,7 +702,7 @@
     margin: 0;
   }
   .contact h2 .accent { color: var(--pp-fg-brand); }
-  .contact p { color: var(--pp-fg-muted); font-size: 16px; max-width: 44ch; margin: 12px 0 0; }
+  .contact p { color: var(--pp-fg-muted); font-size: 16px; max-width: calc(44 * var(--pp-ch-body)); margin: 12px 0 0; }
 
   .contact-links {
     display: flex; flex-direction: column; gap: 1px;
