@@ -10,11 +10,21 @@
 <link rel="icon" href="/ds/assets/pixelpaladin-favicon.svg" type="image/svg+xml"/>
 <link rel="preload" href="/ds/fonts/Unbounded-Regular.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="/ds/colors_and_type.css?v=20261004"/>
-<link rel="stylesheet" href="/ds/page.css?v=20261004b"/>
+<link rel="stylesheet" href="/ds/page.css?v=20261018"/>
 <style>
   body { min-height: 100dvh; display: flex; flex-direction: column; }
   .page { width: 100%; flex: 1; display: flex; flex-direction: column; }
   main { flex: 1; }
+  /* main absorbs the free height, so the gaps around the footer are only minimums: short phones
+     (320×568, footer on two rows) fit without scrolling, and roomy screens look unchanged. */
+  .lede { margin-bottom: 0; }
+  .foot { margin-top: 32px; }
+  @media (max-width: 720px) {
+    .page { padding-bottom: 16px; } /* bottom only; the side gutter stays page.css's */
+    .topbar { margin-bottom: 20px; }
+    .lede { padding: 0; border-bottom: 0; } /* the footer rule is the only divider */
+    .foot { margin-top: 24px; }
+  }
   .cta-row { display: flex; gap: 12px; flex-wrap: wrap; margin-top: 28px; }
 </style>
 </head>
