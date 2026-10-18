@@ -36,24 +36,32 @@ const toggle = (attr, label, extra = '') =>
   `<button type="button" class="tc-toggle" ${attr} aria-pressed="false"${extra}><span class="tc-toggle-label">${label}</span><span class="tc-switch" aria-hidden="true"></span></button>`;
 
 // Fills `root` with the controls. `update(patch)` applies a state change; returns sync(state) to reflect state in the UI.
+// Order (#72): Orientation, Layers, then the two device settings Grid style and Display side by side (.tc-controls-pair,
+// two columns at >=721px in app.css). DOM order = visual order, so the tab order follows what is on screen.
 export function mountControls(root, update) {
   root.innerHTML = `
     <p class="eyebrow" id="tc-orient-h">Orientation</p>
-    <div class="tc-controls-group" role="group" aria-labelledby="tc-orient-h">
+    <div class="tc-controls-group tc-orient" role="group" aria-labelledby="tc-orient-h">
       ${toggle('data-control="swap"', 'Swap sides')}
       ${toggle('data-control="mirror"', 'Mirror')}
     </div>
-    <p class="eyebrow" id="tc-grid-h">Grid style</p>
-    <button type="button" class="tc-cycle" data-control="grid">
-      <span class="tc-toggle-label"><span class="visually-hidden">Grid style: </span><span data-grid-label>Discreet</span></span><span class="tc-cycle-hint" aria-hidden="true">Next ›</span>
-    </button>
     <p class="eyebrow" id="tc-layers-h">Layers</p>
     <div class="tc-controls-group tc-layers" role="group" aria-labelledby="tc-layers-h">
       ${LAYERS.map((l) => toggle(`data-toggle-layer="${l}"`, LAYER_LABELS[l] || l)).join('')}
     </div>
-    <p class="eyebrow" id="tc-display-h">Display</p>
-    <div class="tc-controls-group" role="group" aria-labelledby="tc-display-h">
-      ${toggle('data-control="wall"', 'Wall mode', ' aria-describedby="tc-wall-hint"')}
+    <div class="tc-controls-pair">
+      <div>
+        <p class="eyebrow" id="tc-grid-h">Grid style</p>
+        <button type="button" class="tc-cycle" data-control="grid">
+          <span class="tc-toggle-label"><span class="visually-hidden">Grid style: </span><span data-grid-label>Discreet</span></span><span class="tc-cycle-hint" aria-hidden="true">Next ›</span>
+        </button>
+      </div>
+      <div>
+        <p class="eyebrow" id="tc-display-h">Display</p>
+        <div class="tc-controls-group" role="group" aria-labelledby="tc-display-h">
+          ${toggle('data-control="wall"', 'Wall mode', ' aria-describedby="tc-wall-hint"')}
+        </div>
+      </div>
     </div>
     <p class="tc-hint" id="tc-wall-hint">For a screen or wall display: no Calibration, fits the screen. Your table Calibration is kept.</p>`;
 

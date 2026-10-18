@@ -178,6 +178,29 @@ html.is-projector .tc-stage { position: fixed; inset: 0; width: auto; aspect-rat
 .tc-cycle-hint { flex: none; font-size: 13px; color: var(--pp-fg-muted); }
 .tc-hint { margin: 8px 0 0; font-size: 13px; line-height: 1.5; color: var(--pp-fg-muted); }
 @media (prefers-reduced-motion: reduce) { .tc-switch::after { transition: none; } }
+/* Grid style + Display (controls.js): stacked below 721px, two headed columns above. */
+.tc-controls-pair { display: grid; gap: 16px; margin-top: 16px; }
+
+/* #72: at >=721px (same condition as the sticky column, #71: not the phone-landscape sheet) the panel is tightened so
+   Project sits in the first viewport, and the controls go two columns. Compact controls: 38px visual height, but a
+   ::before stretches the hit area to 44px into the 6px row gap (3px each side, so neighbours never overlap). */
+@media (min-width: 721px) and (min-height: 521px), (min-width: 1025px) {
+  .tc-picker { gap: 6px; margin-bottom: 16px; padding-bottom: 16px; }
+  .tc-label { margin-top: 2px; }
+  .tc-variants { margin-top: 4px; }
+  .tc-random { margin-top: 0; }
+  .tc-sub { margin-bottom: 16px; }
+
+  .tc-controls .eyebrow { margin-top: 12px; }
+  .tc-controls .eyebrow:first-child { margin-top: 0; }
+  .tc-orient, .tc-layers, .tc-controls-pair { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 6px; }
+  .tc-controls-pair { margin-top: 12px; }
+  .tc-controls .tc-toggle, .tc-controls .tc-cycle {
+    position: relative; min-height: 38px; padding: 2px 8px; gap: 6px; font-size: 13px; line-height: 1.25;
+  }
+  .tc-controls .tc-toggle::before, .tc-controls .tc-cycle::before { content: ""; position: absolute; inset: -4px -1px; }
+  .tc-controls .tc-toggle-label { overflow-wrap: normal; hyphens: manual; }
+}
 
 /* ---- #61: Background picker (backgrounds.js) ---- */
 .tc-backgrounds { margin: 0 0 20px; }

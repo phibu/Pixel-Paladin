@@ -11,9 +11,9 @@
 <link rel="preload" href="/ds/fonts/Unbounded-Regular.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="/ds/colors_and_type.css?v=20261004"/>
 <link rel="stylesheet" href="/ds/page.css?v=20261004b"/>
-<link rel="stylesheet" href="/projects/tablecaster/app/app.css?v=20261018"/>
+<link rel="stylesheet" href="/projects/tablecaster/app/app.css?v=20261018c"/>
 <script>if (new URLSearchParams(location.search).has('projector')) document.documentElement.classList.add('is-projector');</script>
-<script type="module" src="/projects/tablecaster/app/app.js?v=20261018"></script>
+<script type="module" src="/projects/tablecaster/app/app.js?v=20261018c"></script>
 </head>
 <body class="pp-root pp-dark">
 <a class="skip-link" href="#main">Skip to content</a>
@@ -69,14 +69,15 @@
         <h2 class="tc-title" data-layout-title>No Layout selected</h2>
         <p class="tc-sub" data-layout-sub>Showing the empty 60″ × 44″ grid.</p>
         <div id="notes" class="tc-notes" aria-live="polite"></div>
-        <!-- #60: layers + orientation controls, filled by controls.js -->
-        <section id="controls" class="tc-controls" aria-label="Layers and orientation"></section>
-        <!-- #61: Background picker, filled by backgrounds.js -->
-        <section id="backgrounds" class="tc-backgrounds" aria-label="Background"></section>
+        <!-- #72: game-day order: pick, project (here or in the Projector window), then fine-tune, then device settings -->
         <!-- #62: Project button + key list, filled by projection.js -->
         <section id="projection" class="tc-projection" aria-labelledby="tc-proj-h"></section>
         <!-- #65: Projector window (status + Open button), filled by projector.js -->
         <section id="projector" class="tc-projector" aria-labelledby="tc-pw-h"></section>
+        <!-- #60: layers + orientation controls (Orientation, Grid style, Layers, Display), filled by controls.js -->
+        <section id="controls" class="tc-controls" aria-label="Layers and orientation"></section>
+        <!-- #61: Background picker, filled by backgrounds.js -->
+        <section id="backgrounds" class="tc-backgrounds" aria-label="Background"></section>
         <!-- #63: Calibration status + Calibrate button, filled by calibration.js (Reset device data goes in .tc-cal-actions) -->
         <section id="calibration" class="tc-calibration" aria-labelledby="tc-cal-h"></section>
         <!-- #64: offline status + help, filled by offline.js (its Reset device data button goes in #calibration [data-cal-actions]) -->
