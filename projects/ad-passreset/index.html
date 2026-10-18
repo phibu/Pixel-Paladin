@@ -21,8 +21,8 @@
 <meta name="twitter:card" content="summary_large_image"/>
 <link rel="icon" href="/ds/assets/pixelpaladin-favicon.svg" type="image/svg+xml"/>
 <link rel="preload" href="/ds/fonts/Unbounded-Regular.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="stylesheet" href="/ds/colors_and_type.css?v=20261004"/>
-<link rel="stylesheet" href="/ds/page.css?v=20261004b"/>
+<link rel="stylesheet" href="/ds/colors_and_type.css?v=20261018"/>
+<link rel="stylesheet" href="/ds/page.css?v=20261018b"/>
 <style>
   figure.screenshot { margin: 16px 0 8px; padding: 0; }
   figure.screenshot img {
@@ -109,7 +109,7 @@
       <ul>
         <li><strong>Runtime:</strong> .NET 10 LTS on Windows Server 2019 / 2022 / 2025</li>
         <li><strong>Web:</strong> ASP.NET Core + React 19 + TypeScript + MUI v6 + Vite</li>
-        <li><strong>AD:</strong> <code translate="no">System.DirectoryServices.AccountManagement</code> — domain-joined or explicit LDAP</li>
+        <li><strong>AD:</strong> <code translate="no">System.<wbr>DirectoryServices.<wbr>AccountManagement</code> — domain-joined or explicit LDAP</li>
         <li><strong>Email:</strong> MailKit (STARTTLS / SMTPS)</li>
       </ul>
 
@@ -160,9 +160,10 @@
 
   </main>
   <footer class="foot">
-    <div class="mono">© 2026 · Philipp Buchwald</div>
+    <div class="mono">© <span id="year">2026</span> · Philipp Buchwald</div>
     <div class="mono"><a href="/impressum/" lang="de">Impressum</a> · <a href="/datenschutz/" lang="de">Datenschutz</a></div>
   </footer>
+  <script>document.getElementById('year').textContent = new Date().getFullYear();</script>
 </div>
 </body>
 </html>

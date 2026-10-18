@@ -106,7 +106,7 @@ a { color: inherit; text-decoration: none; }
 }
 .lede h1 .accent { color: var(--pp-fg-brand); }
 .lede p.kicker {
-  max-width: 60ch;
+  max-width: calc(60 * var(--pp-ch-body));
   font-size: 17px;
   line-height: 1.5;
   color: var(--pp-fg-muted);
@@ -162,7 +162,7 @@ a { color: inherit; text-decoration: none; }
 @media (max-width: 860px) { .layout { grid-template-columns: minmax(0, 1fr); } }
 
 /* Prose */
-.prose { max-width: 70ch; overflow-wrap: break-word; }  /* long German compounds / URLs must not widen the page */
+.prose { max-width: calc(70 * var(--pp-ch-body)); overflow-wrap: break-word; }  /* long German compounds / URLs must not widen the page */
 .prose--wide { max-width: none; }   /* data pages: the SBOM table may use the whole frame */
 .prose h2 {
   font-family: var(--pp-font-display);
@@ -305,5 +305,6 @@ a { color: inherit; text-decoration: none; }
   transition: color var(--pp-dur-fast) var(--pp-ease-out), text-decoration-color var(--pp-dur-fast) var(--pp-ease-out);
 }
 .foot a:hover { color: var(--pp-fg); text-decoration-color: var(--pp-fg-brand); }
-/* Phones: grow the tap area without changing the footer's height (padding out, margin back in). */
-@media (max-width: 720px) { .foot a { display: inline-block; padding: 8px 0; margin: -8px 0; } }
+/* Phones: grow the tap area without changing the footer's height (padding out, margin back in).
+   position: relative lifts the padded box above a wrapped next line, which would otherwise take its taps. */
+@media (max-width: 720px) { .foot a { display: inline-block; padding: 8px 0; margin: -8px 0; position: relative; } }

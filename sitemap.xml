@@ -2,56 +2,50 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://pixel-paladin.de/</loc>
-    <lastmod>2026-04-29</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>1.0</priority>
+    <lastmod>2026-10-18</lastmod>
   </url>
   <url>
     <loc>https://pixel-paladin.de/projects/ad-passreset/</loc>
-    <lastmod>2026-04-20</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
+    <lastmod>2026-10-18</lastmod>
   </url>
   <url>
     <loc>https://pixel-paladin.de/projects/tablecaster/</loc>
-    <lastmod>2026-10-17</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
+    <lastmod>2026-10-18</lastmod>
   </url>
   <url>
     <loc>https://pixel-paladin.de/projects/colorbench/</loc>
-    <lastmod>2026-04-29</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.9</priority>
+    <lastmod>2026-10-18</lastmod>
+  </url>
+  <url>
+    <loc>https://pixel-paladin.de/projects/colorbench/changelog/</loc>
+    <lastmod>2026-10-18</lastmod>
+  </url>
+  <url>
+    <loc>https://pixel-paladin.de/projects/colorbench/sbom/</loc>
+    <lastmod>2026-10-18</lastmod>
   </url>
   <url>
     <loc>https://pixel-paladin.de/projects/colorbench/privacy/</loc>
-    <lastmod>2026-09-27</lastmod>
-    <changefreq>yearly</changefreq>
-    <priority>0.3</priority>
+    <lastmod>2026-10-18</lastmod>
+  </url>
+  <url>
+    <loc>https://pixel-paladin.de/projects/colorbench/account-deletion/</loc>
+    <lastmod>2026-10-18</lastmod>
   </url>
   <url>
     <loc>https://pixel-paladin.de/projects/colorbench/impressum/</loc>
-    <lastmod>2026-04-29</lastmod>
-    <changefreq>yearly</changefreq>
-    <priority>0.3</priority>
+    <lastmod>2026-10-18</lastmod>
   </url>
   <url>
     <loc>https://pixel-paladin.de/projects/colorbench/datenschutz/</loc>
-    <lastmod>2026-04-29</lastmod>
-    <changefreq>yearly</changefreq>
-    <priority>0.3</priority>
+    <lastmod>2026-10-18</lastmod>
   </url>
   <url>
     <loc>https://pixel-paladin.de/impressum/</loc>
-    <lastmod>2026-04-20</lastmod>
-    <changefreq>yearly</changefreq>
-    <priority>0.3</priority>
+    <lastmod>2026-10-18</lastmod>
   </url>
   <url>
     <loc>https://pixel-paladin.de/datenschutz/</loc>
-    <lastmod>2026-04-20</lastmod>
-    <changefreq>yearly</changefreq>
-    <priority>0.3</priority>
+    <lastmod>2026-10-18</lastmod>
   </url>
 </urlset>

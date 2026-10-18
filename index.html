@@ -57,19 +57,11 @@
 }
 </script>
 <link rel="preload" href="/ds/fonts/Unbounded-Regular.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="stylesheet" href="ds/colors_and_type.css?v=20261004" />
-<link rel="stylesheet" href="ds/page.css?v=20261004b" />
+<link rel="preload" href="/ds/fonts/JetBrainsMono-Regular.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/ds/fonts/Manrope-Regular.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="ds/colors_and_type.css?v=20261018" />
+<link rel="stylesheet" href="ds/page.css?v=20261018b" />
 <style>
-  /* ============================================================
-     Tweakable knobs (editable via Tweaks panel)
-     ============================================================ */
-  :root {
-    /* accent intensity: 0..1 (multiplies saturation on red + gold usage) */
-    --tw-accent: 1;
-    --tw-density: 1;          /* 1 = default spacing, 0.8 compact, 1.2 spacious */
-    --tw-hero-size: 1;        /* hero type scale */
-  }
-
   /* ============================================================
      Base
      ============================================================ */
@@ -89,9 +81,9 @@
   .hero {
     display: grid;
     grid-template-columns: 1fr 360px;
-    gap: calc(32px * var(--tw-density));
+    gap: 32px;
     align-items: stretch;
-    padding: calc(32px * var(--tw-density)) 0 calc(48px * var(--tw-density));
+    padding: 32px 0 48px;
     border-bottom: 1px solid var(--pp-border);
   }
   @media (max-width: 960px) {
@@ -115,7 +107,7 @@
   .hero h1 {
     font-family: var(--pp-font-display);
     font-weight: 900;
-    font-size: calc(clamp(44px, 7vw, 80px) * var(--tw-hero-size));
+    font-size: clamp(44px, 7vw, 80px);
     line-height: 0.98;
     letter-spacing: -0.035em;
     margin: 0;
@@ -123,13 +115,12 @@
     text-wrap: balance;
   }
   .hero h1 .accent { color: var(--pp-fg-brand); }
-  .hero h1 .muted { color: var(--pp-fg-subtle); }
   .hero-eyebrow .sep { color: var(--pp-border-strong); }
   @media (max-width: 480px) {
     .hero-eyebrow .sep { display: none; }
   }
   .hero-kicker {
-    max-width: 48ch;
+    max-width: 48ch;  /* ch, not --pp-ch-body: .variant-terminal sets this in mono */
     font-size: 17px;
     line-height: 1.5;
     color: var(--pp-fg-muted);
@@ -180,10 +171,19 @@
     70%  { box-shadow: 0 0 0 6px rgba(34,197,94,0); }
     100% { box-shadow: 0 0 0 0 rgba(34,197,94,0); }
   }
-  /* /now rows */
+  /* /now rows: the rows are subgrids of .now-list, so every row shares one
+     label column and one meta column (without subgrid, each row sizes its own) */
+  .now-list {
+    --now-cols: minmax(76px, max-content) minmax(0, 1fr) auto;
+    display: grid;
+    grid-template-columns: var(--now-cols);
+    column-gap: 10px;
+  }
   .now-row {
     display: grid;
-    grid-template-columns: minmax(76px, max-content) minmax(0, 1fr) auto;
+    grid-template-columns: var(--now-cols);
+    grid-template-columns: subgrid;
+    grid-column: 1 / -1;
     gap: 10px;
     padding: 10px 0;
     border-bottom: 1px dashed var(--pp-border);
@@ -205,6 +205,7 @@
     line-height: 1.35;
   }
   .now-row .meta {
+    justify-self: end;
     font-family: var(--pp-font-mono);
     font-size: 11px;
     color: var(--pp-fg-muted);
@@ -246,6 +247,12 @@
     letter-spacing: 0.05em;
   }
   .stat .v.red { color: var(--pp-fg-brand); }
+  /* narrowest phones: keep "181d 12:34:56" on one line (it needs 129px at
+     22px, 119px at 19px); all tiles, so the values stay one size */
+  @media (max-width: 355px) {
+    .stat { padding-inline: 10px; }
+    .stat .v { font-size: 19px; }
+  }
 
   /* ============================================================
      Shield — pixel art (animated)
@@ -289,14 +296,14 @@
      Section headers
      ============================================================ */
   .section {
-    padding: calc(48px * var(--tw-density)) 0;
+    padding: 48px 0;
     border-bottom: 1px solid var(--pp-border);
   }
   .section:last-of-type { border-bottom: 0; }
   .section-head {
     display: flex; align-items: baseline; justify-content: space-between;
     gap: 16px;
-    margin-bottom: calc(24px * var(--tw-density));
+    margin-bottom: 24px;
     flex-wrap: wrap;
   }
   .section-head .left { display: flex; align-items: baseline; gap: 12px; }
@@ -639,6 +646,20 @@
     min-height: 120px;
     transition: background var(--pp-dur-fast) var(--pp-ease-out);
   }
+  /* The strip draws the outer frame, cells only the inner lines: no right
+     border on the last column, no bottom border on the last row (6 cells). */
+  @media (width > 960px) {
+    .discipline:nth-child(6n) { border-right: 0; }
+    .discipline:nth-last-child(-n+6) { border-bottom: 0; }
+  }
+  @media (480px < width <= 960px) {
+    .discipline:nth-child(3n) { border-right: 0; }
+    .discipline:nth-last-child(-n+3) { border-bottom: 0; }
+  }
+  @media (width <= 480px) {
+    .discipline:nth-child(2n) { border-right: 0; }
+    .discipline:nth-last-child(-n+2) { border-bottom: 0; }
+  }
   .discipline:hover { background: var(--pp-bg-sunken); }
   .discipline .i {
     width: 28px; height: 28px;
@@ -681,7 +702,7 @@
     margin: 0;
   }
   .contact h2 .accent { color: var(--pp-fg-brand); }
-  .contact p { color: var(--pp-fg-muted); font-size: 16px; max-width: 44ch; margin: 12px 0 0; }
+  .contact p { color: var(--pp-fg-muted); font-size: 16px; max-width: calc(44 * var(--pp-ch-body)); margin: 12px 0 0; }
 
   .contact-links {
     display: flex; flex-direction: column; gap: 1px;
@@ -719,8 +740,7 @@
      Footer
      ============================================================ */
   /* ============================================================
-     Variant 2: Terminal-hero layout override
-     Applied when body has .variant-terminal
+     Terminal-hero layout (the body carries .variant-terminal)
      ============================================================ */
   body.variant-terminal .hero {
     grid-template-columns: 1.4fr 1fr;
@@ -738,121 +758,14 @@
   body.variant-terminal .hero h1 {
     font-family: var(--pp-font-mono);
     font-weight: 700;
-    font-size: calc(clamp(28px, 4.5vw, 52px) * var(--tw-hero-size));
+    font-size: clamp(28px, 4.5vw, 52px);
     letter-spacing: -0.01em;
     line-height: 1.1;
   }
-  body.variant-terminal .hero h1 .accent::before { content: ''; }
   body.variant-terminal .hero-kicker {
     font-family: var(--pp-font-mono);
     font-size: 14px;
   }
-  body.variant-terminal .prompt::before {
-    content: '$ ';
-    color: var(--pp-red-500);
-  }
-  body.variant-terminal .caret {
-    display: inline-block; width: 12px; height: 1em; vertical-align: -2px;
-    background: var(--pp-red-500);
-    margin-left: 4px;
-    animation: blink 1s steps(1,end) infinite;
-  }
-  @keyframes blink { 50% { opacity: 0; } }
-
-  /* ============================================================
-     Variant 3: Editorial large-type layout
-     ============================================================ */
-  body.variant-editorial .hero {
-    grid-template-columns: 1fr;
-  }
-  body.variant-editorial .hero-side {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 16px;
-  }
-  @media (max-width: 720px) {
-    body.variant-editorial .hero-side { grid-template-columns: 1fr; }
-  }
-  body.variant-editorial .hero h1 {
-    font-size: calc(clamp(56px, 11vw, 140px) * var(--tw-hero-size));
-    line-height: 0.92;
-    letter-spacing: -0.045em;
-  }
-
-  /* ============================================================
-     Tweaks panel (hidden until toggled by host)
-     ============================================================ */
-  .tweaks {
-    position: fixed;
-    right: 20px; bottom: 20px;
-    width: 300px;
-    background: var(--pp-bg-raised);
-    border: 1px solid var(--pp-border-strong);
-    border-radius: var(--pp-radius-md);
-    box-shadow: var(--pp-shadow-lg);
-    z-index: 9999;
-    display: none;
-    overflow: hidden;
-    font-family: var(--pp-font-body);
-  }
-  .tweaks.open { display: block; }
-  .tweaks-head {
-    padding: 10px 14px;
-    background: var(--pp-bg-sunken);
-    border-bottom: 1px solid var(--pp-border);
-    display: flex; align-items: center; justify-content: space-between;
-  }
-  .tweaks-head .t {
-    font-family: var(--pp-font-mono);
-    font-size: 11px;
-    text-transform: uppercase;
-    letter-spacing: 0.16em;
-    color: var(--pp-fg-muted);
-  }
-  .tweaks-head .x {
-    background: none; border: 0; color: var(--pp-fg-muted); cursor: pointer;
-    font-family: var(--pp-font-mono); font-size: 14px;
-  }
-  .tweaks-body { padding: 14px; display: flex; flex-direction: column; gap: 14px; }
-  .tw-row { display: flex; flex-direction: column; gap: 6px; }
-  .tw-row label {
-    font-family: var(--pp-font-mono);
-    font-size: 10px;
-    text-transform: uppercase;
-    letter-spacing: 0.14em;
-    color: var(--pp-fg-subtle);
-    display: flex; align-items: center; justify-content: space-between;
-  }
-  .tw-row label span { color: var(--pp-fg); }
-  .seg {
-    display: grid; grid-auto-flow: column; grid-auto-columns: 1fr;
-    border: 1px solid var(--pp-border);
-    border-radius: var(--pp-radius-sm);
-    overflow: hidden;
-  }
-  .seg button {
-    background: var(--pp-bg-raised);
-    border: 0; border-right: 1px solid var(--pp-border);
-    padding: 8px 6px;
-    font-family: var(--pp-font-mono);
-    font-size: 10px;
-    color: var(--pp-fg-muted);
-    text-transform: uppercase;
-    letter-spacing: 0.12em;
-    cursor: pointer;
-    transition: background var(--pp-dur-fast) var(--pp-ease-out);
-  }
-  .seg button:last-child { border-right: 0; }
-  .seg button:hover { background: var(--pp-bg-sunken); color: var(--pp-fg); }
-  .seg button.on {
-    background: var(--pp-red-500); color: var(--pp-fg-inverse);
-  }
-  .tw-row input[type="range"] { width: 100%; accent-color: var(--pp-red-500); }
-
-  /* Accent intensity CSS impl — references DS tokens promoted into colors_and_type.css */
-  body[data-accent="low"]  { --pp-fg-brand: var(--pp-fg-brand-low); }
-  body[data-accent="med"]  { /* default */ }
-  body[data-accent="high"] { --pp-fg-brand: var(--pp-fg-brand-high); }
 
   /* Subtle grid pattern used under the hero */
   .bg-grid {
@@ -868,7 +781,7 @@
   .hero { position: relative; }
 </style>
 </head>
-<body class="pp-root pp-dark variant-minimal" data-accent="med">
+<body class="pp-root pp-dark variant-terminal">
 <!-- Icon sprite: Lucide paths (ISC). To add an icon, paste its <symbol> here and use <svg class="lucide i"><use href="#i-NAME"/></svg>. -->
 <svg xmlns="http://www.w3.org/2000/svg" style="position:absolute;width:0;height:0;overflow:hidden" aria-hidden="true" focusable="false"><symbol id="i-sword" viewBox="0 0 24 24"><path d="m11 19-6-6"/><path d="m5 21-2-2"/><path d="m8 16-4 4"/><path d="M9.5 17.5 21 6V3h-3L6.5 14.5"/></symbol><symbol id="i-mail" viewBox="0 0 24 24"><path d="m22 7-8.991 5.727a2 2 0 0 1-2.009 0L2 7"/><rect x="2" y="4" width="20" height="16" rx="2"/></symbol><symbol id="i-printer" viewBox="0 0 24 24"><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><path d="M6 9V3a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v6"/><rect x="6" y="14" width="12" height="8" rx="1"/></symbol><symbol id="i-shield-check" viewBox="0 0 24 24"><path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"/><path d="m9 12 2 2 4-4"/></symbol><symbol id="i-server" viewBox="0 0 24 24"><rect width="20" height="8" x="2" y="2" rx="2" ry="2"/><rect width="20" height="8" x="2" y="14" rx="2" ry="2"/><line x1="6" x2="6.01" y1="6" y2="6"/><line x1="6" x2="6.01" y1="18" y2="18"/></symbol><symbol id="i-paintbrush" viewBox="0 0 24 24"><path d="m14.622 17.897-10.68-2.913"/><path d="M18.376 2.622a1 1 0 1 1 3.002 3.002L17.36 9.643a.5.5 0 0 0 0 .707l.944.944a2.41 2.41 0 0 1 0 3.408l-.944.944a.5.5 0 0 1-.707 0L8.354 7.348a.5.5 0 0 1 0-.707l.944-.944a2.41 2.41 0 0 1 3.408 0l.944.944a.5.5 0 0 0 .707 0z"/><path d="M9 8c-1.804 2.71-3.97 3.46-6.583 3.948a.507.507 0 0 0-.302.819l7.32 8.883a1 1 0 0 0 1.185.204C12.735 20.405 16 16.792 16 15"/></symbol><symbol id="i-terminal" viewBox="0 0 24 24"><path d="M12 19h8"/><path d="m4 17 6-6-6-6"/></symbol><symbol id="i-swords" viewBox="0 0 24 24"><polyline points="14.5 17.5 3 6 3 3 6 3 17.5 14.5"/><line x1="13" x2="19" y1="19" y2="13"/><line x1="16" x2="20" y1="16" y2="20"/><line x1="19" x2="21" y1="21" y2="19"/><polyline points="14.5 6.5 18 3 21 3 21 6 17.5 9.5"/><line x1="5" x2="9" y1="14" y2="18"/><line x1="7" x2="4" y1="17" y2="20"/><line x1="3" x2="5" y1="19" y2="21"/></symbol><symbol id="i-code-2" viewBox="0 0 24 24"><path d="m18 16 4-4-4-4"/><path d="m6 8-4 4 4 4"/><path d="m14.5 4-5 16"/></symbol><symbol id="i-briefcase" viewBox="0 0 24 24"><path d="M16 20V4a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/><rect width="20" height="14" x="2" y="6" rx="2"/></symbol><symbol id="i-map-pin" viewBox="0 0 24 24"><path d="M20 10c0 4.993-5.539 10.193-7.399 11.799a1 1 0 0 1-1.202 0C9.539 20.193 4 14.993 4 10a8 8 0 0 1 16 0"/><circle cx="12" cy="10" r="3"/></symbol></svg>
 <a class="skip-link" href="#main">Skip to content</a>
@@ -899,19 +812,13 @@
 
     <div class="hero-main">
       <div class="hero-eyebrow">
-        <span class="dot"></span> <span>Online · v1.7.1</span>
+        <span class="dot"></span> <span>Online · v1.7.2</span>
         <span class="sep" aria-hidden="true">·</span>
         <span id="tzNow" class="mono"></span>
       </div>
 
-      <h1 id="heroHeadline">
-        <span class="prompt">Philipp <span class="accent">Buchwald</span>.<br/>
-        IT security by day.<br/>
-        <span class="muted">Workshop by night.</span><span class="caret"></span></span>
-      </h1>
-      <p class="hero-kicker" id="heroKicker">
-        Direct, practical tools &amp; tinkering from Jülich. 3D prints that actually fit, homelab gear that actually stays up, minis with actually-dry paint. No fluff, no urgency, no tracking.
-      </p>
+      <h1>One pixel.<br/>One <span class="accent">shield.</span><br/>Six hobbies<br/>running hot.</h1>
+      <p class="hero-kicker">A workshop-grade personal site. Builds, breakages and lessons from 3D printing, IT security, homelab, minis, vibe-coded apps and the odd reenactment weekend.</p>
       <div class="hero-cta">
         <a class="btn btn-primary" href="#projects">
           <svg class="lucide lucide-sword" width="24" height="24" viewBox="0 0 24 24" style="width:14px;height:14px" aria-hidden="true" focusable="false"><use href="#i-sword"/></svg>
@@ -932,7 +839,7 @@
           <span class="title">/ now</span>
           <span class="status"><span class="pulse"></span>live</span>
         </div>
-        <div class="panel-body">
+        <div class="panel-body now-list">
           <div class="now-row">
             <span class="tag">Printing</span>
             <span class="what">Multicolor dragons on the P1S</span>
@@ -1178,173 +1085,12 @@
   </main>
   <footer class="foot">
     <div class="mono">© <span id="year">2026</span> · Philipp Buchwald · Pixel-Paladin.de</div>
-    <div class="mono"><a href="/impressum/" lang="de">Impressum</a> · <a href="/datenschutz/" lang="de">Datenschutz</a> · Built in the workshop · <span style="color:var(--pp-fg-brand)">v1.7.1</span></div>
+    <div class="mono"><a href="/impressum/" lang="de">Impressum</a> · <a href="/datenschutz/" lang="de">Datenschutz</a> · Built in the workshop · <span style="color:var(--pp-fg-brand)">v1.7.2</span></div>
   </footer>
 
 </div>
 
-<!-- TWEAKS PANEL -->
-<div class="tweaks" id="tweaks" aria-hidden="true" inert>
-  <div class="tweaks-head">
-    <span class="t">Tweaks</span>
-    <button class="x" id="tweaksClose" type="button" aria-label="Close"><span aria-hidden="true">✕</span></button>
-  </div>
-  <div class="tweaks-body">
-
-    <div class="tw-row">
-      <label><span>Layout</span><span class="mono" id="lblLayout">Minimal</span></label>
-      <div class="seg" id="segLayout" role="group" aria-label="Layout">
-        <button type="button" data-v="minimal" class="on">Minimal</button>
-        <button type="button" data-v="terminal">Terminal</button>
-        <button type="button" data-v="editorial">Editorial</button>
-      </div>
-    </div>
-
-    <div class="tw-row">
-      <label><span>Theme</span><span class="mono" id="lblTheme">Dark</span></label>
-      <div class="seg" id="segTheme" role="group" aria-label="Theme">
-        <button type="button" data-v="dark" class="on">Dark</button>
-        <button type="button" data-v="light">Light</button>
-      </div>
-    </div>
-
-    <div class="tw-row">
-      <label><span>Accent</span><span class="mono" id="lblAccent">Med</span></label>
-      <div class="seg" id="segAccent" role="group" aria-label="Accent">
-        <button type="button" data-v="low">Low</button>
-        <button type="button" data-v="med" class="on">Med</button>
-        <button type="button" data-v="high">High</button>
-      </div>
-    </div>
-
-    <div class="tw-row">
-      <label><span>Density</span><span class="mono" id="lblDensity">Default</span></label>
-      <div class="seg" id="segDensity" role="group" aria-label="Density">
-        <button type="button" data-v="compact">Compact</button>
-        <button type="button" data-v="default" class="on">Default</button>
-        <button type="button" data-v="spacious">Spacious</button>
-      </div>
-    </div>
-
-    <div class="tw-row">
-      <label><span>Hero headline</span><span class="mono" id="lblHead">A</span></label>
-      <div class="seg" id="segHead" role="group" aria-label="Hero headline">
-        <button type="button" data-v="a" class="on">A</button>
-        <button type="button" data-v="b">B</button>
-        <button type="button" data-v="c">C</button>
-      </div>
-    </div>
-
-  </div>
-</div>
-
 <script>
-  // ---------- Tweakable defaults (persisted via host) ----------
-  const TWEAK_DEFAULTS = /*EDITMODE-BEGIN*/{
-    "layout": "terminal",
-    "theme": "dark",
-    "accent": "med",
-    "density": "default",
-    "headline": "b"
-  }/*EDITMODE-END*/;
-
-  const state = { ...TWEAK_DEFAULTS };
-
-  // ---------- Headline variants ----------
-  const HEADLINES = {
-    a: {
-      h: `Philipp <span class="accent">Buchwald</span>.<br/>IT security by day.<br/><span class="muted">Workshop by night.</span>`,
-      k: `Direct, practical tools &amp; tinkering from Jülich. 3D prints that actually fit, homelab gear that actually stays up, minis with actually-dry paint. No fluff, no urgency, no tracking.`
-    },
-    b: {
-      h: `One pixel.<br/>One <span class="accent">shield.</span><br/>Six hobbies<br/>running hot.`,
-      k: `A workshop-grade personal site. Builds, breakages and lessons from 3D printing, IT security, homelab, minis, vibe-coded apps and the odd reenactment weekend.`
-    },
-    c: {
-      h: `<span class="muted">hello_world.sh</span><br/>Philipp. <span class="accent">Paladin.</span><br/>Still compiling.`,
-      k: `I ship small, sharp tools for hobbyists. Day job is defending networks. Nights and weekends: prints, paints, servers, swords. Have a look around.`
-    }
-  };
-
-  // ---------- Apply state ----------
-  function applyLayout(v) {
-    document.body.classList.remove('variant-minimal','variant-terminal','variant-editorial');
-    document.body.classList.add('variant-' + v);
-  }
-  function applyTheme(v) {
-    document.body.classList.toggle('pp-dark', v === 'dark');
-    document.querySelector('meta[name="color-scheme"]').content = v === 'dark' ? 'dark' : 'light';
-    document.querySelector('meta[name="theme-color"]').content = v === 'dark' ? '#0a0a09' : '#f7f6f5';
-    // The toggle button was removed from the topbar; this function is now
-    // a no-op past the body class flip, but tweaks-panel state-restore
-    // still calls it, so leave the body class line in place.
-  }
-  function applyAccent(v) {
-    document.body.setAttribute('data-accent', v);
-  }
-  function applyDensity(v) {
-    const root = document.documentElement;
-    if (v === 'compact')  root.style.setProperty('--tw-density', '0.78');
-    else if (v === 'spacious') root.style.setProperty('--tw-density', '1.25');
-    else root.style.setProperty('--tw-density', '1');
-  }
-  function applyHeadline(v) {
-    const d = HEADLINES[v] || HEADLINES.a;
-    document.getElementById('heroHeadline').innerHTML = d.h;
-    document.getElementById('heroKicker').innerHTML = d.k;
-  }
-
-  function applyAll() {
-    applyLayout(state.layout);
-    applyTheme(state.theme);
-    applyAccent(state.accent);
-    applyDensity(state.density);
-    applyHeadline(state.headline);
-
-    // update seg UI + labels
-    document.querySelectorAll('.seg').forEach(seg => {
-      const id = seg.id;
-      const key = ({segLayout:'layout',segTheme:'theme',segAccent:'accent',segDensity:'density',segHead:'headline'})[id];
-      if (!key) return;
-      seg.querySelectorAll('button').forEach(b => {
-        b.classList.toggle('on', b.dataset.v === state[key]);
-        b.setAttribute('aria-pressed', String(b.dataset.v === state[key]));
-      });
-    });
-    document.getElementById('lblLayout').textContent  = cap(state.layout);
-    document.getElementById('lblTheme').textContent   = cap(state.theme);
-    document.getElementById('lblAccent').textContent  = cap(state.accent);
-    document.getElementById('lblDensity').textContent = cap(state.density);
-    document.getElementById('lblHead').textContent    = state.headline.toUpperCase();
-  }
-  function cap(s){ return s ? s[0].toUpperCase() + s.slice(1) : s; }
-
-  function setKey(k, v) {
-    state[k] = v;
-    applyAll();
-    // persist via host
-    try {
-      window.parent.postMessage({type:'__edit_mode_set_keys', edits:{[k]: v}}, '*');
-    } catch (e) {}
-  }
-
-  // wire segmented controls
-  document.getElementById('segLayout').addEventListener('click', e => {
-    const b = e.target.closest('button[data-v]'); if (b) setKey('layout', b.dataset.v);
-  });
-  document.getElementById('segTheme').addEventListener('click', e => {
-    const b = e.target.closest('button[data-v]'); if (b) setKey('theme', b.dataset.v);
-  });
-  document.getElementById('segAccent').addEventListener('click', e => {
-    const b = e.target.closest('button[data-v]'); if (b) setKey('accent', b.dataset.v);
-  });
-  document.getElementById('segDensity').addEventListener('click', e => {
-    const b = e.target.closest('button[data-v]'); if (b) setKey('density', b.dataset.v);
-  });
-  document.getElementById('segHead').addEventListener('click', e => {
-    const b = e.target.closest('button[data-v]'); if (b) setKey('headline', b.dataset.v);
-  });
-
   // ---------- Live-ish stats ----------
   // Since launch: time since go-live (first commit), not measured availability.
   // Format D:HH:MM:SS (D:HH:MM under reduced motion)
@@ -1428,9 +1174,6 @@
 
   // Year
   document.getElementById('year').textContent = new Date().getFullYear();
-
-  // Initial apply
-  applyAll();
 
 </script>
 

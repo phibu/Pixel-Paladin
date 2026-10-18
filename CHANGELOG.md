@@ -4,6 +4,20 @@ User-facing changes to [pixel-paladin.de](https://pixel-paladin.de). Newest firs
 
 The format is based on [Keep a Changelog 1.1.0](https://keepachangelog.com/en/1.1.0/), and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.7.2] — 2026-10-18
+
+### Changed
+- Every footer shows the current year, and Colorbench pages label their website privacy link "Datenschutz (Website)" so it isn't mistaken for the app's privacy policy.
+- The links at the bottom of the Colorbench page line up with the rest of the page.
+- The homepage header loads exactly as it appears, even with JavaScript turned off.
+
+### Fixed
+- Text no longer jumps when the site's fonts finish loading, on Windows and Apple devices.
+- The Colorbench screenshot carousel on phones highlights the right screenshot at both ends, follows along when you move through it with the keyboard, and its dots stay visible in high-contrast mode.
+- On the German Impressum and Datenschutz pages, screen readers read the English menu and breadcrumb in English.
+- The "Not found" page fits small phones without scrolling, and the footer links are easier to tap on phones.
+- Small layout fixes: tidier lines in the homepage workshop strip, the long code name on the AD-Passreset page wraps on phones, labels on the /now page line up, and the "since launch" counter stays on one line on narrow phones.
+
 ## [1.7.1] — 2026-10-18
 
 ### Changed

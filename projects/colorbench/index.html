@@ -49,8 +49,8 @@
 </script>
 <link rel="icon" href="/ds/assets/colorbench-favicon.svg" type="image/svg+xml"/>
 <link rel="preload" href="/ds/fonts/Unbounded-Regular.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="stylesheet" href="/ds/colors_and_type.css?v=20261004"/>
-<link rel="stylesheet" href="/ds/page.css?v=20261004b"/>
+<link rel="stylesheet" href="/ds/colors_and_type.css?v=20261018"/>
+<link rel="stylesheet" href="/ds/page.css?v=20261018b"/>
 <style>
   /* The header and footer use the shared 1200px frame (ds/page.css); this landing is the one
      centred composition: everything below the header caps at 820px for readable line-length. */
@@ -72,14 +72,29 @@
     max-width: 620px;
     margin: 0 0 28px;
   }
+  /* Each item carries its "·" in front, inside the 18px gaps on either side.
+     The list is pulled left by one separator width and the row clips it, so
+     the dot in front of whichever item starts a line is cut off: a separator
+     never starts or ends a line. */
   .meta-row {
-    display: flex; flex-wrap: wrap; gap: 10px 18px;
+    --gap: 18px;
+    --sep: calc(2 * var(--gap) + 1ch + 0.12em);
+    overflow: hidden;
     font-family: var(--pp-font-mono);
     font-size: 12px;
     color: var(--pp-fg-muted);
     text-transform: uppercase;
     letter-spacing: 0.12em;
     margin-bottom: 32px;
+  }
+  .meta-row ul {
+    display: flex; flex-wrap: wrap; row-gap: 10px;
+    list-style: none; padding: 0;
+    margin: 0 0 0 calc(-1 * var(--sep));
+  }
+  .meta-row li::before {
+    content: "·"; content: "·" / "";
+    display: inline-block; width: var(--sep); text-align: center;
   }
   .meta-row em {
     font-style: normal;
@@ -236,6 +251,11 @@
     }
     .shots-dots button:focus-visible { outline: 2px solid var(--pp-fg-brand); outline-offset: -4px; }
   }
+  /* Forced colours repaint the dots' background as Canvas, so draw them in system colours */
+  @media (max-width: 720px) and (forced-colors: active) {
+    .shots-dots button::before { forced-color-adjust: none; background: CanvasText; }
+    .shots-dots button[aria-current="true"]::before { background: Highlight; outline: 1px solid CanvasText; }
+  }
 
   /* Lightbox */
   dialog#lightbox {
@@ -377,8 +397,7 @@
   .tester-box .btn { align-self: flex-start; }
 
   .legal-strip {
-    max-width: 820px;
-    margin: 56px auto 0;
+    margin: 56px 0 0;
     padding-top: 24px;
     border-top: 1px solid var(--pp-border);
     display: flex;
@@ -427,10 +446,12 @@
     <h1>The Mini <span class="accent">Colorbench.</span></h1>
     <p class="kicker">Curated palettes for miniature painters. Match what's on your shelf with a CIEDE2000 colour-distance engine.</p>
     <div class="meta-row">
-      <span>109 palettes</span><span>·</span>
-      <span>1399 paints</span><span>·</span>
-      <span>9 brands</span><span>·</span>
-      <span>Works offline</span>
+      <ul role="list">
+        <li>109 palettes</li>
+        <li>1399 paints</li>
+        <li>9 brands</li>
+        <li>Works offline</li>
+      </ul>
     </div>
     <div class="tester-grid">
       <div class="tester-box accent">
@@ -549,14 +570,23 @@
 
   function isCarouselActive() { return window.matchMedia('(max-width: 720px)').matches; }
 
+  // Distance from the strip's visible centre to the slide's centre (px, negative = left).
+  // Measured from rects: offsetLeft is relative to .shots, not to the scrolling strip.
+  function offsetFromCentre(slide) {
+    var g = grid.getBoundingClientRect();
+    var r = slide.getBoundingClientRect();
+    return (r.left + r.width / 2) - (g.left + grid.clientLeft + grid.clientWidth / 2);
+  }
+
   function activeIndex() {
     if (!grid) return 0;
-    var x = grid.scrollLeft + grid.clientWidth / 2;
+    // On wide strips the end slides can't be centred, so pin them at the scroll ends.
+    if (grid.scrollLeft <= 1) return 0;
+    if (grid.scrollLeft >= grid.scrollWidth - grid.clientWidth - 1) return slides.length - 1;
     var best = 0;
     var bestDist = Infinity;
     slides.forEach(function (slide, i) {
-      var c = slide.offsetLeft + slide.clientWidth / 2;
-      var d = Math.abs(c - x);
+      var d = Math.abs(offsetFromCentre(slide));
       if (d < bestDist) { bestDist = d; best = i; }
     });
     return best;
@@ -575,8 +605,7 @@
 
   function scrollToIndex(i) {
     if (!grid || !slides[i]) return;
-    var slide = slides[i];
-    var target = slide.offsetLeft - (grid.clientWidth - slide.clientWidth) / 2;
+    var target = grid.scrollLeft + offsetFromCentre(slides[i]);
     var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     grid.scrollTo({ left: target, behavior: reduce ? 'auto' : 'smooth' });
   }
@@ -585,6 +614,14 @@
     grid.addEventListener('scroll', function () {
       window.requestAnimationFrame(syncControls);
     }, { passive: true });
+    // Tabbing to a slide: the browser's own focus scroll gets pulled back by mandatory
+    // snap, leaving the slide half off screen. Centre it ourselves once that has run.
+    grid.addEventListener('focusin', function (e) {
+      if (!isCarouselActive()) return;
+      var i = slides.indexOf(e.target.closest('.shot'));
+      if (i < 0) return;
+      window.requestAnimationFrame(function () { scrollToIndex(i); });
+    });
   }
   if (prev) prev.addEventListener('click', function () { scrollToIndex(activeIndex() - 1); });
   if (next) next.addEventListener('click', function () { scrollToIndex(activeIndex() + 1); });

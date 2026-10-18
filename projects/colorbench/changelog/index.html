@@ -9,8 +9,8 @@
 <meta name="description" content="What’s new in The Mini Colorbench. Plain-language release notes, newest first."/>
 <link rel="icon" href="/ds/assets/colorbench-favicon.svg" type="image/svg+xml"/>
 <link rel="preload" href="/ds/fonts/Unbounded-Regular.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="stylesheet" href="/ds/colors_and_type.css?v=20261004"/>
-<link rel="stylesheet" href="/ds/page.css?v=20261004b"/>
+<link rel="stylesheet" href="/ds/colors_and_type.css?v=20261018"/>
+<link rel="stylesheet" href="/ds/page.css?v=20261018b"/>
 <style>
   .prose .updated { margin-bottom: 24px; }
   .prose .preamble { font-size: 14px; color: var(--pp-fg-muted); margin: 0 0 32px; }
@@ -660,9 +660,10 @@
   </main>
 
   <footer class="foot">
-    <div class="mono">© 2026 · Philipp Buchwald</div>
-    <div class="mono"><a href="/projects/colorbench/impressum/" lang="de">Impressum</a> · <a href="/projects/colorbench/datenschutz/" lang="de">Datenschutz</a></div>
+    <div class="mono">© <span id="year">2026</span> · Philipp Buchwald</div>
+    <div class="mono"><a href="/projects/colorbench/impressum/" lang="de">Impressum</a> · <a href="/projects/colorbench/datenschutz/" lang="de">Datenschutz (Website)</a></div>
   </footer>
+  <script>document.getElementById('year').textContent = new Date().getFullYear();</script>
 </div>
 
 </body>

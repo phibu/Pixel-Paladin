@@ -10,8 +10,8 @@
 <meta name="robots" content="index, follow"/>
 <link rel="icon" href="/ds/assets/colorbench-favicon.svg" type="image/svg+xml"/>
 <link rel="preload" href="/ds/fonts/Unbounded-Regular.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="stylesheet" href="/ds/colors_and_type.css?v=20261004"/>
-<link rel="stylesheet" href="/ds/page.css?v=20261004b"/>
+<link rel="stylesheet" href="/ds/colors_and_type.css?v=20261018"/>
+<link rel="stylesheet" href="/ds/page.css?v=20261018b"/>
 <style>
   .addr { font-family: var(--pp-font-mono); font-size: 14px; line-height: 1.8; padding: 16px 20px; border-left: 3px solid var(--pp-border-strong); background: var(--pp-bg-raised); border-radius: var(--pp-radius-xs); margin: 16px 0; }
 </style>
@@ -20,7 +20,7 @@
 <a class="skip-link" href="#main">Zum Inhalt springen</a>
 
 <div class="page page--narrow">
-  <header class="topbar">
+  <header class="topbar" lang="en">
     <a class="brand" href="/">
       <img class="mark" src="/ds/assets/pixelpaladin-favicon.svg" width="32" height="32" alt="">
       <div><div class="name">Pixel <span>Paladin</span></div><div class="sub">Workshop · Jülich, DE</div></div>
@@ -32,7 +32,7 @@
     </nav>
   </header>
 
-  <nav class="crumbs" aria-label="Breadcrumb"><a href="/">Home</a><span class="sep" aria-hidden="true">/</span><a href="/projects/colorbench/">Colorbench</a><span class="sep" aria-hidden="true">/</span>Impressum</nav>
+  <nav class="crumbs" lang="en" aria-label="Breadcrumb"><a href="/">Home</a><span class="sep" aria-hidden="true">/</span><a href="/projects/colorbench/">Colorbench</a><span class="sep" aria-hidden="true">/</span><span lang="de">Impressum</span></nav>
   <main id="main" tabindex="-1">
 
   <article class="prose prose--legal">
@@ -90,9 +90,10 @@
   </main>
 
   <footer class="foot">
-    <div class="mono">© 2026 · Philipp Buchwald</div>
-    <div class="mono"><a href="/projects/colorbench/impressum/" aria-current="page">Impressum</a> · <a href="/projects/colorbench/datenschutz/">Datenschutz</a></div>
+    <div class="mono">© <span id="year">2026</span> · Philipp Buchwald</div>
+    <div class="mono"><a href="/projects/colorbench/impressum/" aria-current="page">Impressum</a> · <a href="/projects/colorbench/datenschutz/">Datenschutz (Website)</a></div>
   </footer>
+  <script>document.getElementById('year').textContent = new Date().getFullYear();</script>
 </div>
 
 </body>

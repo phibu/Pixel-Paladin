@@ -3,14 +3,15 @@
 <head>
 <meta charset="utf-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"/>
+<meta name="robots" content="noindex" />
 <meta name="color-scheme" content="dark" />
 <meta name="theme-color" content="#0a0a09" />
 <title>Tablecaster · Pixel Paladin</title>
 <meta name="description" content="Projects tournament battlefield layouts true-to-scale onto a 60″ × 44″ table."/>
 <link rel="icon" href="/ds/assets/pixelpaladin-favicon.svg" type="image/svg+xml"/>
 <link rel="preload" href="/ds/fonts/Unbounded-Regular.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="stylesheet" href="/ds/colors_and_type.css?v=20261004"/>
-<link rel="stylesheet" href="/ds/page.css?v=20261004b"/>
+<link rel="stylesheet" href="/ds/colors_and_type.css?v=20261018"/>
+<link rel="stylesheet" href="/ds/page.css?v=20261018b"/>
 <link rel="stylesheet" href="/projects/tablecaster/app/app.css?v=20261018f"/>
 <script>if (new URLSearchParams(location.search).has('projector')) document.documentElement.classList.add('is-projector');</script>
 <script type="module" src="/projects/tablecaster/app/app.js?v=20261018f"></script>
@@ -97,9 +98,10 @@
   </main>
 
   <footer class="foot">
-    <div class="mono">© 2026 · Philipp Buchwald</div>
+    <div class="mono">© <span id="year">2026</span> · Philipp Buchwald</div>
     <div class="mono"><a href="/impressum/" lang="de">Impressum</a> · <a href="/datenschutz/" lang="de">Datenschutz</a></div>
   </footer>
+  <script>document.getElementById('year').textContent = new Date().getFullYear();</script>
 </div>
 
 </body>
