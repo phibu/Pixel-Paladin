@@ -10,7 +10,7 @@
 //           · data-bar-layers (layer row open).
 import { LAYERS } from './engine.js?v=20261017c';
 import { nextGrid, LAYER_LABELS, GRID_LABELS } from './controls.js?v=20261017c';
-import { layoutsFor } from './picker.js?v=20261017c';
+import { layoutsFor } from './picker.js?v=20261018';
 
 export const IDLE_MS = 2500;
 export const TOAST_MS = 2000;
@@ -68,12 +68,14 @@ export function createProjection({ stage, panelEl, getState, update, choose, get
   const toastEl = stage.querySelector('[data-toast]');
 
   // ---------- panel: Project button + key list ----------
+  // #74: touch devices (coarse pointer) get no key list; it only helps with a keyboard.
+  const coarse = matchMedia('(pointer: coarse)').matches;
   if (panelEl) {
     panelEl.innerHTML = `
       <p class="eyebrow" id="tc-proj-h">Projection</p>
       <button type="button" class="btn btn-primary tc-project" data-action="enter">Project</button>
-      <p class="tc-hint">Tap the projection for controls. Keys while projecting:</p>
-      <dl class="tc-keys" data-keys>${KEYS.map(([, , label, what]) => `<div><dt><kbd class="pp-kbd">${esc(label)}</kbd></dt><dd>${esc(what)}</dd></div>`).join('')}</dl>`;
+      <p class="tc-hint">Tap the projection for controls.${coarse ? '' : ' Keys while projecting:'}</p>
+      ${coarse ? '' : `<dl class="tc-keys" data-keys>${KEYS.map(([, , label, what]) => `<div><dt><kbd class="pp-kbd">${esc(label)}</kbd></dt><dd>${esc(what)}</dd></div>`).join('')}</dl>`}`;
     panelEl.addEventListener('click', (e) => { const b = e.target.closest('[data-action]'); if (b) dispatch(b.dataset.action, b.dataset.arg); });
   }
 
