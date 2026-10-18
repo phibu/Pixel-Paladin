@@ -7,15 +7,16 @@
 // UPDATE THIS LIST whenever a ?v= changes on any of these URLs (app modules, app.css, layouts.json, /ds CSS), or a
 // page starts using another /ds file. Then bump SHELL to the new ?v= so the old copy is dropped on activate.
 // URLs must match what the pages request exactly, query string included (a different ?v= is a different file).
-const SHELL = 'tablecaster-shell-20261018b';
+const SHELL = 'tablecaster-shell-20261018d';
 const RUNTIME = 'tablecaster-runtime-v1';
 const PRECACHE = [
   '/projects/tablecaster/',
   '/projects/tablecaster/app/',
   '/projects/tablecaster/data/layouts.json?v=20261017b',
   '/projects/tablecaster/backgrounds/backgrounds.json',
-  '/projects/tablecaster/app/app.css?v=20261018',
+  '/projects/tablecaster/app/app.css?v=20261018d',
   '/projects/tablecaster/app/app.js?v=20261018',
+  '/projects/tablecaster/app/sheet.js?v=20261018d',
   '/projects/tablecaster/app/engine.js?v=20261017c',
   '/projects/tablecaster/app/state.js?v=20261017c',
   '/projects/tablecaster/app/picker.js?v=20261018',

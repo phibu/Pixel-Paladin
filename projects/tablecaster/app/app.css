@@ -253,16 +253,41 @@ html[data-view="projection"] .tc-toast[data-show] {
   }
 }
 
-/* Setup view on a phone in landscape: the panel becomes a bottom sheet under a height-fitted Battlefield. */
+/* Setup view on a phone in landscape (#73): the panel becomes a bottom sheet under a height-fitted Battlefield.
+   The sheet is always --tc-sheet tall and slides down (transform) to a --tc-peek showing the handle and the
+   "Pick a Layout" header; the handle (sheet.js) sets [data-sheet-open]. The stage gets the height above the peek.
+   Topbar + breadcrumbs are hidden here: the documented Tablecaster-app exception in CLAUDE.md (app only, not the
+   landing). The footer stays in the page flow; the bottom padding lets it scroll clear of the collapsed sheet. */
+.tc-sheet-toggle { display: none; }
 @media (orientation: landscape) and (max-height: 520px) and (max-width: 1024px) {
-  html:not([data-view="projection"]):not(.is-projector) .tc-setup { grid-template-columns: minmax(0, 1fr); padding-bottom: 48dvh; }
-  html:not([data-view="projection"]):not(.is-projector) .tc-stage { width: auto; height: 50dvh; margin: 0 auto; }
-  html:not([data-view="projection"]):not(.is-projector) .tc-panel {
-    position: fixed; left: 0; right: 0; bottom: 0; z-index: 5; max-height: 46dvh; overflow-y: auto; overscroll-behavior: contain;
-    border-radius: var(--pp-radius-md) var(--pp-radius-md) 0 0; border-bottom: 0;
-    padding: 16px max(16px, env(safe-area-inset-right)) calc(16px + env(safe-area-inset-bottom)) max(16px, env(safe-area-inset-left));
+  html:not([data-view="projection"]):not(.is-projector) { --tc-peek: 25dvh; --tc-sheet: 70dvh; --tc-gap: 12px; }
+  html:not([data-view="projection"]):not(.is-projector) .topbar,
+  html:not([data-view="projection"]):not(.is-projector) .crumbs { display: none; }
+  html:not([data-view="projection"]):not(.is-projector) .page {
+    padding-top: calc(var(--tc-gap) + env(safe-area-inset-top));
+    padding-bottom: calc(var(--tc-peek) + var(--tc-gap) + env(safe-area-inset-bottom));
   }
+  html:not([data-view="projection"]):not(.is-projector) .tc-setup { grid-template-columns: minmax(0, 1fr); }
+  html:not([data-view="projection"]):not(.is-projector) .tc-stage {
+    width: auto; margin: 0 auto;
+    height: calc(100dvh - var(--tc-peek) - 2 * var(--tc-gap) - env(safe-area-inset-top));
+  }
+  html:not([data-view="projection"]):not(.is-projector) .tc-panel {
+    position: fixed; left: 0; right: 0; bottom: 0; z-index: 5; height: var(--tc-sheet); box-sizing: border-box;
+    overflow: hidden; overscroll-behavior: contain;
+    transform: translateY(calc(var(--tc-sheet) - var(--tc-peek))); transition: transform 150ms ease-out;
+    border-radius: var(--pp-radius-md) var(--pp-radius-md) 0 0; border-bottom: 0;
+    padding: 0 max(16px, env(safe-area-inset-right)) calc(16px + env(safe-area-inset-bottom)) max(16px, env(safe-area-inset-left));
+  }
+  html:not([data-view="projection"]):not(.is-projector) .tc-panel[data-sheet-open] { transform: none; overflow-y: auto; }
+  html:not([data-view="projection"]):not(.is-projector) .tc-sheet-toggle {
+    display: flex; align-items: center; justify-content: center; width: 100%; min-height: 44px; padding: 0; margin: 0 0 4px;
+    position: sticky; top: 0; z-index: 1; background: var(--pp-bg-raised); border: 0; cursor: pointer; color: inherit; -webkit-tap-highlight-color: transparent;
+  }
+  .tc-sheet-toggle:focus-visible { outline: none; box-shadow: var(--pp-ring); }
+  .tc-sheet-grip { width: 40px; height: 4px; border-radius: 2px; background: var(--pp-border-strong); }
 }
+@media (prefers-reduced-motion: reduce) { .tc-panel { transition: none !important; } }
 
 /* ---- #63: Calibration (calibration.js): panel status, wizard overlay + HUD (no status on the projection) ----
    The warp itself is an inline style on the svg (position:absolute + matrix3d), set only in the projection view. */

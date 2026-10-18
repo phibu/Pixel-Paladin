@@ -11,9 +11,10 @@
 <link rel="preload" href="/ds/fonts/Unbounded-Regular.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="/ds/colors_and_type.css?v=20261004"/>
 <link rel="stylesheet" href="/ds/page.css?v=20261004b"/>
-<link rel="stylesheet" href="/projects/tablecaster/app/app.css?v=20261018"/>
+<link rel="stylesheet" href="/projects/tablecaster/app/app.css?v=20261018d"/>
 <script>if (new URLSearchParams(location.search).has('projector')) document.documentElement.classList.add('is-projector');</script>
 <script type="module" src="/projects/tablecaster/app/app.js?v=20261018"></script>
+<script type="module" src="/projects/tablecaster/app/sheet.js?v=20261018d"></script>
 </head>
 <body class="pp-root pp-dark">
 <a class="skip-link" href="#main">Skip to content</a>
@@ -57,6 +58,8 @@
       </div>
       <aside id="panel" class="tc-panel" aria-label="Setup">
         <section class="tc-picker" data-picker aria-labelledby="tc-pick-h">
+          <!-- #73: sheet handle, shown only in the phone-landscape bottom sheet (app.css, sheet.js) -->
+          <button type="button" class="tc-sheet-toggle" data-sheet-toggle aria-expanded="false" aria-controls="panel"><span class="tc-sheet-grip" aria-hidden="true"></span><span class="visually-hidden">Setup controls</span></button>
           <p class="eyebrow" id="tc-pick-h">Pick a Layout</p>
           <label class="tc-label" for="tc-fd1">Force Disposition 1</label>
           <select id="tc-fd1" class="tc-select" data-fd="1" disabled><option value="">Loading Layouts…</option></select>
