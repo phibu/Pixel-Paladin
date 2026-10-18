@@ -150,7 +150,7 @@ export function mountBackgrounds(root, list, handlers) {
       ${tile(LOCAL, 'Your image', `<img class="tc-bg-thumb" data-bg-thumb ${T} alt="" hidden><span class="tc-bg-thumb tc-bg-add" aria-hidden="true">+</span>`)}
     </div>
     <div class="tc-bg-local">
-      <button type="button" class="tc-cycle" data-bg-choose>Choose your image…</button>
+      <button type="button" class="tc-cycle" data-bg-choose hidden>Replace your image…</button>
       <button type="button" class="tc-cycle" data-bg-forget hidden>Forget your image</button>
       <input type="file" accept="image/*" data-bg-file hidden>
     </div>
@@ -176,6 +176,9 @@ export function mountBackgrounds(root, list, handlers) {
     if (localUrl) { if (img.getAttribute('src') !== localUrl) img.src = localUrl; img.hidden = false; add.hidden = true; }
     else { img.removeAttribute('src'); img.hidden = true; add.hidden = false; }
     root.querySelector('[data-bg-forget]').hidden = !localUrl;
-    root.querySelector('[data-bg-choose]').textContent = localUrl ? 'Replace your image…' : 'Choose your image…';
+    // #74: with no Local background the "Your image" tile is the one way to add one; the button only replaces.
+    const choose = root.querySelector('[data-bg-choose]');
+    choose.hidden = !localUrl;
+    choose.textContent = 'Replace your image…';
   };
 }
