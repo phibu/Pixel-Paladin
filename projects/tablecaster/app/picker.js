@@ -24,7 +24,9 @@ export function initPicker(root, { choose }) {
   const sels = [...root.querySelectorAll('select[data-fd]')];
   const variantsEl = root.querySelector('[data-variants]');
   const randomBtn = root.querySelector('[data-random]');
-  let data = null, list = [], thumbKey = '';
+  // #74: `undefined` = still loading (the selects say so); null = failed or missing ("Choose…", disabled).
+  let data, list = [], thumbKey = '';
+  for (const s of sels) { s.innerHTML = '<option value="">Loading Layouts…</option>'; s.disabled = true; }
 
   const current = () => sels.map((s) => s.value);
   const pickIn = (layouts, prefer) => layouts.find((L) => variantOf(L) === prefer) || layouts[0];

@@ -3,10 +3,10 @@
 // (chrome-less full-viewport render; the projector window ticket adds the sync).
 import { render } from './engine.js?v=20261017c';
 import { defaultState, parseHash, formatHash } from './state.js?v=20261017c';
-import { initPicker, renderStamp, titleCase } from './picker.js?v=20261017c';
+import { initPicker, renderStamp, titleCase } from './picker.js?v=20261018';
 import { loadDevice, saveDevice, mountControls } from './controls.js?v=20261017c';
-import { BG_DIR, LOCAL, loadManifest, presetUrl, localStore, readLocalChoice, saveLocalChoice, mountBackgrounds } from './backgrounds.js?v=20261017b';
-import { createProjection } from './projection.js?v=20261017c';
+import { BG_DIR, LOCAL, loadManifest, presetUrl, localStore, readLocalChoice, saveLocalChoice, mountBackgrounds } from './backgrounds.js?v=20261018';
+import { createProjection } from './projection.js?v=20261018';
 import { createCalibration } from './calibration.js?v=20261017c';
 import { createController, createReceiver } from './projector.js?v=20261017c';
 import { registerWorker, mountOffline } from './offline.js?v=20261017b';
@@ -274,7 +274,8 @@ if (syncBackgrounds) offline?.watchBackgrounds(bgEl, bgList.filter((e) => e.kind
 const openedWithLink = !!location.hash.replace(/^#/, '');
 if (!projector) renderStamp(panel.querySelector('[data-source-stamp]'), data?.source);
 applyHash();
-if (!openedWithLink && data) picker?.focus();
+// #74: only with a fine pointer; on touch the focus ring is noise (and an extra red element).
+if (!openedWithLink && data && matchMedia('(pointer: fine)').matches) picker?.focus();
 await ensureBackground(state.background);   // ready = the chosen Background is drawn too
 draw();
 link.start();
