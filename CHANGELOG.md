@@ -4,6 +4,17 @@ User-facing changes to [pixel-paladin.de](https://pixel-paladin.de). Newest firs
 
 The format is based on [Keep a Changelog 1.1.0](https://keepachangelog.com/en/1.1.0/), and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.7.0] — 2026-10-18
+
+### Added
+- Tablecaster, a new project: it projects tournament battlefield layouts true to scale onto a 60″ × 44″ table. Pick a Layout, project it from a phone, tablet or laptop, line it up with the four-corner calibration, and choose a background. It also works offline at the venue once you have opened it.
+- A Tablecaster page that explains the tool, and a Tablecaster card on the homepage.
+- The Impressum has a trademark notice, and the Datenschutz page explains what Tablecaster stores on your device and how to delete it.
+
+### Changed
+- Every page now has a footer with links to the Impressum and Datenschutz.
+- The Colorbench page now says the app works offline and an account is optional, which matches its privacy policy.
+
 ## [1.6.0] — 2026-10-03
 
 ### Added
