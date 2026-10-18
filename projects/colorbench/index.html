@@ -236,6 +236,11 @@
     }
     .shots-dots button:focus-visible { outline: 2px solid var(--pp-fg-brand); outline-offset: -4px; }
   }
+  /* Forced colours repaint the dots' background as Canvas, so draw them in system colours */
+  @media (max-width: 720px) and (forced-colors: active) {
+    .shots-dots button::before { forced-color-adjust: none; background: CanvasText; }
+    .shots-dots button[aria-current="true"]::before { background: Highlight; outline: 1px solid CanvasText; }
+  }
 
   /* Lightbox */
   dialog#lightbox {
@@ -549,14 +554,23 @@
 
   function isCarouselActive() { return window.matchMedia('(max-width: 720px)').matches; }
 
+  // Distance from the strip's visible centre to the slide's centre (px, negative = left).
+  // Measured from rects: offsetLeft is relative to .shots, not to the scrolling strip.
+  function offsetFromCentre(slide) {
+    var g = grid.getBoundingClientRect();
+    var r = slide.getBoundingClientRect();
+    return (r.left + r.width / 2) - (g.left + grid.clientLeft + grid.clientWidth / 2);
+  }
+
   function activeIndex() {
     if (!grid) return 0;
-    var x = grid.scrollLeft + grid.clientWidth / 2;
+    // On wide strips the end slides can't be centred, so pin them at the scroll ends.
+    if (grid.scrollLeft <= 1) return 0;
+    if (grid.scrollLeft >= grid.scrollWidth - grid.clientWidth - 1) return slides.length - 1;
     var best = 0;
     var bestDist = Infinity;
     slides.forEach(function (slide, i) {
-      var c = slide.offsetLeft + slide.clientWidth / 2;
-      var d = Math.abs(c - x);
+      var d = Math.abs(offsetFromCentre(slide));
       if (d < bestDist) { bestDist = d; best = i; }
     });
     return best;
@@ -575,8 +589,7 @@
 
   function scrollToIndex(i) {
     if (!grid || !slides[i]) return;
-    var slide = slides[i];
-    var target = slide.offsetLeft - (grid.clientWidth - slide.clientWidth) / 2;
+    var target = grid.scrollLeft + offsetFromCentre(slides[i]);
     var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     grid.scrollTo({ left: target, behavior: reduce ? 'auto' : 'smooth' });
   }
@@ -585,6 +598,14 @@
     grid.addEventListener('scroll', function () {
       window.requestAnimationFrame(syncControls);
     }, { passive: true });
+    // Tabbing to a slide: the browser's own focus scroll gets pulled back by mandatory
+    // snap, leaving the slide half off screen. Centre it ourselves once that has run.
+    grid.addEventListener('focusin', function (e) {
+      if (!isCarouselActive()) return;
+      var i = slides.indexOf(e.target.closest('.shot'));
+      if (i < 0) return;
+      window.requestAnimationFrame(function () { scrollToIndex(i); });
+    });
   }
   if (prev) prev.addEventListener('click', function () { scrollToIndex(activeIndex() - 1); });
   if (next) next.addEventListener('click', function () { scrollToIndex(activeIndex() + 1); });
