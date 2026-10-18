@@ -4,6 +4,12 @@ User-facing changes to [pixel-paladin.de](https://pixel-paladin.de). Newest firs
 
 The format is based on [Keep a Changelog 1.1.0](https://keepachangelog.com/en/1.1.0/), and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.7.1] — 2026-10-18
+
+### Changed
+- The homepage clocks respect your device's reduced-motion setting: the "since launch" counter and the Berlin clock drop their seconds and update once a minute instead of every second.
+- The Colorbench changelog now includes v2.8.0, a visual polish release for palette cards, the palette screen and the Paints list.
+
 ## [1.7.0] — 2026-10-18
 
 ### Added
