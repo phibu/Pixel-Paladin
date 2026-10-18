@@ -93,9 +93,10 @@
   </main>
 
   <footer class="foot">
-    <div class="mono">© 2026 · Philipp Buchwald</div>
+    <div class="mono">© <span id="year">2026</span> · Philipp Buchwald</div>
     <div class="mono"><a href="/impressum/" aria-current="page">Impressum</a> · <a href="/datenschutz/">Datenschutz</a></div>
   </footer>
+  <script>document.getElementById('year').textContent = new Date().getFullYear();</script>
 </div>
 
 </body>

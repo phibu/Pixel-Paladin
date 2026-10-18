@@ -260,9 +260,10 @@
   </main>
 
   <footer class="foot">
-    <div class="mono">© 2026 · Philipp Buchwald</div>
-    <div class="mono"><a href="/projects/colorbench/impressum/" lang="de">Impressum</a> · <a href="/projects/colorbench/datenschutz/" lang="de">Datenschutz</a></div>
+    <div class="mono">© <span id="year">2026</span> · Philipp Buchwald</div>
+    <div class="mono"><a href="/projects/colorbench/impressum/" lang="de">Impressum</a> · <a href="/projects/colorbench/datenschutz/" lang="de">Datenschutz (Website)</a></div>
   </footer>
+  <script>document.getElementById('year').textContent = new Date().getFullYear();</script>
 </div>
 
 </body>
