@@ -77,7 +77,8 @@
      the dot in front of whichever item starts a line is cut off: a separator
      never starts or ends a line. */
   .meta-row {
-    --sep: calc(36px + 1ch + 0.12em);
+    --gap: 18px;
+    --sep: calc(2 * var(--gap) + 1ch + 0.12em);
     overflow: hidden;
     font-family: var(--pp-font-mono);
     font-size: 12px;

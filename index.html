@@ -174,13 +174,14 @@
   /* /now rows: the rows are subgrids of .now-list, so every row shares one
      label column and one meta column (without subgrid, each row sizes its own) */
   .now-list {
+    --now-cols: minmax(76px, max-content) minmax(0, 1fr) auto;
     display: grid;
-    grid-template-columns: minmax(76px, max-content) minmax(0, 1fr) auto;
+    grid-template-columns: var(--now-cols);
     column-gap: 10px;
   }
   .now-row {
     display: grid;
-    grid-template-columns: minmax(76px, max-content) minmax(0, 1fr) auto;
+    grid-template-columns: var(--now-cols);
     grid-template-columns: subgrid;
     grid-column: 1 / -1;
     gap: 10px;
@@ -237,12 +238,6 @@
     margin-top: 4px;
     font-variant-numeric: tabular-nums;
   }
-  /* narrowest phones: keep "181d 12:34:56" on one line (it needs 129px at
-     22px, 119px at 19px); all tiles, so the values stay one size */
-  @media (max-width: 355px) {
-    .stat { padding-inline: 10px; }
-    .stat .v { font-size: 19px; }
-  }
   .stat .v small {
     font-family: var(--pp-font-mono);
     font-weight: 500;
@@ -252,6 +247,12 @@
     letter-spacing: 0.05em;
   }
   .stat .v.red { color: var(--pp-fg-brand); }
+  /* narrowest phones: keep "181d 12:34:56" on one line (it needs 129px at
+     22px, 119px at 19px); all tiles, so the values stay one size */
+  @media (max-width: 355px) {
+    .stat { padding-inline: 10px; }
+    .stat .v { font-size: 19px; }
+  }
 
   /* ============================================================
      Shield — pixel art (animated)
