@@ -3,10 +3,10 @@
 // (chrome-less full-viewport render; the projector window ticket adds the sync).
 import { render } from './engine.js?v=20261017c';
 import { defaultState, parseHash, formatHash } from './state.js?v=20261017c';
-import { initPicker, renderStamp, titleCase } from './picker.js?v=20261018';
+import { initPicker, renderStamp, titleCase } from './picker.js?v=20261018f';
 import { loadDevice, saveDevice, mountControls } from './controls.js?v=20261018c';
-import { BG_DIR, LOCAL, loadManifest, presetUrl, localStore, readLocalChoice, saveLocalChoice, mountBackgrounds } from './backgrounds.js?v=20261018';
-import { createProjection } from './projection.js?v=20261018c';
+import { BG_DIR, LOCAL, loadManifest, presetUrl, localStore, readLocalChoice, saveLocalChoice, mountBackgrounds } from './backgrounds.js?v=20261018f';
+import { createProjection } from './projection.js?v=20261018f';
 import { createCalibration } from './calibration.js?v=20261017c';
 import { createController, createReceiver } from './projector.js?v=20261017c';
 import { registerWorker, mountOffline } from './offline.js?v=20261017b';
@@ -18,6 +18,12 @@ const svg = document.querySelector('svg[data-battlefield]');
 const stage = document.querySelector('.tc-stage');
 const panel = document.getElementById('panel');
 const notesEl = document.getElementById('notes');
+
+// #71: the Legend list is in the markup once, under the Battlefield; the panel spot (<=720px, phone-landscape sheet)
+// gets a copy. Only one of the two is rendered (app.css), so assistive tech meets one.
+const legendPanel = panel?.querySelector('[data-legend="panel"]');
+const legendSide = document.querySelector('[data-legend="side"]');
+if (!projector && legendPanel && legendSide) legendPanel.replaceChildren(...[...legendSide.children].map((n) => n.cloneNode(true)));
 
 let data = null;        // parsed layouts.json, or null when missing / failed
 let dataError = false;

@@ -177,8 +177,6 @@ export function mountBackgrounds(root, list, handlers) {
     else { img.removeAttribute('src'); img.hidden = true; add.hidden = false; }
     root.querySelector('[data-bg-forget]').hidden = !localUrl;
     // #74: with no Local background the "Your image" tile is the one way to add one; the button only replaces.
-    const choose = root.querySelector('[data-bg-choose]');
-    choose.hidden = !localUrl;
-    choose.textContent = 'Replace your image…';
+    root.querySelector('[data-bg-choose]').hidden = !localUrl;
   };
 }

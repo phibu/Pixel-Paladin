@@ -10,7 +10,7 @@
 //           · data-bar-layers (layer row open).
 import { LAYERS } from './engine.js?v=20261017c';
 import { nextGrid, LAYER_LABELS, GRID_LABELS } from './controls.js?v=20261018c';
-import { layoutsFor } from './picker.js?v=20261018';
+import { layoutsFor } from './picker.js?v=20261018f';
 
 export const IDLE_MS = 2500;
 export const TOAST_MS = 2000;
